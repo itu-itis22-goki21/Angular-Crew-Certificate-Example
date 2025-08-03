@@ -10,6 +10,7 @@ export interface Member{
   daysOnBoard: string;
   dailyRate:number;
   currency:string;
+  discount?: number;
   totalIncome:number;
   certificateTypes:CertificateType[]|null;
 }

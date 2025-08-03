@@ -77,10 +77,25 @@
     <td mat-cell *matCellDef="let member"> {{ member.currency }} </td>
   </ng-container>
 
+<ng-container matColumnDef="discount">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
+  <td mat-cell *matCellDef="let member">
+    <input
+      type="number"
+      [(ngModel)]="member.discount"
+      (ngModelChange)="updateTotalIncome(member)"
+      placeholder="Enter %"
+      style="width: 60px;"
+    />
+  </td>
+</ng-container>
 
   <ng-container matColumnDef="totalIncome">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Income </th>
-    <td mat-cell *matCellDef="let member"> {{ member.totalIncome }} </td>
+    <td mat-cell *matCellDef="let member">
+      
+      {{ getDiscountedIncome(member) | number }}
+    </td>
   </ng-container>
 
 
@@ -96,12 +111,21 @@
     </button>
   </td>
 </ng-container>
-<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-header-row *matHeaderRowDef="['action',
+    'firstName', 'lastName', 'nationality', 'title',
+    'daysOnBoard', 'dailyRate', 'currency', 'discount','totalIncome', 'certificate'
+  ]"></tr>
 <tr mat-row
-    *matRowDef="let row; columns: displayedColumns;">
+    *matRowDef="let row; columns: ['action',
+    'firstName', 'lastName', 'nationality', 'title',
+    'daysOnBoard', 'dailyRate', 'currency', 'discount', 'totalIncome', 'certificate'
+  ];">
 </tr>
 
+
 </table>
+<p>Total Income per USD:{{getTotalIncomeByCurrency('USD')}}</p>
+<p>Total Income per EUR:{{getTotalIncomeByCurrency('EUR')}}</p>
 <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                showFirstLastButtons
                aria-label="Select page of Crew">
@@ -118,7 +142,7 @@
   (Cancel)="onCancelAddCertificate()"
 />
 <ng-container *ngIf="pageType === 'certificates'">
-    <button mat-button="filled"  (click)="onStartAddCertificate()">Create Certificate</button>
+    <button mat-button="filled"  (click)="onStartAddCertificate()">Create Certificate Type</button>
     <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8">
 
        <ng-container matColumnDef="action">

@@ -8,7 +8,10 @@
     <p>{{crewDetails?.lastName}}</p>
     <p>{{crewDetails?.nationality}}</p>
     <p>{{crewDetails?.title}}</p>
-    
+    <p>{{crewDetails?.daysOnBoard}}</p>
+    <p>{{crewDetails?.dailyRate}}</p>
+    <p>{{crewDetails?.currency}}</p>
+    <p>{{crewDetails?.totalIncome}}</p>
   </mat-tab>
   <mat-tab label="Certificates">
     <app-certificate-modal [dataSource]="crewDetails?.certificateTypes ?? []" />

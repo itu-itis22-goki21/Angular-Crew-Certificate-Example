@@ -13,6 +13,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 
 
 import { Member } from './models/lists.model';
+import { TranslateModule } from '@ngx-translate/core';
 import { NewCrewComponent } from "./new-crew/new-crew.component";
 import { ListsService } from './lists.service';
 import { CertificateTypeService } from './certificate-type.service';
@@ -20,6 +21,8 @@ import { Certificate } from './models/certificate.model';
 import { CertificateType } from './models/certificate-type.model';
 import { CertificateModalComponent } from '../modals/certificate-modal/certificate-modal.component';
 import { NewCertificateTypeComponent } from "./new-certificate-type/new-certificate-type.component";
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
@@ -38,7 +41,10 @@ import { NewCertificateTypeComponent } from "./new-certificate-type/new-certific
     MatSortModule,
     NewCrewComponent,
     CommonModule,
-    NewCertificateTypeComponent
+    NewCertificateTypeComponent,
+    TranslateModule,
+    FormsModule,
+    MatFormFieldModule
 ]
 })
 export class ListsComponent implements AfterViewInit, OnInit {
@@ -56,10 +62,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   certificateBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
 
-  displayedColumns = ['action',
-    'firstName', 'lastName', 'nationality', 'title',
-    'daysOnBoard', 'dailyRate', 'currency', 'totalIncome', 'certificate'
-  ];
+
 
   dataSource = new MatTableDataSource<Member>();
   certificateDataSource = new MatTableDataSource<CertificateType>();
@@ -196,6 +199,26 @@ onEditCertificateType(cert: CertificateType) {
     width: '600px',
     autoFocus: true
   });
+}
+getTotalIncomeForMember(member: Member): number {
+  const dailyRate = member.dailyRate ?? 0;
+  const days = parseInt(member.daysOnBoard || '0', 10);
+  return dailyRate * days;
+}
+getTotalIncomeByCurrency(currency: string): number {
+  return this.dataSource.filteredData
+    .filter(member => member.currency === currency)
+    .reduce((sum, member) => sum + (member.totalIncome || 0), 0);
+}
+getDiscountedIncome(member: Member): number {
+  const days = Number(member.daysOnBoard) || 0;
+  const base = days * member.dailyRate;
+  const discount = member.discount || 0;
+  return base - discount ;
+}
+
+updateTotalIncome(member: Member) {
+  member.totalIncome = this.getDiscountedIncome(member);
 }
 
   announceSortChange(sortState: Sort) {

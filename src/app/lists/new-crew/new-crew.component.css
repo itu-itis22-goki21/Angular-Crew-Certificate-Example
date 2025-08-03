@@ -18,10 +18,13 @@ dialog {
   border: none;
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1001; /* Must be above the backdrop */
+  z-index: 1001;
   width: 400px;
   max-width: 90%;
+  max-height: 90vh;           /* ⬅ Prevent overflow */
+  overflow-y: auto;           /* ⬅ Enable scroll */
 }
+
 
 
 /* Form elements */

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'flag',
-  standalone: true // 👈 This is the key
+  standalone: true 
 })
 export class FlagPipe implements PipeTransform {
   transform(langCode: string): string {
@@ -11,7 +11,7 @@ export class FlagPipe implements PipeTransform {
       case 'tr': return 'TR';
       case 'pt': return 'PT';
       case 'cp': return "CP";
-      default: return '🏳️';
+      default: return ' ';
     }
   }
 }

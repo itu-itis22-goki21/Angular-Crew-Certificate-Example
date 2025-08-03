@@ -28,22 +28,26 @@
 
     <p>
       <label for="nationality">Nationality</label>
-      <input
-        type="text"
-        id="nationality"
-        name="nationality"
-        [(ngModel)]="enterednationality"
-      />
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>nationality</mat-label>
+        <mat-select [(ngModel)]="enterednationality" name="nationality" id="nationality">
+        <mat-option value="Turkish">Turkish</mat-option>
+        <mat-option value="British">British</mat-option>
+        <mat-option value="Portuguese">Portuguese</mat-option>
+        </mat-select>
+    </mat-form-field>
     </p>
 
     <p>
       <label for="title">Title</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        [(ngModel)]="enteredtitle"
-      />
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>title</mat-label>
+        <mat-select [(ngModel)]="enteredtitle" name="title" id="title">
+        <mat-option value="Captain">Captain</mat-option>
+        <mat-option value="Traveller">Traveller</mat-option>
+        <mat-option value="Machinist">Machinist</mat-option>
+        </mat-select>
+    </mat-form-field>
     </p>
 
     <p>
