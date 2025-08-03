@@ -1,0 +1,97 @@
+<div class="backdrop" (click)="onCancel()"></div>
+
+<dialog open>
+  <h2>Add Crew</h2>
+
+  <form (ngSubmit)="onSubmit()" #crewForm="ngForm">
+    <p>
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        required
+        [(ngModel)]="enteredfirstName"
+      />
+    </p>
+
+    <p>
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        required
+        [(ngModel)]="enteredlastName"
+      />
+    </p>
+
+    <p>
+      <label for="nationality">Nationality</label>
+      <input
+        type="text"
+        id="nationality"
+        name="nationality"
+        [(ngModel)]="enterednationality"
+      />
+    </p>
+
+    <p>
+      <label for="title">Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        [(ngModel)]="enteredtitle"
+      />
+    </p>
+
+    <p>
+      <label for="daysOnBoard">Days On Board</label>
+      <input
+        type="text"
+        id="daysOnBoard"
+        name="daysOnBoard"
+        [(ngModel)]="entereddaysOnBoard"
+      />
+    </p>
+
+    <p>
+      <label for="dailyRate">Daily Rate</label>
+      <input
+        type="number"
+        id="dailyRate"
+        name="dailyRate"
+        [(ngModel)]="entereddailyRate"
+      />
+    </p>
+
+    <p>
+    <label for="currency">Currency</label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Currency</mat-label>
+        <mat-select [(ngModel)]="enteredcurrency" name="currency" id="currency">
+        <mat-option value="USD">USD</mat-option>
+        <mat-option value="EUR">EUR</mat-option>
+        </mat-select>
+    </mat-form-field>
+    </p>
+
+    <p>
+      <label for="totalIncome">Total Income</label>
+      <input
+        type="number"
+        id="totalIncome"
+        name="totalIncome"
+        [(ngModel)]="enteredtotalIncome"
+      />
+    </p>
+
+    
+
+    <p class="actions">
+      <button type="button" (click)="onCancel()">Cancel</button>
+      <button type="submit">Create</button>
+    </p>
+  </form>
+</dialog>

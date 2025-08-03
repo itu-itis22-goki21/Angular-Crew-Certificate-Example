@@ -1,0 +1,27 @@
+h1{
+  color: black;
+}
+
+.langSelector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000; /* ensure it's above other elements */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* spacing between dropdown and text */
+}
+
+.langSelector select {
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

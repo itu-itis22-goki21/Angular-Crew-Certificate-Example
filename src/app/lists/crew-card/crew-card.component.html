@@ -1,0 +1,16 @@
+<div class="crew-card-wrapper">
+    <h1>
+        Crew Card
+    </h1>
+<mat-tab-group>
+  <mat-tab label="Card">
+    <p>{{crewDetails?.firstName}}</p>
+    <p>{{crewDetails?.lastName}}</p>
+    <p>{{crewDetails?.nationality}}</p>
+    <p>{{crewDetails?.title}}</p>
+  </mat-tab>
+  <mat-tab label="Certificates">
+    <app-certificate-modal [dataSource]="crewDetails?.certificateTypes ?? []" />
+  </mat-tab>
+</mat-tab-group>
+</div>

@@ -1,0 +1,11 @@
+<div class="header-container">
+<header class="langSelector">
+    <h1>Crew Management System</h1>
+    <select [value]="selectedLang" (ngsubmit)="onChange($event)">
+        <option value="en">{{'en' | flag}}</option>
+        <option value="tr">{{'tr' | flag}}</option>
+        <option value="pt">{{'pt' | flag}}</option>
+    </select>
+</header>
+
+</div>

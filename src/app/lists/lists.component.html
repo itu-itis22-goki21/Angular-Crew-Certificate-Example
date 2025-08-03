@@ -1,0 +1,164 @@
+@if(isAddingCrew){
+    <app-new-crew [memberToEdit]="memberBeingEdited" (Cancel)="onCancelAddCrew()" (Add)="onAddCrew($event)"/>
+}
+
+<div class="crew-table-wrapper">
+    
+</div>
+<h1 *ngIf="pageType === 'crew'">Crew List</h1>
+<h1 *ngIf="pageType === 'certificates'">Certificate Types List</h1>
+
+
+<ng-container *ngIf="pageType === 'crew'">
+    <button mat-button="filled"  (click)="onStartAddCrew()">New Crew</button>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
+   <ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef> Actions </th>
+  <td mat-cell *matCellDef="let member">
+    <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item (click)="goCardPage(member)">
+            <mat-icon>person</mat-icon>
+            <span>Crew Card</span>
+        </button>
+
+      <button mat-menu-item (click)="onEditMember(member)">
+        <mat-icon>edit</mat-icon>
+        <span>Edit</span>
+      </button>
+      <button mat-menu-item (click)="onDeleteMember(member)">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+    </mat-menu>
+  </td>
+</ng-container>
+
+
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> First Name </th>
+    <td mat-cell *matCellDef="let member"> {{ member.firstName }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+    <td mat-cell *matCellDef="let member"> {{ member.lastName }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="nationality">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nationality </th>
+    <td mat-cell *matCellDef="let member"> {{ member.nationality }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+    <td mat-cell *matCellDef="let member"> {{ member.title }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="daysOnBoard">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Days on Board </th>
+    <td mat-cell *matCellDef="let member"> {{ member.daysOnBoard }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="dailyRate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Daily Rate </th>
+    <td mat-cell *matCellDef="let member"> {{ member.dailyRate }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="currency">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+    <td mat-cell *matCellDef="let member"> {{ member.currency }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="totalIncome">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Income </th>
+    <td mat-cell *matCellDef="let member"> {{ member.totalIncome }} </td>
+  </ng-container>
+
+
+<ng-container matColumnDef="certificate">
+  <th mat-header-cell *matHeaderCellDef> Certificates </th>
+  <td mat-cell *matCellDef="let member">
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="openDialog(member)"
+    >
+      View Certificate Types
+    </button>
+  </td>
+</ng-container>
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row
+    *matRowDef="let row; columns: displayedColumns;">
+</tr>
+
+</table>
+</ng-container>
+
+
+<!-- Pagination -->
+
+<app-new-certificate-type
+  *ngIf="isAddingCertificate"
+  [certificateToEdit]="certificateBeingEdited"
+  (Add)="onAddCertificate($event)"
+  (Cancel)="onCancelAddCertificate()"
+/>
+<ng-container *ngIf="pageType === 'certificates'">
+    <button mat-button="filled"  (click)="onStartAddCertificate()">Create Certificate</button>
+    <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8">
+
+       <ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef> Actions </th>
+  <td mat-cell *matCellDef="let cert">
+    <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actionMenu="matMenu">
+  <button mat-menu-item (click)="onEditCertificateType(cert)">
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
+  <button mat-menu-item (click)="onDeleteCertificateType(cert)">
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
+</mat-menu>
+  </td>
+</ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Certificate Name </th>
+      <td mat-cell *matCellDef="let cert"> {{ cert.name }} </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <td mat-cell *matCellDef="let cert"> {{ cert.description }} </td>
+    </ng-container>
+    <ng-container matColumnDef="issueDate">
+      <th mat-header-cell *matHeaderCellDef> Issue Date </th>
+      <td mat-cell *matCellDef="let cert"> {{ cert.issueDate }} </td>
+    </ng-container>
+    <ng-container matColumnDef="expireDate">
+      <th mat-header-cell *matHeaderCellDef> Expire Date </th>
+      <td mat-cell *matCellDef="let cert"> {{ cert.expireDate }} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="['action','name','description', 'issueDate', 'expireDate']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['action','name','description', 'issueDate', 'expireDate']"></tr>
+  </table>
+</ng-container>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+               showFirstLastButtons
+               aria-label="Select page of Crew">
+</mat-paginator>
