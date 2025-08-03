@@ -1,21 +1,28 @@
- <h2 mat-dialog-title >Certificate Types</h2>
+<h2>Certificate Types</h2>
 
-    <mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
-      <!-- This is the tree node template for leaf nodes -->
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-        <!-- use a disabled button to provide padding for tree leaf -->
-        <button matIconButton disabled></button>
-        {{node.name}}
-      </mat-tree-node>
-      <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle
-                    [cdkTreeNodeTypeaheadLabel]="node.name">
-        <button matIconButton matTreeNodeToggle
-                [attr.aria-label]="'Toggle ' + node.name">
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{tree.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-          </mat-icon>
+<mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
+  
+  <!-- Leaf node -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    {{ node.name }}
+    {{ node.issueDate }}
+    {{ node.expireDate }}
+  </mat-tree-node>
+
+  <!-- Parent node with Add button -->
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <div>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon>{{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}</mat-icon>
         </button>
-        {{node.name}}
-      </mat-tree-node>
-    </mat-tree>
+        {{ node.name }}
+      </div>
+      <button mat-stroked-button color="primary" style="margin-right: 8px;" (click)="addCertificateTo(node)">
+        + Add
+      </button>
+    </div>
+  </mat-tree-node>
+
+</mat-tree>

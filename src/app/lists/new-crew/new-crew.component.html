@@ -86,7 +86,30 @@
         [(ngModel)]="enteredtotalIncome"
       />
     </p>
+    <mat-form-field>
+  <mat-label>Certificate Type</mat-label>
+  <mat-select [(ngModel)]="selectedCertificateTypeName" name="certType" (selectionChange)="onCertificateTypeChange()">
+    <mat-option *ngFor="let type of certificateTypeOptions" [value]="type.name">{{ type.name }}</mat-option>
+  </mat-select>
+</mat-form-field>
 
+<!-- Certificate -->
+<mat-form-field *ngIf="filteredCertificates.length > 0">
+  <mat-label>Certificate</mat-label>
+  <mat-select [(ngModel)]="selectedCertificateName" name="certName" (selectionChange)="onCertificateSelect()">
+    <mat-option *ngFor="let cert of filteredCertificates" [value]="cert.name">{{ cert.name }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- List selected certificates -->
+<ul>
+  <li *ngFor="let cert of selectedCertificates">
+    {{ cert.name }}
+    <button mat-icon-button (click)="removeCertificate(cert)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </li>
+</ul>
     
 
     <p class="actions">

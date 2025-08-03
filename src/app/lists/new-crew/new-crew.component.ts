@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { Certificate } from '../models/certificate.model';
 import { CertificateTypeService } from '../certificate-type.service';
+import { CertificateType } from '../models/certificate-type.model';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-new-crew',
@@ -20,7 +23,9 @@ import { CertificateTypeService } from '../certificate-type.service';
     MatSelectModule,
     MatOptionModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    CommonModule
 ],
   templateUrl: './new-crew.component.html',
   styleUrl: './new-crew.component.css'
@@ -28,13 +33,21 @@ import { CertificateTypeService } from '../certificate-type.service';
 export class NewCrewComponent implements OnChanges {
   certificateOptions: Certificate[] = [];
   constructor(private certificateTypeService: CertificateTypeService) {
-    console.log('NewCrewComponent loaded');
-    console.log(this.certificateOptions)
-  }
+  this.certificateTypeOptions = this.certificateTypeService.getCertificates();
+}
+
 
   @Input() memberToEdit: Member | null = null;
   @Output() Add= new EventEmitter<Member>();
   @Output() Cancel = new EventEmitter<void>();
+  certificateTypeOptions: CertificateType[] = [];
+  filteredCertificates: Certificate[] = [];
+
+  selectedCertificateTypeName: string = '';
+  selectedCertificateName: string = '';
+
+  selectedCertificates: Certificate[] = [];
+
   enteredfirstName= '';
   enteredlastName= '';
   enterednationality= '';
@@ -61,21 +74,47 @@ export class NewCrewComponent implements OnChanges {
       
     }
   }
-  onSubmit(){
+  onSubmit() {
     const id = this.memberToEdit?.id ?? crypto.randomUUID();
-    console.log(id);
+    const selectedType = this.certificateTypeOptions.find(
+      type => type.name === this.selectedCertificateTypeName
+    );
+
     this.Add.emit({
       id,
-      firstName:this.enteredfirstName,
-      lastName:this.enteredlastName,
-      nationality:this.enterednationality,
-      title:this.enteredtitle,
-      daysOnBoard:this.entereddaysOnBoard,
-      dailyRate:this.entereddailyRate,
-      currency:this.enteredcurrency,
-      totalIncome:this.enteredtotalIncome,
-      certificateTypes:null,
-      
-    }); 
+      firstName: this.enteredfirstName,
+      lastName: this.enteredlastName,
+      nationality: this.enterednationality,
+      title: this.enteredtitle,
+      daysOnBoard: this.entereddaysOnBoard,
+      dailyRate: this.entereddailyRate,
+      currency: this.enteredcurrency,
+      totalIncome: this.enteredtotalIncome,
+      certificateTypes: selectedType ? [{
+        name: selectedType.name,
+        description: selectedType.description,
+        certificates: this.selectedCertificates,
+      }] : null
+    });
   }
+
+  onCertificateTypeChange() {
+    const selectedType = this.certificateTypeOptions.find(
+      type => type.name === this.selectedCertificateTypeName
+    );
+    this.filteredCertificates = selectedType?.certificates ?? [];
+    this.selectedCertificateName = '';
+  }
+
+  onCertificateSelect() {
+    const cert = this.filteredCertificates.find(c => c.name === this.selectedCertificateName);
+    if (cert && !this.selectedCertificates.some(c => c.name === cert.name)) {
+      this.selectedCertificates.push(cert);
+    }
+  }
+
+  removeCertificate(certToRemove: Certificate) {
+    this.selectedCertificates = this.selectedCertificates.filter(c => c.name !== certToRemove.name);
+  }
+
 }

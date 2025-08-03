@@ -93,8 +93,8 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.certificateBeingEdited = null;
   }
   onAddCertificate(newCert: CertificateType) {
-  console.log('🆕 Edited cert:', newCert);
-  console.log('🔍 Original name:', this.originalCertName);    
+  console.log('Edited cert:', newCert);
+  console.log('Original name:', this.originalCertName);    
   const index = this.CertificateTypeService.CERTIFICATE_DATA.findIndex(
     c => c.name === this.originalCertName
   );
@@ -188,6 +188,15 @@ onEditCertificateType(cert: CertificateType) {
       autoFocus: true
     });
   }
+  onViewCertificateDetails(cert: CertificateType) {
+  this.dialog.open(CertificateModalComponent, {
+    data: {
+      certificateTypes: [cert]
+    },
+    width: '600px',
+    autoFocus: true
+  });
+}
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
