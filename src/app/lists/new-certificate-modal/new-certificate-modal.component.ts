@@ -48,7 +48,7 @@ export class NewCertificateModalComponent {
     this.dialogRef.close();
   }
   onCertificateSelect() {
-  if (this.selectedCertificateName === 'custom') {
+  if (this.selectedCertificateName === '__custom__') {
     // clear the previous name if user wants to enter manually
     this.name = '';
   } else {
