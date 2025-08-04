@@ -4,14 +4,34 @@
     </h1>
 <mat-tab-group>
   <mat-tab label="Card">
-    <p>{{crewDetails?.firstName}}</p>
-    <p>{{crewDetails?.lastName}}</p>
-    <p>{{crewDetails?.nationality}}</p>
-    <p>{{crewDetails?.title}}</p>
-    <p>{{crewDetails?.daysOnBoard}}</p>
-    <p>{{crewDetails?.dailyRate}}</p>
-    <p>{{crewDetails?.currency}}</p>
-    <p>{{crewDetails?.totalIncome}}</p>
+    <mat-list>
+      <mat-list-item>
+        <strong>First Name:</strong>&nbsp;{{ crewDetails?.firstName }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Last Name:</strong>&nbsp;{{ crewDetails?.lastName }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Nationality:</strong>&nbsp;{{ crewDetails?.nationality }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Title:</strong>&nbsp;{{ crewDetails?.title }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Days on Board:</strong>&nbsp;{{ crewDetails?.daysOnBoard }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Daily Rate:</strong>&nbsp;{{ crewDetails?.dailyRate }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Currency:</strong>&nbsp;{{ crewDetails?.currency }}
+      </mat-list-item>
+      <mat-list-item>
+        <strong>Total Income:</strong>&nbsp;{{ crewDetails?.totalIncome }}
+      </mat-list-item>
+    </mat-list>
+
+    
   </mat-tab>
   <mat-tab label="Certificates">
     <app-certificate-modal [dataSource]="crewDetails?.certificateTypes ?? []" />

@@ -32,42 +32,54 @@ export class CertificateModalComponent {
 
   hasChild = (_: number, node: CertificateType | Certificate): boolean =>
     'certificates' in node && !!node.certificates?.length;
-addCertificateGeneral() {
-  const dialogRef = this.dialog.open(NewCertificateModalComponent, {
-    width: '400px',
-    data: {
-      parentTypeName: '',
-      certificateTypes: this.dataSource
-    }
-  });
-
-  dialogRef.afterClosed().subscribe((newCertificate) => {
-    if (!newCertificate?.selectedTypeName) return;
-
-    let targetType = this.dataSource.find(type => type.name === newCertificate.selectedTypeName);
-
-    if (!targetType) {
-      targetType = {
-        name: newCertificate.selectedTypeName,
-        description: '',
-        certificates: []
-      };
-      this.dataSource.push(targetType);
-    }
-
-    targetType.certificates = targetType.certificates || [];
-    targetType.certificates.push({
-      id: newCertificate.id ?? new Date().getTime(),
-      name: newCertificate.name,
-      issueDate: newCertificate.issueDate,
-      expireDate: newCertificate.expireDate
+  addCertificateGeneral() {
+    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+      width: '400px',
+      data: {
+        parentTypeName: '',
+        certificateTypes: this.dataSource
+      }
     });
 
+    dialogRef.afterClosed().subscribe((newCertificate) => {
+      if (!newCertificate?.selectedTypeName) return;
+
+      let targetType = this.dataSource.find(type => type.name === newCertificate.selectedTypeName);
+
+      if (!targetType) {
+        targetType = {
+          name: newCertificate.selectedTypeName,
+          description: '',
+          certificates: []
+        };
+        this.dataSource.push(targetType);
+      }
+
+      targetType.certificates = targetType.certificates || [];
+      targetType.certificates.push({
+        id: newCertificate.id ?? new Date().getTime(),
+        name: newCertificate.name,
+        issueDate: newCertificate.issueDate,
+        expireDate: newCertificate.expireDate
+      });
+
+      this.dataSource = [...this.dataSource];
+    });
+  }
+  deleteCertificateType(type: CertificateType) {
+    this.dataSource = this.dataSource.filter(t => t !== type);
+  }
+
+  deleteCertificate(certToDelete: Certificate) {
+    for (const type of this.dataSource) {
+      if (type.certificates) {
+        const initialLength = type.certificates.length;
+        type.certificates = type.certificates.filter(cert => cert !== certToDelete);
+        if (type.certificates.length !== initialLength) break;
+      }
+    }
+
+    // Trigger UI update
     this.dataSource = [...this.dataSource];
-  });
-}
-
-
-
-
+  }
 }

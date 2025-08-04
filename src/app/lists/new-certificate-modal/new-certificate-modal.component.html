@@ -9,11 +9,34 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <!-- Certificate Selector -->
+<mat-form-field appearance="fill" *ngIf="filteredCertificates.length > 0 || selectedCertificateTypeName">
+  <mat-label>Certificate</mat-label>
+  <mat-select [(ngModel)]="selectedCertificateName" name="certName" (selectionChange)="onCertificateSelect()">
+    
+    <!-- Existing certificates -->
+    <mat-option *ngFor="let cert of filteredCertificates" [value]="cert.name">
+      {{ cert.name }}
+    </mat-option>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Certificate Name</mat-label>
-    <input matInput [(ngModel)]="name" name="name" required />
-  </mat-form-field>
+    <!-- Divider -->
+    <mat-divider></mat-divider>
+
+    <!-- Add new -->
+    <mat-option [value]="'__custom__'">
+      + Add New Certificate
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- Show custom input only if user selected 'Add New' -->
+<mat-form-field appearance="fill" *ngIf="selectedCertificateName === '__custom__'">
+  <mat-label>New Certificate Name</mat-label>
+  <input matInput [(ngModel)]="name" name="name" required />
+</mat-form-field>
+
+
+
 
   <mat-form-field appearance="fill">
     <mat-label>Issue Date</mat-label>

@@ -10,13 +10,14 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { CertificateTypeService } from '../certificate-type.service';
 import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-new-certificate-modal',
   standalone: true,
   templateUrl: './new-certificate-modal.component.html',
   styleUrl: './new-certificate-modal.component.css',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatOptionModule,MatSelectModule, CommonModule]
+  imports: [FormsModule, MatFormFieldModule, MatInputModule,MatDividerModule, MatButtonModule, MatFormFieldModule, MatOptionModule,MatSelectModule, CommonModule]
 })
 export class NewCertificateModalComponent {
   name = '';
@@ -46,6 +47,15 @@ export class NewCertificateModalComponent {
   onCancel() {
     this.dialogRef.close();
   }
+  onCertificateSelect() {
+  if (this.selectedCertificateName === '__custom__') {
+    // clear the previous name if user wants to enter manually
+    this.name = '';
+  } else {
+    // set the selected name directly
+    this.name = this.selectedCertificateName;
+  }
+}
 
   onSubmit() {
     this.dialogRef.close({

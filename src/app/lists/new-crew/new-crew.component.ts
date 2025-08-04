@@ -13,6 +13,7 @@ import { CertificateTypeService } from '../certificate-type.service';
 import { CertificateType } from '../models/certificate-type.model';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-new-crew',
@@ -25,7 +26,8 @@ import { CommonModule } from '@angular/common';
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule
+    CommonModule,
+    MatDividerModule
 ],
   templateUrl: './new-crew.component.html',
   styleUrl: './new-crew.component.css'

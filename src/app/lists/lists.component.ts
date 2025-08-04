@@ -149,10 +149,15 @@ onEditCertificateType(cert: CertificateType) {
   }
   
 
-  loadMembers() {
-    const members = this.listsService.getMembers();
-    this.dataSource.data = members;
-  }
+loadMembers() {
+  const members = this.listsService.getMembers().map(member => ({
+    ...member,
+    totalIncome: this.listsService.calculateTotalIncome(member),
+  }));
+
+  this.dataSource.data = members;
+}
+
 
    onCancelAddCrew() {
     this.isAddingCrew = false;
@@ -163,6 +168,7 @@ onEditCertificateType(cert: CertificateType) {
   }
   onAddCrew(crewData: Member) {
     this.listsService.addOrUpdateMember(crewData);
+    crewData.totalIncome = this.listsService.calculateTotalIncome(crewData);
     this.loadMembers();
     this.isAddingCrew = false;
     this.memberBeingEdited = null;
@@ -208,7 +214,13 @@ getTotalIncomeForMember(member: Member): number {
 getTotalIncomeByCurrency(currency: string): number {
   return this.dataSource.filteredData
     .filter(member => member.currency === currency)
-    .reduce((sum, member) => sum + (member.totalIncome || 0), 0);
+    .reduce((sum, member) => {
+      const days = Number(member.daysOnBoard) || 0;
+      const baseIncome = days * (member.dailyRate || 0);
+      const discount = member.discount || 0;
+      const netIncome = baseIncome - discount;
+      return sum + netIncome;
+    }, 0);
 }
 getDiscountedIncome(member: Member): number {
   const days = Number(member.daysOnBoard) || 0;

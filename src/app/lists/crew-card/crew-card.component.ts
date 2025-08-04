@@ -11,13 +11,15 @@ import { CertificateTypeService } from '../certificate-type.service';
 import { Certificate } from '../models/certificate.model';
 import { CertificateType } from '../models/certificate-type.model';
 import { CertificateModalComponent } from '../../modals/certificate-modal/certificate-modal.component';
+import { MatLineModule } from '@angular/material/core';
+import { MatList, MatListItem } from "@angular/material/list";
 
 
 type CertificateTreeNode = CertificateType | Certificate;
 @Component({
   selector: 'app-crew-card',
   standalone: true,
-  imports: [MatTabsModule, MatTreeModule,MatIconModule, MatButtonModule, CertificateModalComponent],
+  imports: [MatTabsModule, MatLineModule, MatTreeModule, MatIconModule, MatButtonModule, CertificateModalComponent, MatList, MatListItem],
   templateUrl: './crew-card.component.html',
   styleUrl: './crew-card.component.css'
 })
@@ -35,19 +37,15 @@ export class CrewCardComponent {
     this.loadMember(id);
 
   }
-  loadMember(id: string | null) {
-  // Find the member by ID
-    this.crewDetails = this.listsService.CREW_DATA.find(m => m.id === id) || null;
+loadMember(id: string | null) {
+  this.crewDetails = this.listsService.CREW_DATA.find(m => m.id === id) || null;
 
-    // Now the member's title to find the matching certificate set
-    if (this.crewDetails?.certificateTypes) {
-      
-       this.dataSource = this.crewDetails.certificateTypes;
-        
-    } else {
-      this.dataSource = [];
-    }
+  if (this.crewDetails) {
+    this.crewDetails.totalIncome = this.listsService.calculateTotalIncome(this.crewDetails);
   }
+
+  this.dataSource = this.crewDetails?.certificateTypes ?? [];
+}
 
   childrenAccessor = (node: CertificateTreeNode) =>
     'certificates' in node ? node.certificates ?? [] : [];

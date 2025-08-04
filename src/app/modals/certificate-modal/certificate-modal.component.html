@@ -10,6 +10,9 @@
     {{ node.name }}
     {{ node.issueDate }}
     {{ node.expireDate }}
+    <button mat-icon-button color="warn" (click)="deleteCertificate(node)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </mat-tree-node>
 
   <!-- Parent node with Add button -->

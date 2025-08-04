@@ -9,6 +9,12 @@ export class ListsService{
   getMembers(): Member[] {
     return [...this.CREW_DATA]; // return a copy
   }
+    calculateTotalIncome(member: Member): number {
+    const days = Number(member.daysOnBoard) || 0;
+    const rate = member.dailyRate || 0;
+    const discount = member.discount || 0;
+    return days * rate - discount;
+  }
 
   addOrUpdateMember(member: Member) {
     const index = this.CREW_DATA.findIndex(m => m.id === member.id);
@@ -25,8 +31,8 @@ export class ListsService{
     public CREW_DATA: Member[] = [
   {
     id:'1',
-    firstName: 'dummy data',
-    lastName: 'dummy data',
+    firstName: 'Burak',
+    lastName: 'İnce',
     nationality: 'Turkish',
     title: 'Traveller',
     daysOnBoard: '20',
@@ -102,7 +108,7 @@ export class ListsService{
     dailyRate: 2,
     currency: 'USD',
     discount: 0,
-    totalIncome: 2561,
+    totalIncome: 0,
     certificateTypes: [this.certificateService.CERTIFICATE_DATA[1]]
   }
 ];
