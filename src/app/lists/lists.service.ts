@@ -69,7 +69,7 @@ export class ListsService{
     discount: 0,
     totalIncome: 2,
     certificateTypes: [
-      this.certificateService.CERTIFICATE_DATA[4],
+      
     ]
   },
   {

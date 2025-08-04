@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Certificate to {{ parentTypeName }}</h2>
+<h2 mat-dialog-title>Add Certificate</h2>
 
 <form (ngSubmit)="onSubmit()">
   <mat-form-field appearance="fill">
@@ -23,7 +23,7 @@
     <mat-divider></mat-divider>
 
     <!-- Add new -->
-    <mat-option [value]="'__custom__'">
+    <mat-option [value]="'custom'">
       + Add New Certificate
     </mat-option>
   </mat-select>
