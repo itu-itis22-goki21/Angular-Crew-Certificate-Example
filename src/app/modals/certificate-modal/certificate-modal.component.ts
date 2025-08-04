@@ -32,21 +32,42 @@ export class CertificateModalComponent {
 
   hasChild = (_: number, node: CertificateType | Certificate): boolean =>
     'certificates' in node && !!node.certificates?.length;
-  addCertificateTo(parentType: CertificateType) {
-    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
-      width: '400px',
-      data: parentType.name
+addCertificateGeneral() {
+  const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+    width: '400px',
+    data: {
+      parentTypeName: '',
+      certificateTypes: this.dataSource
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((newCertificate) => {
+    if (!newCertificate?.selectedTypeName) return;
+
+    let targetType = this.dataSource.find(type => type.name === newCertificate.selectedTypeName);
+
+    if (!targetType) {
+      targetType = {
+        name: newCertificate.selectedTypeName,
+        description: '',
+        certificates: []
+      };
+      this.dataSource.push(targetType);
+    }
+
+    targetType.certificates = targetType.certificates || [];
+    targetType.certificates.push({
+      id: newCertificate.id ?? new Date().getTime(),
+      name: newCertificate.name,
+      issueDate: newCertificate.issueDate,
+      expireDate: newCertificate.expireDate
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (!parentType.certificates) {
-          parentType.certificates = [];
-        }
-        parentType.certificates.push(result);
-      }
-    });
-  }
+    this.dataSource = [...this.dataSource];
+  });
+}
+
+
 
 
 }

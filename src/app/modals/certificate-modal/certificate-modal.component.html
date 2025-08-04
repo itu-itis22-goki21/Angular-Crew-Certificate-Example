@@ -1,5 +1,7 @@
 <h2>Certificate Types</h2>
-
+<button mat-flat-button color="primary" (click)="addCertificateGeneral()" style="margin-bottom: 1rem;">
+  + Add General Certificate
+</button>
 <mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
   
   <!-- Leaf node -->
@@ -19,9 +21,7 @@
         </button>
         {{ node.name }}
       </div>
-      <button mat-stroked-button color="primary" style="margin-right: 8px;" (click)="addCertificateTo(node)">
-        + Add
-      </button>
+      
     </div>
   </mat-tree-node>
 

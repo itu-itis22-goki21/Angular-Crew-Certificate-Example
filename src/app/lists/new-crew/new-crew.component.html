@@ -81,21 +81,13 @@
     </mat-form-field>
     </p>
 
-    <p>
-      <label for="totalIncome">Total Income</label>
-      <input
-        type="number"
-        id="totalIncome"
-        name="totalIncome"
-        [(ngModel)]="enteredtotalIncome"
-      />
-    </p>
+    
     <mat-form-field>
-  <mat-label>Certificate Type</mat-label>
-  <mat-select [(ngModel)]="selectedCertificateTypeName" name="certType" (selectionChange)="onCertificateTypeChange()">
-    <mat-option *ngFor="let type of certificateTypeOptions" [value]="type.name">{{ type.name }}</mat-option>
-  </mat-select>
-</mat-form-field>
+      <mat-label>Certificate Type</mat-label>
+      <mat-select [(ngModel)]="selectedCertificateTypeName" name="certType" (selectionChange)="onCertificateTypeChange()">
+        <mat-option *ngFor="let type of certificateTypeOptions" [value]="type.name">{{ type.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
 <!-- Certificate -->
 <mat-form-field *ngIf="filteredCertificates.length > 0">

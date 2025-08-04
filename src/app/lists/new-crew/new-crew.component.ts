@@ -75,28 +75,43 @@ export class NewCrewComponent implements OnChanges {
     }
   }
   onSubmit() {
-    const id = this.memberToEdit?.id ?? crypto.randomUUID();
-    const selectedType = this.certificateTypeOptions.find(
-      type => type.name === this.selectedCertificateTypeName
-    );
+  const id = this.memberToEdit?.id ?? crypto.randomUUID();
+  const selectedType = this.certificateTypeOptions.find(
+    type => type.name === this.selectedCertificateTypeName
+  );
 
-    this.Add.emit({
-      id,
-      firstName: this.enteredfirstName,
-      lastName: this.enteredlastName,
-      nationality: this.enterednationality,
-      title: this.enteredtitle,
-      daysOnBoard: this.entereddaysOnBoard,
-      dailyRate: this.entereddailyRate,
-      currency: this.enteredcurrency,
-      totalIncome: this.enteredtotalIncome,
-      certificateTypes: selectedType ? [{
+  let updatedTypes: CertificateType[] = this.memberToEdit?.certificateTypes
+    ? [...this.memberToEdit.certificateTypes]
+    : [];
+
+  if (selectedType) {
+    const existing = updatedTypes.find(t => t.name === selectedType.name);
+
+    if (existing) {
+      existing.certificates = [...(existing.certificates || []), ...this.selectedCertificates];
+    } else {
+      updatedTypes.push({
         name: selectedType.name,
         description: selectedType.description,
-        certificates: this.selectedCertificates,
-      }] : null
-    });
+        certificates: this.selectedCertificates
+      });
+    }
   }
+
+  this.Add.emit({
+    id,
+    firstName: this.enteredfirstName,
+    lastName: this.enteredlastName,
+    nationality: this.enterednationality,
+    title: this.enteredtitle,
+    daysOnBoard: this.entereddaysOnBoard,
+    dailyRate: this.entereddailyRate,
+    currency: this.enteredcurrency,
+    totalIncome: this.enteredtotalIncome,
+    certificateTypes: updatedTypes
+  });
+}
+
 
   onCertificateTypeChange() {
     const selectedType = this.certificateTypeOptions.find(

@@ -2,6 +2,15 @@
 
 <form (ngSubmit)="onSubmit()">
   <mat-form-field appearance="fill">
+    <mat-label>Certificate Type</mat-label>
+    <mat-select [(ngModel)]="selectedCertificateTypeName" name="certType" (selectionChange)="onCertificateTypeChange()">
+      <mat-option *ngFor="let type of certificateTypeOptions" [value]="type.name">
+        {{ type.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
     <mat-label>Certificate Name</mat-label>
     <input matInput [(ngModel)]="name" name="name" required />
   </mat-form-field>
