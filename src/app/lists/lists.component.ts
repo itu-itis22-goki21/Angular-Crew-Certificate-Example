@@ -194,12 +194,14 @@ loadMembers() {
 openDialog(member: Member) {
   this.dialog.open(CertificateListComponent, {
     data: {
-      certificateTypes: member.certificateTypes ?? []
+      certificateTypes: member.certificateTypes ?? [],
+      member: member
     },
     width: '800px',
     autoFocus: true
   });
 }
+
 
   onViewCertificateDetails(cert: CertificateType) {
   this.dialog.open(CertificateModalComponent, {

@@ -78,9 +78,11 @@ export class NewCertificateModalComponent {
     let selectedType = this.certificateTypeOptions.find(
       type => type.name === this.selectedCertificateTypeName
     );
+   
 
     if (!selectedType) {
-      const newTId = Date.now();
+      const newTId = Date.now(); 
+      
       selectedType = {
         tId: newTId,
         name: this.selectedCertificateTypeName,
@@ -90,8 +92,9 @@ export class NewCertificateModalComponent {
 
       this.certificateTypeOptions.push(selectedType);
     }
-
+    
     this.dialogRef.close({
+       
       id: this.existingCert?.id ?? Date.now(),  // preserve ID if editing
       name: this.name,
       issueDate: this.issueDate,

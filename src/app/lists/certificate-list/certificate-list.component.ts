@@ -36,13 +36,29 @@ export class CertificateListComponent implements AfterViewInit {
     private certificateDialogService: CertificateDialogService,
     private certificateTypeService: CertificateTypeService,
     private listsService: ListsService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { certificateTypes: CertificateType[] }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { certificateTypes: CertificateType[], member?: Member }    
   ) {}
 
 ngOnInit() {
-  this.certificateTypes = this.certificateTypeService.getCertificates();
-  this.dataSource.data = this.certificateTypes.flatMap(ct => ct.certificates ?? []);
+  if (this.data?.member) {
+    this.certificateTypes = this.data.member.certificateTypes ?? [];
+
+    // Attach owner to each certificate
+    const fullName = `${this.data.member.firstName} ${this.data.member.lastName}`;
+    const certificatesWithOwner = this.certificateTypes.flatMap(type =>
+      (type.certificates ?? []).map(cert => ({
+        ...cert,
+        owner: fullName
+      }))
+    );
+
+    this.dataSource.data = certificatesWithOwner;
+  } else {
+    this.certificateTypes = this.certificateTypeService.getCertificates();
+    this.dataSource.data = this.certificateTypes.flatMap(ct => ct.certificates ?? []);
+  }
 }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
