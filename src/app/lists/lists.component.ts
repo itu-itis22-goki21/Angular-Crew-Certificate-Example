@@ -89,6 +89,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
    ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.certificateDataSource.paginator = this.paginator;
   }
   isAddingCertificate = false;
 
@@ -188,16 +189,16 @@ loadMembers() {
       console.log('Editing:', member);
   }
 
-  openDialog(member: Member) {
-    console.log(1)
-    this.dialog.open(CertificateListComponent, {
-      data: {
-        certificateTypes: member.certificateTypes ?? []
-      },
-      width: '600px',
-      autoFocus: true
-    });
-  }
+openDialog(member: Member) {
+  this.dialog.open(CertificateListComponent, {
+    data: {
+      certificateTypes: member.certificateTypes ?? []
+    },
+    width: '600px',
+    autoFocus: true
+  });
+}
+
   onViewCertificateDetails(cert: CertificateType) {
   this.dialog.open(CertificateModalComponent, {
     data: {

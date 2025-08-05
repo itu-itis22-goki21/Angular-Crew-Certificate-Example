@@ -47,7 +47,7 @@ export class NewCertificateTypeComponent implements OnChanges{
     }
   onSubmit() {
     const cert: CertificateType = {
-      tId: this.certificateTypeService.getLastId(),
+      tId: this.certificateTypeService.getLastId()+1,
       name: this.enteredName,
       description: this.enteredDescription,
       certificates: this.certificateToEdit?.certificates ?? []

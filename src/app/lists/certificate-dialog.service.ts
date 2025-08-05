@@ -15,13 +15,12 @@ export class CertificateDialogService {
     private certificateTypeService: CertificateTypeService
   ) {}
 
-  async openCertificateDialog(): Promise<Certificate | null> {
+  async openCertificateDialog(existingCert?: Certificate): Promise<Certificate | null> {
     const dialogRef = this.dialog.open(NewCertificateModalComponent, {
-        width: '400px'
+      width: '400px',
+      data: existingCert ?? null
     });
 
-    const newCertificate = await dialogRef.afterClosed().toPromise();
-
-    return newCertificate ?? null; // just return the Certificate object
-    }
+    return dialogRef.afterClosed().toPromise() ?? null;
+  }
 }

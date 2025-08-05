@@ -58,18 +58,31 @@ export class NewCertificateModalComponent {
   }
 }
 
-  onSubmit() {
-    const selectedType = this.certificateTypeOptions.find(
-      type => type.name === this.selectedCertificateTypeName
-    );
+onSubmit() {
+  let selectedType = this.certificateTypeOptions.find(
+    type => type.name === this.selectedCertificateTypeName
+  );
 
-    this.dialogRef.close({
-      id: new Date().getTime(),
-      name: this.name,
-      issueDate: this.issueDate,
-      expireDate: this.expireDate,
-      tId: selectedType?.tId ?? null
-    });
+  if (!selectedType) {
+    const newTId = Date.now(); // or use a UUID generator
+    selectedType = {
+      tId: newTId,
+      name: this.selectedCertificateTypeName,
+      description: '',
+      certificates: []
+    };
+
+    this.certificateTypeOptions.push(selectedType);
   }
+
+  this.dialogRef.close({
+    id: Date.now(),
+    name: this.name,
+    issueDate: this.issueDate,
+    expireDate: this.expireDate,
+    tId: selectedType.tId
+  });
+}
+
 
 }
