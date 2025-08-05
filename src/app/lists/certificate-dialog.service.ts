@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewCertificateModalComponent } from './new-certificate-modal/new-certificate-modal.component';
-import { CertificateType } from './models/certificate-type.model';
 import { CertificateTypeService } from './certificate-type.service';
 import { Certificate } from './models/certificate.model';
 

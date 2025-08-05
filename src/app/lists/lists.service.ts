@@ -32,7 +32,7 @@ export class ListsService{
   {
     id:'1',
     firstName: 'Burak',
-    lastName: 'İnce',
+    lastName: 'Yılmaz',
     nationality: 'Turkish',
     title: 'Traveller',
     daysOnBoard: '20',
@@ -46,8 +46,8 @@ export class ListsService{
   },
   {
     id:'2',
-    firstName: '2nd member',
-    lastName: '2nd member',
+    firstName: 'Bülent',
+    lastName: 'Korkmaz',
     nationality: 'Turkish',
     title: 'Captain',
     daysOnBoard: '20',
@@ -59,8 +59,8 @@ export class ListsService{
   },
   {
     id:'3',
-    firstName: '3rd member',
-    lastName: '3rd member',
+    firstName: 'Gumball',
+    lastName: 'Richardson',
     nationality: 'British',
     title: 'Traveller',
     daysOnBoard: '20',
@@ -74,8 +74,8 @@ export class ListsService{
   },
   {
     id:'4',
-    firstName: '4th member',
-    lastName: '4th member',
+    firstName: 'Darwin',
+    lastName: 'Richardson',
     nationality: 'British',
     title: 'Machinist',
     daysOnBoard: '20',
@@ -87,8 +87,8 @@ export class ListsService{
   },
   {
     id:'5',
-    firstName: '5th member',
-    lastName: '5th member',
+    firstName: 'Cristiano',
+    lastName: 'Ronaldo',
     nationality: 'Portuguese',
     title: 'Machinist',
     daysOnBoard: '20',
@@ -100,8 +100,8 @@ export class ListsService{
   },
   {
     id:'6',
-    firstName: '6th member',
-    lastName: '6th member',
+    firstName: 'David',
+    lastName: 'Beckham',
     nationality: 'British',
     title: 'Machinist',
     daysOnBoard: '20',

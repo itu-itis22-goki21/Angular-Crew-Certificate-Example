@@ -38,20 +38,9 @@ export class CertificateListComponent implements AfterViewInit {
   ) {}
 
 ngOnInit() {
-  if (this.data?.certificateTypes) {
-    this.certificateTypes = this.data.certificateTypes; // ✅ assign here
-    this.dataSource.data = this.certificateTypes.flatMap(
-      ct => ct.certificates ?? []
-    );
-  } else {
-    // fallback: show all certificates
-    const members = this.listsService.getMembers();
-    const allCertificates = this.getAllCertificatesFromAllMembers(members);
-    this.dataSource.data = allCertificates;
-  }
+  this.certificateTypes = this.certificateTypeService.getCertificates();
+  this.dataSource.data = this.certificateTypes.flatMap(ct => ct.certificates ?? []);
 }
-
-
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -103,8 +92,53 @@ addCertificate() {
 
   this.dataSource.data = [...this.dataSource.data, newCert];
   });
+  this.certificateTypeService.setCertificates(this.certificateTypes);
 }
 
+editCertificate(cert: Certificate) {
+  this.certificateDialogService.openCertificateDialog(cert).then((updatedCert: Certificate | null) => {
+    if (!updatedCert) return;
+    // Find the certificate type where this certificate belongs
+    const type = this.certificateTypes.find(t => t.tId === updatedCert.tId);
+    if (!type) {
+      console.warn('Certificate type not found for tId:', updatedCert.tId);
+      return;
+    }
+
+    // Find index of the original certificate
+    const certIndex = type.certificates.findIndex(c => c.id === updatedCert.id);
+    if (certIndex === -1) return;
+
+    // Replace the certificate at that index
+    type.certificates[certIndex] = updatedCert;
+
+    // Update the table without flatMap
+    const updatedData: Certificate[] = [];
+    for (const t of this.certificateTypes) {
+      if (t.certificates) {
+        for (const c of t.certificates) {
+          updatedData.push(c);
+        }
+      }
+    }
+    
+    this.dataSource.data = updatedData;
+  });
+  this.certificateTypeService.setCertificates(this.certificateTypes);
+}
+
+
+deleteCertificate(cert: Certificate) {
+  // Remove from certificateTypes (optional but keeps data in sync)
+  const type = this.certificateTypes.find(t => t.tId === cert.tId);
+  if (type?.certificates) {
+    type.certificates = type.certificates.filter(c => c.id !== cert.id);
+  }
+
+  // Directly filter out from the table's dataSource
+  this.dataSource.data = this.dataSource.data.filter(c => c.id !== cert.id);
+  this.certificateTypeService.setCertificates(this.certificateTypes);
+}
 
 
 announceSortChange(sortState: Sort) {

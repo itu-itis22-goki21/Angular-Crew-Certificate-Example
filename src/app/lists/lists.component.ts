@@ -194,7 +194,7 @@ openDialog(member: Member) {
     data: {
       certificateTypes: member.certificateTypes ?? []
     },
-    width: '600px',
+    width: '800px',
     autoFocus: true
   });
 }

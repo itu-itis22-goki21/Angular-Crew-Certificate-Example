@@ -23,66 +23,79 @@ export class NewCertificateModalComponent {
   name = '';
   issueDate = '';
   expireDate = '';
-  certificateTypeOptions: CertificateType[] = [];
-  filteredCertificates: Certificate[] = [];
-
   selectedCertificateTypeName: string = '';
   selectedCertificateName: string = '';
 
-  selectedCertificates: Certificate[] = [];
+  certificateTypeOptions: CertificateType[] = [];
+  filteredCertificates: Certificate[] = [];
+
   constructor(
     private dialogRef: MatDialogRef<NewCertificateModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public parentTypeName: string, private certificateTypeService: CertificateTypeService
+    private certificateTypeService: CertificateTypeService,
+    @Inject(MAT_DIALOG_DATA) public existingCert: Certificate | null
   ) {
-     this.certificateTypeOptions = this.certificateTypeService.getCertificates();
+    this.certificateTypeOptions = this.certificateTypeService.getCertificates();
+
+    if (this.existingCert) {
+      this.name = this.existingCert.name;
+      this.issueDate = this.existingCert.issueDate ?? '';
+      this.expireDate = this.existingCert.expireDate ?? '';
+      this.selectedCertificateTypeName = this.getTypeName(this.existingCert.tId);
+      this.filteredCertificates = this.getFilteredCertificates(this.selectedCertificateTypeName);
+      this.selectedCertificateName = this.existingCert.name;
+    }
   }
+
+  getTypeName(tId: number): string {
+    const type = this.certificateTypeOptions.find(t => t.tId === tId);
+    return type?.name ?? '';
+  }
+
+  getFilteredCertificates(typeName: string): Certificate[] {
+    const type = this.certificateTypeOptions.find(t => t.name === typeName);
+    return type?.certificates ?? [];
+  }
+
   onCertificateTypeChange() {
-    const selectedType = this.certificateTypeOptions.find(
-      type => type.name === this.selectedCertificateTypeName
-    );
-    
-    this.filteredCertificates = selectedType?.certificates ?? [];
+    this.filteredCertificates = this.getFilteredCertificates(this.selectedCertificateTypeName);
     this.selectedCertificateName = '';
   }
-  
+
   onCancel() {
     this.dialogRef.close();
   }
+
   onCertificateSelect() {
-  if (this.selectedCertificateName === '__custom__') {
-    // clear the previous name if user wants to enter manually
-    this.name = '';
-  } else {
-    // set the selected name directly
-    this.name = this.selectedCertificateName;
-  }
-}
-
-onSubmit() {
-  let selectedType = this.certificateTypeOptions.find(
-    type => type.name === this.selectedCertificateTypeName
-  );
-
-  if (!selectedType) {
-    const newTId = Date.now(); // or use a UUID generator
-    selectedType = {
-      tId: newTId,
-      name: this.selectedCertificateTypeName,
-      description: '',
-      certificates: []
-    };
-
-    this.certificateTypeOptions.push(selectedType);
+    if (this.selectedCertificateName === '__custom__') {
+      this.name = '';
+    } else {
+      this.name = this.selectedCertificateName;
+    }
   }
 
-  this.dialogRef.close({
-    id: Date.now(),
-    name: this.name,
-    issueDate: this.issueDate,
-    expireDate: this.expireDate,
-    tId: selectedType.tId
-  });
-}
+  onSubmit() {
+    let selectedType = this.certificateTypeOptions.find(
+      type => type.name === this.selectedCertificateTypeName
+    );
 
+    if (!selectedType) {
+      const newTId = Date.now();
+      selectedType = {
+        tId: newTId,
+        name: this.selectedCertificateTypeName,
+        description: '',
+        certificates: []
+      };
 
+      this.certificateTypeOptions.push(selectedType);
+    }
+
+    this.dialogRef.close({
+      id: this.existingCert?.id ?? Date.now(),  // preserve ID if editing
+      name: this.name,
+      issueDate: this.issueDate,
+      expireDate: this.expireDate,
+      tId: selectedType.tId
+    });
+  }
 }

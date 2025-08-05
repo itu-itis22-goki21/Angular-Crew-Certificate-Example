@@ -14,6 +14,7 @@ import { CertificateType } from '../models/certificate-type.model';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
 
 @Component({
   selector: 'app-new-crew',
@@ -34,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class NewCrewComponent implements OnChanges {
   certificateOptions: Certificate[] = [];
+  dialog: any;
   constructor(private certificateTypeService: CertificateTypeService) {
   this.certificateTypeOptions = this.certificateTypeService.getCertificates();
 }
@@ -135,5 +137,7 @@ export class NewCrewComponent implements OnChanges {
   removeCertificate(certToRemove: Certificate) {
     this.selectedCertificates = this.selectedCertificates.filter(c => c.name !== certToRemove.name);
   }
+
+
 
 }
