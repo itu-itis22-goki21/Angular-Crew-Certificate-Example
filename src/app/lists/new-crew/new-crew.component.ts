@@ -15,6 +15,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-new-crew',
@@ -28,7 +29,8 @@ import { NewCertificateModalComponent } from '../new-certificate-modal/new-certi
     MatButtonModule,
     MatIconModule,
     CommonModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslatePipe,
 ],
   templateUrl: './new-crew.component.html',
   styleUrl: './new-crew.component.css'
@@ -40,7 +42,7 @@ export class NewCrewComponent implements OnChanges {
   this.certificateTypeOptions = this.certificateTypeService.getCertificates();
 }
 
-
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @Input() memberToEdit: Member | null = null;
   @Output() Add= new EventEmitter<Member>();
   @Output() Cancel = new EventEmitter<void>();

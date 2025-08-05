@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,13 +11,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { CertificateTypeService } from '../certificate-type.service';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-new-certificate-modal',
   standalone: true,
   templateUrl: './new-certificate-modal.component.html',
   styleUrl: './new-certificate-modal.component.css',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule,MatDividerModule, MatButtonModule, MatFormFieldModule, MatOptionModule,MatSelectModule, CommonModule]
+  imports: [FormsModule, MatFormFieldModule,TranslatePipe, MatInputModule,MatDividerModule, MatButtonModule, MatFormFieldModule, MatOptionModule,MatSelectModule, CommonModule]
 })
 export class NewCertificateModalComponent {
   name = '';
@@ -28,7 +29,7 @@ export class NewCertificateModalComponent {
 
   certificateTypeOptions: CertificateType[] = [];
   filteredCertificates: Certificate[] = [];
-
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   constructor(
     private dialogRef: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,

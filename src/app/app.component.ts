@@ -14,6 +14,6 @@ import { SidenavComponent } from './sidenav/sidenav.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  
+  selectedLang: 'en' | 'tr' | 'pt' = 'en';
 }
 

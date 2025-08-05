@@ -1,4 +1,4 @@
-import { ViewChild, AfterViewInit, Component, OnInit,  inject } from '@angular/core';
+import { ViewChild, AfterViewInit, Component, OnInit,  inject, Input } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ import { NewCertificateTypeComponent } from "./new-certificate-type/new-certific
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CertificateListComponent } from './certificate-list/certificate-list.component';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 
 @Component({
@@ -45,7 +46,8 @@ import { CertificateListComponent } from './certificate-list/certificate-list.co
     NewCertificateTypeComponent,
     TranslateModule,
     FormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    TranslatePipe
 ]
 })
 export class ListsComponent implements AfterViewInit, OnInit {
@@ -54,7 +56,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!:MatSort;
 
-
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   memberBeingEdited: Member | null = null;
   
   selectedMember: Member | null = null;

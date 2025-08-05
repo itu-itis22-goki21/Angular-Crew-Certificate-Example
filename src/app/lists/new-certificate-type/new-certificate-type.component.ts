@@ -9,6 +9,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CertificateTypeService } from '../certificate-type.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-new-certificate-type',
@@ -19,6 +20,7 @@ import { CertificateTypeService } from '../certificate-type.service';
         MatOptionModule,
         MatMenuModule,
         MatButtonModule,
+        TranslatePipe,
         
   ],
   templateUrl: './new-certificate-type.component.html',
@@ -26,6 +28,7 @@ import { CertificateTypeService } from '../certificate-type.service';
 })
 export class NewCertificateTypeComponent implements OnChanges{
   constructor(private certificateService:CertificateService, private certificateTypeService: CertificateTypeService){}
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @Input() certificateToEdit: CertificateType | null = null;
   @Output() Add= new EventEmitter<CertificateType>();
   @Output() Cancel = new EventEmitter<void>();

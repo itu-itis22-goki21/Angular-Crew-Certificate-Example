@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import { ListsService } from '../lists.service';
@@ -13,13 +13,14 @@ import { CertificateType } from '../models/certificate-type.model';
 import { CertificateModalComponent } from '../../modals/certificate-modal/certificate-modal.component';
 import { MatLineModule } from '@angular/material/core';
 import { MatList, MatListItem } from "@angular/material/list";
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 
 type CertificateTreeNode = CertificateType | Certificate;
 @Component({
   selector: 'app-crew-card',
   standalone: true,
-  imports: [MatTabsModule, MatLineModule, MatTreeModule, MatIconModule, MatButtonModule, CertificateModalComponent, MatList, MatListItem],
+  imports: [MatTabsModule, MatLineModule,TranslatePipe, MatTreeModule, MatIconModule, MatButtonModule, CertificateModalComponent, MatList, MatListItem],
   templateUrl: './crew-card.component.html',
   styleUrl: './crew-card.component.css'
 })
@@ -30,7 +31,7 @@ export class CrewCardComponent {
   dataSource:CertificateType[]= [];
   name: string|null = null;
   
-  
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   ngOnInit(){
     const id = this.route.snapshot.paramMap.get('id');
     console.log('Navigated to crew card with ID:', id);

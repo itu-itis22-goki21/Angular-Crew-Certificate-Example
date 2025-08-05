@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, Inject, Optional, ViewChild,   } from '@angular/core';
+import { AfterViewInit, Component, inject, Inject, Input, Optional, ViewChild,   } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
@@ -15,17 +15,19 @@ import { CertificateTypeService } from '../certificate-type.service';
 import {  MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { MatMenu, MatMenuModule } from "@angular/material/menu";
 import { MatIcon } from "@angular/material/icon";
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-certificate-list',
   standalone: true,
-  imports: [MatTableModule,MatMenuModule, MatPaginatorModule, MatButtonModule, MatSortModule, MatMenu, MatIcon],
+  imports: [MatTableModule,MatMenuModule,TranslatePipe, MatPaginatorModule, MatButtonModule, MatSortModule, MatMenu, MatIcon],
   templateUrl: './certificate-list.component.html',
   styleUrl: './certificate-list.component.css'
 })
 
 export class CertificateListComponent implements AfterViewInit {
   private _liveAnnouncer = inject(LiveAnnouncer);
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!:MatSort;
   dataSource = new MatTableDataSource<Certificate>();

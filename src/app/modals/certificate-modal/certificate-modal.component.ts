@@ -8,17 +8,19 @@ import {  MatButtonModule } from '@angular/material/button';
 import { NewCertificateModalComponent } from '../../lists/new-certificate-modal/new-certificate-modal.component'; // adjust path
 import { CertificateTypeService } from '../../lists/certificate-type.service';
 import { CertificateDialogService } from '../../lists/certificate-dialog.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 
 @Component({
   selector: 'app-certificate-modal',
   standalone: true,
-  imports: [MatTreeModule, MatIconModule, MatButtonModule],
+  imports: [MatTreeModule, MatIconModule, MatButtonModule,TranslatePipe],
   templateUrl: './certificate-modal.component.html',
   styleUrl: './certificate-modal.component.css'
 })
 export class CertificateModalComponent {
   @Input() dataSource: CertificateType[] = [];
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   constructor(private certificateDialogService: CertificateDialogService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { certificateTypes: CertificateType[] } | null,
     private dialog: MatDialog, private certificateTypeService: CertificateTypeService,

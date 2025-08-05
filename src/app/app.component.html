@@ -1,2 +1,2 @@
-<app-header/>
-<app-sidenav/>
+<app-header (changedLang)="selectedLang = $event"/>
+<app-sidenav [selectedLang]="selectedLang"/>

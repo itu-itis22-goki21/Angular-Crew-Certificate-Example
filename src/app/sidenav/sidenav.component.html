@@ -1,19 +1,19 @@
 <mat-sidenav-container class="sidenav-container">
 
   <mat-sidenav mode="side" opened class="sidenav">
-    <mat-toolbar color="primary">Navigation</mat-toolbar>
+    <mat-toolbar color="primary">{{'Navigation'|translate:selectedLang }}</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/crew" routerLinkActive="active">
         <mat-icon>home</mat-icon>
-        <span>Crew List</span>
+        <span>{{'Crew List'|translate:selectedLang }}</span>
       </a>
       <a mat-list-item routerLink="/certificateTypes" routerLinkActive="active">
         <mat-icon>people</mat-icon>
-        <span>Certificate Types</span>
+        <span>{{'Certificate Types'|translate:selectedLang }}</span>
       </a>
       <a mat-list-item routerLink="/certificates" routerLinkActive="active">
         <mat-icon>credit_card</mat-icon>
-        <span>Certificates</span>
+        <span>{{'Certificates'|translate:selectedLang }}</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
