@@ -92,7 +92,9 @@ export class NewCrewComponent implements OnChanges {
     if (existing) {
       existing.certificates = [...(existing.certificates || []), ...this.selectedCertificates];
     } else {
+      const lastId = this.certificateTypeService.getLastId();
       updatedTypes.push({
+        tId: lastId+1,
         name: selectedType.name,
         description: selectedType.description,
         certificates: this.selectedCertificates

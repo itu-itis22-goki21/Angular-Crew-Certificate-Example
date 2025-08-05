@@ -9,30 +9,32 @@ export class CertificateTypeService{
     getCertificates(): CertificateType[] {
     return [...this.CERTIFICATE_DATA]; // return a copy
     }
-
+    getLastId():number{
+        return this.CERTIFICATE_DATA.length > 0 ? Math.max(...this.CERTIFICATE_DATA.map(t => t.tId)) : 0;
+    }
     
 public CERTIFICATE_DATA: CertificateType[] = [
 
-    {name: 'Captain', description:'ksdfn', certificates:[this.certificateService.CERTIFICATE_DATA[0],
+    {tId: 1, name: 'Captain', description:'ksdfn', certificates:[this.certificateService.CERTIFICATE_DATA[0],
                                                         this.certificateService.CERTIFICATE_DATA[2],
                                                         this.certificateService.CERTIFICATE_DATA[3]],
         
     },
-    {name: 'Board', description:'dsjkh',
+    {tId: 2, name: 'Board', description:'dsjkh',
         certificates: 
             [this.certificateService.CERTIFICATE_DATA[0],
             this.certificateService.CERTIFICATE_DATA[5],
             this.certificateService.CERTIFICATE_DATA[6]
         ],
     },
-    {name: 'Sailor', description:'jsdfhlk',
+    {tId: 3, name: 'Sailor', description:'jsdfhlk',
         certificates: 
             [this.certificateService.CERTIFICATE_DATA[7],
             this.certificateService.CERTIFICATE_DATA[8],
             this.certificateService.CERTIFICATE_DATA[9]
         ],
     },
-    { name: 'Compass', description:'sjdfkha',
+    {tId: 4, name: 'Compass', description:'sjdfkha',
         certificates: 
             [this.certificateService.CERTIFICATE_DATA[10],
             this.certificateService.CERTIFICATE_DATA[11],

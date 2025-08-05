@@ -40,6 +40,7 @@ export class NewCertificateModalComponent {
     const selectedType = this.certificateTypeOptions.find(
       type => type.name === this.selectedCertificateTypeName
     );
+    
     this.filteredCertificates = selectedType?.certificates ?? [];
     this.selectedCertificateName = '';
   }
@@ -58,14 +59,17 @@ export class NewCertificateModalComponent {
 }
 
   onSubmit() {
+    const selectedType = this.certificateTypeOptions.find(
+      type => type.name === this.selectedCertificateTypeName
+    );
+
     this.dialogRef.close({
-      
       id: new Date().getTime(),
       name: this.name,
       issueDate: this.issueDate,
       expireDate: this.expireDate,
-      selectedTypeName: this.selectedCertificateTypeName,
-      
+      tId: selectedType?.tId ?? null
     });
   }
+
 }

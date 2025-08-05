@@ -6,7 +6,7 @@
     
 </div>
 <h1 *ngIf="pageType === 'crew'">Crew List</h1>
-<h1 *ngIf="pageType === 'certificates'">Certificate Types List</h1>
+<h1 *ngIf="pageType === 'certificateTypes'">Certificate Types List</h1>
 
 
 <ng-container *ngIf="pageType === 'crew'">
@@ -107,7 +107,7 @@
       color="primary"
       (click)="openDialog(member)"
     >
-      View Certificate Types
+      View Certificates
     </button>
   </td>
 </ng-container>
@@ -141,7 +141,7 @@
   (Add)="onAddCertificate($event)"
   (Cancel)="onCancelAddCertificate()"
 />
-<ng-container *ngIf="pageType === 'certificates'">
+<ng-container *ngIf="pageType === 'certificateTypes'">
     <button mat-button="filled"  (click)="onStartAddCertificate()">Create Certificate Type</button>
     <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8">
 

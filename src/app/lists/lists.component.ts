@@ -23,6 +23,7 @@ import { CertificateModalComponent } from '../modals/certificate-modal/certifica
 import { NewCertificateTypeComponent } from "./new-certificate-type/new-certificate-type.component";
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CertificateListComponent } from './certificate-list/certificate-list.component';
 
 
 @Component({
@@ -68,7 +69,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   certificateDataSource = new MatTableDataSource<CertificateType>();
   ngOnInit(): void {
     const path = this.route.snapshot.routeConfig?.path;
-    this.pageType = path?.includes('certificates') ? 'certificates' : 'crew';
+    this.pageType = path?.includes('certificateTypes') ? 'certificateTypes' : 'crew';
   
     if (this.pageType === 'crew') {
       this.loadMembers();
@@ -82,7 +83,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.certificateDataSource.data = certificates;
   }
   constructor(private route: ActivatedRoute,private dialog: MatDialog, private router: Router,private CertificateTypeService:CertificateTypeService, private listsService: ListsService) {}
-  pageType: 'crew' | 'certificates' = 'crew';
+  pageType: 'crew' | 'certificateTypes' = 'crew';
   
 
    ngAfterViewInit(): void {
@@ -189,7 +190,7 @@ loadMembers() {
 
   openDialog(member: Member) {
     console.log(1)
-    this.dialog.open(CertificateModalComponent, {
+    this.dialog.open(CertificateListComponent, {
       data: {
         certificateTypes: member.certificateTypes ?? []
       },

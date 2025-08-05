@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { CertificateTypeService } from '../certificate-type.service';
 
 @Component({
   selector: 'app-new-certificate-type',
@@ -24,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './new-certificate-type.component.css'
 })
 export class NewCertificateTypeComponent implements OnChanges{
-  constructor(private certificateService:CertificateService){}
+  constructor(private certificateService:CertificateService, private certificateTypeService: CertificateTypeService){}
   @Input() certificateToEdit: CertificateType | null = null;
   @Output() Add= new EventEmitter<CertificateType>();
   @Output() Cancel = new EventEmitter<void>();
@@ -46,6 +47,7 @@ export class NewCertificateTypeComponent implements OnChanges{
     }
   onSubmit() {
     const cert: CertificateType = {
+      tId: this.certificateTypeService.getLastId(),
       name: this.enteredName,
       description: this.enteredDescription,
       certificates: this.certificateToEdit?.certificates ?? []
