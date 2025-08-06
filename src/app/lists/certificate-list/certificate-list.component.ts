@@ -16,11 +16,12 @@ import { MatMenu, MatMenuModule } from "@angular/material/menu";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-certificate-list',
   standalone: true,
-  imports: [MatTableModule,MatButtonModule,MatMenuModule,TranslatePipe, MatPaginatorModule, MatSortModule, MatMenu, MatIcon],
+  imports: [MatTableModule,MatButtonModule,MatMenuModule,TranslateModule, MatPaginatorModule, MatSortModule, MatMenu, MatIcon],
   templateUrl: './certificate-list.component.html',
   styleUrl: './certificate-list.component.css'
 })
@@ -97,7 +98,7 @@ export class CertificateListComponent implements AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: Certificate | undefined) => {
+    dialogRef.afterClosed().subscribe((result: Certificate ) => {
       if (result) {
         const index = this.allCertificates.findIndex(c => c.id === cert.id);
         if (index !== -1) {
@@ -117,14 +118,16 @@ export class CertificateListComponent implements AfterViewInit {
       });
       this.dataSource.data = [...this.allCertificates];
       }
+      
     });
   }
   deleteCertificate(certificate: Certificate): void{
     this.allCertificates = this.allCertificates.filter(c=> c.id !== certificate.id);
+    //remove from global certificates
     this.certificateService.CERTIFICATE_DATA = this.certificateService.CERTIFICATE_DATA.filter(
       c => c.id !== certificate.id//in order to remove permanently
     );
-
+    //remove certificate from the member's certificates perm 
     this.allCrew.forEach(member => {
       if (member.certificates) { 
         member.certificates = member.certificates.filter(

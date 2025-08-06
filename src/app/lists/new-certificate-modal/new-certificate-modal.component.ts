@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { CertificateService } from '../certificate.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-certificate-modal',
@@ -28,7 +29,7 @@ import { CertificateService } from '../certificate.service';
     MatOptionModule,
     MatButtonModule,
     MatDividerModule,
-    TranslatePipe,
+    TranslateModule,
   ],
 })
 export class NewCertificateModalComponent {

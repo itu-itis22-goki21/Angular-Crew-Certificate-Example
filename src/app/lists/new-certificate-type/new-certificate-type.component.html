@@ -1,11 +1,11 @@
 <div class="backdrop" (click)="onCancel()"></div>
 
 <dialog open>
-  <h2>Add Certificate Type</h2>
+  <h2>{{ 'Add Certificate Type' | translate }}</h2>
 
   <form (ngSubmit)="onSubmit()" #certificateForm="ngForm">
     <p>
-      <label for="name"> Name</label>
+      <label for="name">{{ 'Name' | translate }}</label>
       <input
         type="text"
         id="name"
@@ -14,8 +14,9 @@
         [(ngModel)]="enteredName"
       />
     </p>
+
     <p>
-      <label for="description"> description</label>
+      <label for="description">{{ 'Description' | translate }}</label>
       <input
         type="text"
         id="description"
@@ -24,12 +25,14 @@
         [(ngModel)]="enteredDescription"
       />
     </p>
-    
 
     <p class="actions">
-      <button type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit">Create</button>
+      <button type="button" (click)="onCancel()">
+        {{ 'Cancel' | translate }}
+      </button>
+      <button type="submit">
+        {{ 'Create' | translate }}
+      </button>
     </p>
   </form>
 </dialog>
-

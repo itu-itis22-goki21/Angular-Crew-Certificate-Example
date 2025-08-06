@@ -1,12 +1,14 @@
-<h2 mat-dialog-title>{{ data.certificateToEdit ? 'Edit' : 'Add' }} Certificate</h2>
+<h2 mat-dialog-title>
+  {{ data.certificateToEdit ? ('Edit' | translate) : ('Add' | translate) }} {{ 'Certificate' | translate }}
+</h2>
 
 <form (ngSubmit)="onSubmit()">
   <!-- Certificate Type -->
-  <mat-form-field appearance="fill" >
-    <mat-label>Certificate Type</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'Certificate Type' | translate }}</mat-label>
     <mat-select [(ngModel)]="selectedTypeName" name="certType" required>
       <mat-option [value]="selectedTypeName" *ngIf="shouldShowAddOption">
-        Add "{{ selectedTypeName }}"
+        {{ 'Add' | translate }} "{{ selectedTypeName }}"
       </mat-option>
       <mat-option *ngFor="let type of certificateTypes" [value]="type.name">
         {{ type.name }}
@@ -15,28 +17,30 @@
   </mat-form-field>
 
   <!-- Certificate Name -->
-  <mat-form-field appearance="fill" >
-    <mat-label>Certificate Name</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'Certificate Name' | translate }}</mat-label>
     <input matInput [(ngModel)]="name" name="name" required />
   </mat-form-field>
 
   <!-- Issue Date -->
-  <mat-form-field appearance="fill" >
-    <mat-label>Issue Date</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'Issue Date' | translate }}</mat-label>
     <input matInput type="date" [(ngModel)]="issueDate" name="issueDate" />
   </mat-form-field>
 
   <!-- Expire Date -->
-  <mat-form-field appearance="fill" >
-    <mat-label>Expire Date</mat-label>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'Expire Date' | translate }}</mat-label>
     <input matInput type="date" [(ngModel)]="expireDate" name="expireDate" />
   </mat-form-field>
 
   <!-- Actions -->
   <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1rem;">
-    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-button type="button" (click)="onCancel()">
+      {{ 'Cancel' | translate }}
+    </button>
     <button mat-flat-button color="primary" type="submit">
-      {{ data.certificateToEdit ? 'Save' : 'Add' }}
+      {{ data.certificateToEdit ? ('Save' | translate) : ('Add' | translate) }}
     </button>
   </div>
 </form>

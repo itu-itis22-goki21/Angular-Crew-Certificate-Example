@@ -1,145 +1,155 @@
 @if(isAddingCrew){
-    <app-new-crew [memberToEdit]="memberBeingEdited" (Cancel)="onCancelAddCrew()" (Add)="onAddCrew($event)"/>
+  <app-new-crew 
+    [memberToEdit]="memberBeingEdited" 
+    (Cancel)="onCancelAddCrew()" 
+    (Add)="onAddCrew($event)"
+  />
 }
 
 <div class="crew-table-wrapper">
-    
 </div>
-<h1 >Crew List</h1>
 
+<h1>{{ 'Crew List' | translate }}</h1>
 
-<ng-container >
-    <button mat-button="filled"  (click)="onStartAddCrew()">New Crew</button>
-<div class="mat-elevation-z8">
+<ng-container>
+  <button mat-button="filled" (click)="onStartAddCrew()">
+    {{ 'New Crew' | translate }}
+  </button>
+
+  <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
-   <ng-container matColumnDef="action">
-  <th mat-header-cell *matHeaderCellDef> Actions </th>
-  <td mat-cell *matCellDef="let member">
-    <button mat-icon-button [matMenuTriggerFor]="actionMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #actionMenu="matMenu">
-        <button mat-menu-item (click)="goCardPage(member)">
-            <mat-icon>person</mat-icon>
-            <span>Crew Card</span>
-        </button>
-
-      <button mat-menu-item (click)="onEditMember(member)">
-        <mat-icon>edit</mat-icon>
-        <span>Edit</span>
-      </button>
-      <button mat-menu-item (click)="onDeleteMember(member)">
-        <mat-icon>delete</mat-icon>
-        <span>Delete</span>
-      </button>
-    </mat-menu>
-  </td>
-</ng-container>
-
-
-  <ng-container matColumnDef="firstName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> First Name </th>
-    <td mat-cell *matCellDef="let member"> {{ member.firstName }} </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="lastName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Last Name'|translate}} </th>
-    <td mat-cell *matCellDef="let member"> {{ member.lastName }} </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="nationality">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nationality </th>
-    <td mat-cell *matCellDef="let member"> {{ member.nationality }} </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-    <td mat-cell *matCellDef="let member"> {{ member.title }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="daysOnBoard">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Days on Board </th>
-    <td mat-cell *matCellDef="let member"> {{ member.daysOnBoard }} </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="dailyRate">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Daily Rate </th>
-    <td mat-cell *matCellDef="let member"> {{ member.dailyRate }} </td>
-  </ng-container>
-
-
-  <ng-container matColumnDef="currency">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
-    <td mat-cell *matCellDef="let member"> {{ member.currency }} </td>
-  </ng-container>
-
-<ng-container matColumnDef="discount">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
-  <td mat-cell *matCellDef="let member">
-    
-    <input
-      type="number"
-      matInput
-      min="0"
-      [(ngModel)]="member.discount"
-      (ngModelChange)="updateTotalIncome(member)"
-      placeholder="Enter"
-    />
-    
-  </td>
-</ng-container>
-
-  <ng-container matColumnDef="totalIncome">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Income </th>
-    <td mat-cell *matCellDef="let member">
       
-      {{ getDiscountedIncome(member) | number }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> {{ 'Actions' | translate }} </th>
+        <td mat-cell *matCellDef="let member">
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionMenu="matMenu">
+            <button mat-menu-item (click)="goCardPage(member)">
+              <mat-icon>person</mat-icon>
+              <span>{{ 'Crew Card' | translate }}</span>
+            </button>
 
+            <button mat-menu-item (click)="onEditMember(member)">
+              <mat-icon>edit</mat-icon>
+              <span>{{ 'Edit' | translate }}</span>
+            </button>
 
-<ng-container matColumnDef="certificate">
-  <th mat-header-cell *matHeaderCellDef> Certificates </th>
-  <td mat-cell *matCellDef="let member">
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="openDialog(member)"
-    >
-      View Certificates
-    </button>
-  </td>
+            <button mat-menu-item (click)="onDeleteMember(member)">
+              <mat-icon>delete</mat-icon>
+              <span>{{ 'Delete' | translate }}</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+          {{ 'First Name' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.firstName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Last Name' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.lastName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nationality">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Nationality' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.nationality }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Title' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.title }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="daysOnBoard">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Days On Board' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.daysOnBoard }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dailyRate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Daily Rate' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.dailyRate }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Currency' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member"> {{ member.currency }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="discount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Discount' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member">
+          <input
+            type="number"
+            matInput
+            min="0"
+            [(ngModel)]="member.discount"
+            (ngModelChange)="updateTotalIncome(member)"
+            [placeholder]="'Enter' | translate"
+          />
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalIncome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ 'Total Income' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member">
+          {{ getDiscountedIncome(member) | number }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="certificate">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'Certificates' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let member">
+          <button mat-stroked-button color="primary" (click)="openDialog(member)">
+            {{ 'View Certificates' | translate }}
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="[
+        'action',
+        'firstName', 'lastName', 'nationality', 'title',
+        'daysOnBoard', 'dailyRate', 'currency', 'discount','totalIncome', 'certificate'
+      ]"></tr>
+
+      <tr mat-row *matRowDef="let row; columns: [
+        'action',
+        'firstName', 'lastName', 'nationality', 'title',
+        'daysOnBoard', 'dailyRate', 'currency', 'discount', 'totalIncome', 'certificate'
+      ];">
+      </tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of Crew">
+    </mat-paginator>
+  </div>
+
+  <p>{{ 'Total Income per USD' | translate }}: {{ getTotalIncomeByCurrency('USD') }}</p>
+  <p>{{ 'Total Income per EUR' | translate }}: {{ getTotalIncomeByCurrency('EUR') }}</p>
 </ng-container>
-<tr mat-header-row *matHeaderRowDef="['action',
-    'firstName', 'lastName', 'nationality', 'title',
-    'daysOnBoard', 'dailyRate', 'currency', 'discount','totalIncome', 'certificate'
-  ]"></tr>
-<tr mat-row
-    *matRowDef="let row; columns: ['action',
-    'firstName', 'lastName', 'nationality', 'title',
-    'daysOnBoard', 'dailyRate', 'currency', 'discount', 'totalIncome', 'certificate'
-  ];">
-</tr>
-
-
-</table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-               showFirstLastButtons
-               aria-label="Select page of Crew">
-</mat-paginator>
-</div>
-<p>Total Income per USD:{{getTotalIncomeByCurrency('USD')}}</p>
-<p>Total Income per EUR:{{getTotalIncomeByCurrency('EUR')}}</p>
-
-</ng-container>
-
-
-<!-- Pagination -->
-<!-- 
-
-
--->

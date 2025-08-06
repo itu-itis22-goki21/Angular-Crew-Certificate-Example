@@ -1,11 +1,11 @@
 <div class="backdrop" (click)="onCancel()"></div>
 
 <dialog open>
-  <h2>Add Crew</h2>
+  <h2>{{ 'Add Crew' | translate }}</h2>
 
   <form (ngSubmit)="onSubmit()" #crewForm="ngForm">
     <p>
-      <label for="firstName">First Name</label>
+      <label for="firstName">{{ 'First Name' | translate }}</label>
       <input
         type="text"
         id="firstName"
@@ -16,7 +16,7 @@
     </p>
 
     <p>
-      <label for="lastName">Last Name</label>
+      <label for="lastName">{{ 'Last Name' | translate }}</label>
       <input
         type="text"
         id="lastName"
@@ -27,31 +27,31 @@
     </p>
 
     <p>
-      <label for="nationality">Nationality</label>
+      <label for="nationality">{{ 'Nationality' | translate }}</label>
       <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>nationality</mat-label>
+        <mat-label>{{ 'Nationality' | translate }}</mat-label>
         <mat-select [(ngModel)]="enterednationality" name="nationality" id="nationality">
-        <mat-option value="Turkish">Turkish</mat-option>
-        <mat-option value="British">British</mat-option>
-        <mat-option value="Portuguese">Portuguese</mat-option>
+          <mat-option value="Turkish">{{ 'Turkish' | translate }}</mat-option>
+          <mat-option value="British">{{ 'British' | translate }}</mat-option>
+          <mat-option value="Portuguese">{{ 'Portuguese' | translate }}</mat-option>
         </mat-select>
-    </mat-form-field>
+      </mat-form-field>
     </p>
 
     <p>
-      <label for="title">Title</label>
+      <label for="title">{{ 'Title' | translate }}</label>
       <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>title</mat-label>
+        <mat-label>{{ 'Title' | translate }}</mat-label>
         <mat-select [(ngModel)]="enteredtitle" name="title" id="title">
-        <mat-option value="Captain">Captain</mat-option>
-        <mat-option value="Traveller">Traveller</mat-option>
-        <mat-option value="Machinist">Machinist</mat-option>
+          <mat-option value="Captain">{{ 'Captain' | translate }}</mat-option>
+          <mat-option value="Traveller">{{ 'Traveller' | translate }}</mat-option>
+          <mat-option value="Machinist">{{ 'Machinist' | translate }}</mat-option>
         </mat-select>
-    </mat-form-field>
+      </mat-form-field>
     </p>
 
     <p>
-      <label for="daysOnBoard">Days On Board</label>
+      <label for="daysOnBoard">{{ 'Days On Board' | translate }}</label>
       <input
         type="text"
         id="daysOnBoard"
@@ -61,7 +61,7 @@
     </p>
 
     <p>
-      <label for="dailyRate">Daily Rate</label>
+      <label for="dailyRate">{{ 'Daily Rate' | translate }}</label>
       <input
         type="number"
         id="dailyRate"
@@ -71,41 +71,40 @@
     </p>
 
     <p>
-    <label for="currency">Currency</label>
-    <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>Currency</mat-label>
+      <label for="currency">{{ 'Currency' | translate }}</label>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>{{ 'Currency' | translate }}</mat-label>
         <mat-select [(ngModel)]="enteredcurrency" name="currency" id="currency">
-        <mat-option value="USD">USD</mat-option>
-        <mat-option value="EUR">EUR</mat-option>
+          <mat-option value="USD">USD</mat-option>
+          <mat-option value="EUR">EUR</mat-option>
         </mat-select>
-    </mat-form-field>
+      </mat-form-field>
     </p>
 
-    
     <!-- Open modal to select or add certificates -->
-<p>
-  <button mat-raised-button color="primary" (click)="openCertificateModal()">
-    Manage Certificates
-  </button>
-</p>
+    <p>
+      <button mat-raised-button color="primary" (click)="openCertificateModal()">
+        {{ 'Manage Certificates' | translate }}
+      </button>
+    </p>
 
-
-
-
-<!-- List selected certificates -->
-<ul>
-  <li *ngFor="let cert of selectedCertificates">
-    {{ cert.name }}
-    <button mat-icon-button (click)="removeCertificate(cert)">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </li>
-</ul>
-    
+    <!-- List selected certificates -->
+    <ul>
+      <li *ngFor="let cert of selectedCertificates">
+        {{ cert.name }}
+        <button mat-icon-button (click)="removeCertificate(cert)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </li>
+    </ul>
 
     <p class="actions">
-      <button type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit">Create</button>
+      <button type="button" (click)="onCancel()">
+        {{ 'Cancel' | translate }}
+      </button>
+      <button type="submit">
+        {{ 'Create' | translate }}
+      </button>
     </p>
   </form>
 </dialog>

@@ -1,40 +1,40 @@
 <div class="crew-card-wrapper">
-    <h1>
-        Crew Card
-    </h1>
-<mat-tab-group>
-  <mat-tab label="Card">
-    <mat-list>
-      <mat-list-item>
-        <strong>First Name:</strong>&nbsp;{{ crewDetails?.firstName }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Last Name:</strong>&nbsp;{{ crewDetails?.lastName }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Nationality:</strong>&nbsp;{{ crewDetails?.nationality }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Title:</strong>&nbsp;{{ crewDetails?.title }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Days on Board:</strong>&nbsp;{{ crewDetails?.daysOnBoard }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Daily Rate:</strong>&nbsp;{{ crewDetails?.dailyRate }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Currency:</strong>&nbsp;{{ crewDetails?.currency }}
-      </mat-list-item>
-      <mat-list-item>
-        <strong>Total Income:</strong>&nbsp;{{ crewDetails?.totalIncome }}
-      </mat-list-item>
-    </mat-list>
+  <h1>
+    {{ 'Crew Card' | translate }}
+  </h1>
 
-    
-  </mat-tab>
-  <mat-tab label="Certificates">
-    <app-certificate-list [member]= "crewDetails"></app-certificate-list>
-  </mat-tab>
-</mat-tab-group>
+  <mat-tab-group>
+    <mat-tab [label]="'Card' | translate">
+      <mat-list>
+        <mat-list-item>
+          <strong>{{ 'First Name' | translate }}:</strong>&nbsp;{{ crewDetails?.firstName }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Last Name' | translate }}:</strong>&nbsp;{{ crewDetails?.lastName }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Nationality' | translate }}:</strong>&nbsp;{{ crewDetails?.nationality }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Title' | translate }}:</strong>&nbsp;{{ crewDetails?.title }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Days On Board' | translate }}:</strong>&nbsp;{{ crewDetails?.daysOnBoard }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Daily Rate' | translate }}:</strong>&nbsp;{{ crewDetails?.dailyRate }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Currency' | translate }}:</strong>&nbsp;{{ crewDetails?.currency }}
+        </mat-list-item>
+        <mat-list-item>
+          <strong>{{ 'Total Income' | translate }}:</strong>&nbsp;{{ crewDetails?.totalIncome }}
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+
+    <mat-tab [label]="'Certificates' | translate">
+      <app-certificate-list [member]="crewDetails"></app-certificate-list>
+    </mat-tab>
+  </mat-tab-group>
 </div>

@@ -10,6 +10,7 @@ import { CertificateType } from '../models/certificate-type.model';
 import { CertificateTypeService } from '../certificate-type.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-certificate-type-list',
@@ -21,7 +22,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
             MatPaginatorModule,
             MatTableModule,
             MatButtonModule,
-            
+            TranslateModule,
             MatSortModule,
           ],
   templateUrl: './certificate-type-list.component.html',

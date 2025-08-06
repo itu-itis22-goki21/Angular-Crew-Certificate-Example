@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from "./header/header.component";
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -14,6 +15,12 @@ import { SidenavComponent } from './sidenav/sidenav.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  selectedLang: 'en' | 'tr' | 'pt' = 'en';
+  constructor(private translate: TranslateService) {
+    translate.addLangs(['en', 'tr']);
+    translate.setDefaultLang('en');
+
+    const browserLang = translate.getBrowserLang()?? 'en';
+    translate.use(browserLang.match(/en|tr|pt/) ? browserLang : 'en');
+  }
 }
 

@@ -10,6 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { CertificateTypeService } from '../certificate-type.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-certificate-type',
@@ -20,8 +21,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
         MatOptionModule,
         MatMenuModule,
         MatButtonModule,
-        TranslatePipe,
-        
+        TranslateModule,        
   ],
   templateUrl: './new-certificate-type.component.html',
   styleUrl: './new-certificate-type.component.css'

@@ -18,6 +18,7 @@ import { NewCertificateModalComponent } from '../new-certificate-modal/new-certi
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { CertificateService } from '../certificate.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-crew',
@@ -32,7 +33,7 @@ import { CertificateService } from '../certificate.service';
     MatIconModule,
     CommonModule,
     MatDividerModule,
-    TranslatePipe,
+    TranslateModule,
     
 ],
   templateUrl: './new-crew.component.html',

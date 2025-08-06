@@ -2,6 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { TranslatePipe } from './app/pipes/translate.pipe';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TRANSLATE_PROVIDERS } from './app/translate.providers';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
@@ -12,6 +13,6 @@ import { routes } from './app/app.routes';
 bootstrapApplication(AppComponent, {
   
   providers: [provideRouter(routes),provideAnimationsAsync(),
-              
+              ...TRANSLATE_PROVIDERS
   ]
 }).catch((err) => console.error(err));

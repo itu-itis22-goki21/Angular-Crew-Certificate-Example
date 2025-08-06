@@ -1,10 +1,10 @@
 <div class="header-container">
 <header class="langSelector">
-    <h1>{{'Crew Management System' |translate:selectedLang }}</h1>
+    <h1>{{'Crew Management System' |translate }}</h1>
     <select [value]="selectedLang" (change)="onChange($event)">
-        <option value="en">{{'en' | flag}}</option>
-        <option value="tr">{{'tr' | flag}}</option>
-        <option value="pt">{{'pt' | flag}}</option>
+        <option value="en">English</option>
+        <option value="tr">Türkçe</option>
+        <option value="pt">Português</option>
     </select>
 </header>
 

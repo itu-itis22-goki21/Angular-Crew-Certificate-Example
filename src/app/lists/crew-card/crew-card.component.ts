@@ -14,12 +14,13 @@ import { MatLineModule } from '@angular/material/core';
 import { MatList, MatListItem } from "@angular/material/list";
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { CertificateListComponent } from "../certificate-list/certificate-list.component";
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-crew-card',
   standalone: true,
-  imports: [MatTabsModule, MatLineModule, TranslatePipe, MatTreeModule, MatIconModule, MatButtonModule, MatList, MatListItem, CertificateListComponent],
+  imports: [MatTabsModule, MatLineModule,TranslateModule, MatTreeModule, MatIconModule, MatButtonModule, MatList, MatListItem, CertificateListComponent],
   templateUrl: './crew-card.component.html',
   styleUrl: './crew-card.component.css'
 })

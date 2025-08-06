@@ -46,7 +46,7 @@ import { MatInput } from '@angular/material/input';
     TranslateModule,
     FormsModule,
     MatFormFieldModule,
-    TranslatePipe,
+    
     MatInput
 ]
 })
@@ -209,6 +209,7 @@ getTotalIncomeForMember(member: Member): number {
   return dailyRate * days;
 }
 getTotalIncomeByCurrency(currency: string): number {
+  
   return this.dataSource.filteredData
     .filter(member => member.currency === currency)
     .reduce((sum, member) => {
@@ -231,6 +232,10 @@ updateTotalIncome(member: Member) {
     member.discount= 0;
   }
   member.totalIncome = this.getDiscountedIncome(member);
+  //to make this persistent overwriting new total income
+  const i = this.listsService.CREW_DATA.findIndex(m=>m.id === member.id);
+  this.listsService.CREW_DATA[i] = {...member};
+  
 }
 
   announceSortChange(sortState: Sort) {
