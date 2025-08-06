@@ -89,9 +89,13 @@ export class NewCertificateModalComponent {
       type: selectedType
     };
     console.log(this.data.certificateToEdit);
-    if(!this.data.certificateToEdit?.id){
-      this.certificates.push(cert);
+    const existingIndex = this.certificates.findIndex(c => c.id === cert.id);
+    if (existingIndex !== -1) {
+      this.certificates[existingIndex] = cert; // Update the data source
+    } else {
+      this.certificates.push(cert); // Add new
     }
+
     this.dialogRef.close(cert);
   }
 }

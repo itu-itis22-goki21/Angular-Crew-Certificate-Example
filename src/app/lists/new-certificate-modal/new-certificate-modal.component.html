@@ -2,7 +2,7 @@
 
 <form (ngSubmit)="onSubmit()">
   <!-- Certificate Type -->
-  <mat-form-field appearance="fill" style="width: 100%;">
+  <mat-form-field appearance="fill" >
     <mat-label>Certificate Type</mat-label>
     <mat-select [(ngModel)]="selectedTypeName" name="certType" required>
       <mat-option [value]="selectedTypeName" *ngIf="shouldShowAddOption">
@@ -15,19 +15,19 @@
   </mat-form-field>
 
   <!-- Certificate Name -->
-  <mat-form-field appearance="fill" style="width: 100%;">
+  <mat-form-field appearance="fill" >
     <mat-label>Certificate Name</mat-label>
     <input matInput [(ngModel)]="name" name="name" required />
   </mat-form-field>
 
   <!-- Issue Date -->
-  <mat-form-field appearance="fill" style="width: 100%;">
+  <mat-form-field appearance="fill" >
     <mat-label>Issue Date</mat-label>
     <input matInput type="date" [(ngModel)]="issueDate" name="issueDate" />
   </mat-form-field>
 
   <!-- Expire Date -->
-  <mat-form-field appearance="fill" style="width: 100%;">
+  <mat-form-field appearance="fill" >
     <mat-label>Expire Date</mat-label>
     <input matInput type="date" [(ngModel)]="expireDate" name="expireDate" />
   </mat-form-field>

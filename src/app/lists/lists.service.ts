@@ -50,8 +50,8 @@ export class ListsService{
   },
   {
     id:'2',
-    firstName: 'Bülent',
-    lastName: 'Korkmaz',
+    firstName: 'Fatih',
+    lastName: 'Terim',
     nationality: 'Turkish',
     title: 'Captain',
     daysOnBoard: '20',

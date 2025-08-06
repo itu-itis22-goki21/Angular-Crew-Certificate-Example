@@ -16,7 +16,6 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 import { CertificateListComponent } from "../certificate-list/certificate-list.component";
 
 
-type CertificateTreeNode = CertificateType | Certificate;
 @Component({
   selector: 'app-crew-card',
   standalone: true,

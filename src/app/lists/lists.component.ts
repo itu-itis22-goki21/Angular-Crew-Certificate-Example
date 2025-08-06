@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CertificateListComponent } from './certificate-list/certificate-list.component';
 import { TranslatePipe } from '../pipes/translate.pipe';
+import { MatInput } from '@angular/material/input';
 
 
 @Component({
@@ -45,7 +46,8 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     TranslateModule,
     FormsModule,
     MatFormFieldModule,
-    TranslatePipe
+    TranslatePipe,
+    MatInput
 ]
 })
 export class ListsComponent implements AfterViewInit, OnInit {
@@ -89,7 +91,6 @@ export class ListsComponent implements AfterViewInit, OnInit {
    ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.certificateDataSource.paginator = this.paginator;
   }
   isAddingCertificate = false;
 
@@ -226,6 +227,9 @@ getDiscountedIncome(member: Member): number {
 }
 
 updateTotalIncome(member: Member) {
+  if((member.discount??0) < 0){
+    member.discount= 0;
+  }
   member.totalIncome = this.getDiscountedIncome(member);
 }
 

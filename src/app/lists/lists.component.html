@@ -80,13 +80,16 @@
 <ng-container matColumnDef="discount">
   <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount </th>
   <td mat-cell *matCellDef="let member">
+    
     <input
       type="number"
+      matInput
+      min="0"
       [(ngModel)]="member.discount"
       (ngModelChange)="updateTotalIncome(member)"
       placeholder="Enter"
-      style="width: 60px;"
     />
+    
   </td>
 </ng-container>
 
