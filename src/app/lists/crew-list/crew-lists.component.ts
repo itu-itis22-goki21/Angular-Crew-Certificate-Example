@@ -12,26 +12,26 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute,Router } from '@angular/router';
 
 
-import { Member } from './models/lists.model';
+import { Member } from '../models/lists.model';
 import { TranslateModule } from '@ngx-translate/core';
-import { NewCrewComponent } from "./new-crew/new-crew.component";
-import { ListsService } from './lists.service';
-import { CertificateTypeService } from './certificate-type.service';
-import { Certificate } from './models/certificate.model';
-import { CertificateType } from './models/certificate-type.model';
-import { NewCertificateTypeComponent } from "./new-certificate-type/new-certificate-type.component";
+import { NewCrewComponent } from "../new-crew/new-crew.component";
+import { ListsService } from '../lists.service';
+import { CertificateTypeService } from '../certificate-type.service';
+import { Certificate } from '../models/certificate.model';
+import { CertificateType } from '../models/certificate-type.model';
+import { NewCertificateTypeComponent } from "../new-certificate-type/new-certificate-type.component";
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CertificateListComponent } from './certificate-list/certificate-list.component';
-import { TranslatePipe } from '../pipes/translate.pipe';
+import { CertificateListComponent } from '../certificate-list/certificate-list.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MatInput } from '@angular/material/input';
 
 
 @Component({
   selector: 'app-lists',
   standalone: true,
-  templateUrl: './lists.component.html',
-  styleUrl: './lists.component.css',
+  templateUrl: './crew-lists.component.html',
+  styleUrl: './crew-lists.component.css',
   imports: [
     MatTableModule,
     MatPaginatorModule,
