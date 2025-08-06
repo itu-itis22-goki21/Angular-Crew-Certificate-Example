@@ -102,14 +102,29 @@ export class CertificateListComponent implements AfterViewInit {
         const index = this.allCertificates.findIndex(c => c.id === cert.id);
         if (index !== -1) {
           this.allCertificates[index] = result;
-          this.dataSource.data = [...this.allCertificates]; // re-render table
         }
-
+        const globalIndex = this.certificateService.CERTIFICATE_DATA.findIndex(c => c.id === cert.id);
+        if (globalIndex !== -1) {
+          this.certificateService.CERTIFICATE_DATA[globalIndex] = result;
+        }
+        this.allCrew.forEach(member => {
+        if (member.certificates) {
+          const certIndex = member.certificates.findIndex(c => c.id === cert.id);
+          if (certIndex !== -1) {
+            member.certificates[certIndex] = result;
+          }
+        }
+      });
+      this.dataSource.data = [...this.allCertificates];
       }
     });
   }
   deleteCertificate(certificate: Certificate): void{
     this.allCertificates = this.allCertificates.filter(c=> c.id !== certificate.id);
+    this.certificateService.CERTIFICATE_DATA = this.certificateService.CERTIFICATE_DATA.filter(
+      c => c.id !== certificate.id//in order to remove permanently
+    );
+
     this.allCrew.forEach(member => {
       if (member.certificates) { 
         member.certificates = member.certificates.filter(
