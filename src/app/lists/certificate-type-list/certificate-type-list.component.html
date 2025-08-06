@@ -1,0 +1,53 @@
+<h1 >Certificate Types List</h1>
+
+<app-new-certificate-type
+  *ngIf="isAddingCertificate"
+  [certificateToEdit]="certificateTypeBeingEdited"
+  (Add)="onAddCertificate($event)"
+  (Cancel)="onCancelAddCertificate()"
+/>
+<ng-container >
+    <button mat-button="filled"  (click)="onStartAddCertificate()">Create Certificate Type</button>
+    <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
+
+       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let cert">
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item (click)="onEditCertificateType(cert)">
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="onDeleteCertificateType(cert)">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+        </td>
+      </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header > Certificate Type Name </th>
+            <td mat-cell *matCellDef="let type"> {{ type.name }} </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Certificate Type Description </th>
+            <td mat-cell *matCellDef="let type"> {{ type.description }} </td>
+        </ng-container>
+
+    
+
+
+    <tr mat-header-row *matHeaderRowDef="['action','name','description']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['action','name','description']"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons
+                  aria-label="Select page of Certificates">
+    </mat-paginator>
+  </div>
+    
+</ng-container>

@@ -10,17 +10,17 @@ import {MatButtonModule} from '@angular/material/button';
 import { CertificateTypeService } from '../certificate-type.service';
 import { Certificate } from '../models/certificate.model';
 import { CertificateType } from '../models/certificate-type.model';
-import { CertificateModalComponent } from '../../modals/certificate-modal/certificate-modal.component';
 import { MatLineModule } from '@angular/material/core';
 import { MatList, MatListItem } from "@angular/material/list";
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { CertificateListComponent } from "../certificate-list/certificate-list.component";
 
 
 type CertificateTreeNode = CertificateType | Certificate;
 @Component({
   selector: 'app-crew-card',
   standalone: true,
-  imports: [MatTabsModule, MatLineModule,TranslatePipe, MatTreeModule, MatIconModule, MatButtonModule, CertificateModalComponent, MatList, MatListItem],
+  imports: [MatTabsModule, MatLineModule, TranslatePipe, MatTreeModule, MatIconModule, MatButtonModule, MatList, MatListItem, CertificateListComponent],
   templateUrl: './crew-card.component.html',
   styleUrl: './crew-card.component.css'
 })
@@ -44,15 +44,6 @@ loadMember(id: string | null) {
   if (this.crewDetails) {
     this.crewDetails.totalIncome = this.listsService.calculateTotalIncome(this.crewDetails);
   }
-
-  this.dataSource = this.crewDetails?.certificateTypes ?? [];
 }
 
-  childrenAccessor = (node: CertificateTreeNode) =>
-    'certificates' in node ? node.certificates ?? [] : [];
-
-  hasChild = (_: number, node: CertificateTreeNode):boolean =>
-    'certificates' in node && !!node.certificates?.length;
-
-  }
-
+}

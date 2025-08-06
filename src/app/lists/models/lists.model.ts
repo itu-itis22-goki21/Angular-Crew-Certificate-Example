@@ -1,4 +1,4 @@
-import { CertificateType } from "./certificate-type.model";
+import { Certificate } from "./certificate.model";
 
 
 export interface Member{
@@ -12,5 +12,6 @@ export interface Member{
   currency:string;
   discount?: number;
   totalIncome:number;
-  certificateTypes:CertificateType[]|null;
+  certificates: Certificate[]|null;
+
 }

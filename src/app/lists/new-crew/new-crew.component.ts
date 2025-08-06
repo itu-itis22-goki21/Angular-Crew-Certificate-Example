@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { CertificateService } from '../certificate.service';
 
 @Component({
   selector: 'app-new-crew',
@@ -31,27 +33,13 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
     CommonModule,
     MatDividerModule,
     TranslatePipe,
+    
 ],
   templateUrl: './new-crew.component.html',
   styleUrl: './new-crew.component.css'
 })
 export class NewCrewComponent implements OnChanges {
-  certificateOptions: Certificate[] = [];
-  dialog: any;
-  constructor(private certificateTypeService: CertificateTypeService) {
-  this.certificateTypeOptions = this.certificateTypeService.getCertificates();
-}
-
-  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
-  @Input() memberToEdit: Member | null = null;
-  @Output() Add= new EventEmitter<Member>();
-  @Output() Cancel = new EventEmitter<void>();
   certificateTypeOptions: CertificateType[] = [];
-  filteredCertificates: Certificate[] = [];
-
-  selectedCertificateTypeName: string = '';
-  selectedCertificateName: string = '';
-
   selectedCertificates: Certificate[] = [];
 
   enteredfirstName= '';
@@ -62,7 +50,33 @@ export class NewCrewComponent implements OnChanges {
   entereddailyRate= 0;
   enteredcurrency='';
   enteredtotalIncome=0;
+  constructor(private certificateTypeService: CertificateTypeService,
+    private certificateService: CertificateService,
+    private dialog: MatDialog
+  ) {
+    this.certificateTypeOptions = this.certificateTypeService.getCertificateTypes();
+  }
+
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
+  @Input() memberToEdit: Member | null = null;
+  @Output() Add= new EventEmitter<Member>();
+  @Output() Cancel = new EventEmitter<void>();
   
+
+  openCertificateModal(): void {
+    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+      width: '500px',
+      data: {
+        selectedCertificates: this.selectedCertificates
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: Certificate[] | undefined) => {
+      if (result) {
+        this.selectedCertificates = result;
+      }
+    });
+  }
   onCancel(){
     this.Cancel.emit();
   }
@@ -81,33 +95,10 @@ export class NewCrewComponent implements OnChanges {
     }
   }
   onSubmit() {
-  const id = this.memberToEdit?.id ?? crypto.randomUUID();
-  const selectedType = this.certificateTypeOptions.find(
-    type => type.name === this.selectedCertificateTypeName
-  );
-
-  let updatedTypes: CertificateType[] = this.memberToEdit?.certificateTypes
-    ? [...this.memberToEdit.certificateTypes]
-    : [];
-
-  if (selectedType) {
-    const existing = updatedTypes.find(t => t.name === selectedType.name);
-
-    if (existing) {
-      existing.certificates = [...(existing.certificates || []), ...this.selectedCertificates];
-    } else {
-      const lastId = this.certificateTypeService.getLastId();
-      updatedTypes.push({
-        tId: lastId+1,
-        name: selectedType.name,
-        description: selectedType.description,
-        certificates: this.selectedCertificates
-      });
-    }
-  }
+  
 
   this.Add.emit({
-    id,
+    id: Date.now().toString(),
     firstName: this.enteredfirstName,
     lastName: this.enteredlastName,
     nationality: this.enterednationality,
@@ -116,29 +107,16 @@ export class NewCrewComponent implements OnChanges {
     dailyRate: this.entereddailyRate,
     currency: this.enteredcurrency,
     totalIncome: this.enteredtotalIncome,
-    certificateTypes: updatedTypes
+    certificates: this.selectedCertificates,
+
   });
 }
 
 
-  onCertificateTypeChange() {
-    const selectedType = this.certificateTypeOptions.find(
-      type => type.name === this.selectedCertificateTypeName
-    );
-    this.filteredCertificates = selectedType?.certificates ?? [];
-    this.selectedCertificateName = '';
-  }
+removeCertificate(cert: Certificate){
+  this.certificateService.CERTIFICATE_DATA.filter((c)=>c.id !== cert.id);
+}
 
-  onCertificateSelect() {
-    const cert = this.filteredCertificates.find(c => c.name === this.selectedCertificateName);
-    if (cert && !this.selectedCertificates.some(c => c.name === cert.name)) {
-      this.selectedCertificates.push(cert);
-    }
-  }
-
-  removeCertificate(certToRemove: Certificate) {
-    this.selectedCertificates = this.selectedCertificates.filter(c => c.name !== certToRemove.name);
-  }
 
 
 

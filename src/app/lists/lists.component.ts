@@ -19,7 +19,6 @@ import { ListsService } from './lists.service';
 import { CertificateTypeService } from './certificate-type.service';
 import { Certificate } from './models/certificate.model';
 import { CertificateType } from './models/certificate-type.model';
-import { CertificateModalComponent } from '../modals/certificate-modal/certificate-modal.component';
 import { NewCertificateTypeComponent } from "./new-certificate-type/new-certificate-type.component";
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -43,7 +42,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
     MatSortModule,
     NewCrewComponent,
     CommonModule,
-    NewCertificateTypeComponent,
     TranslateModule,
     FormsModule,
     MatFormFieldModule,
@@ -62,7 +60,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   selectedMember: Member | null = null;
   newCertificateType: CertificateType|null=null;
   isAddingCrew = false;
-  certificateBeingEdited: CertificateType | null = null;
+  certificateTypeBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
 
 
@@ -81,7 +79,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   }
 
   loadCertificates() {
-    const certificates = this.CertificateTypeService.getCertificates(); // mock or actual
+    const certificates = this.CertificateTypeService.getCertificateTypes(); // mock or actual
     this.certificateDataSource.data = certificates;
   }
   constructor(private route: ActivatedRoute,private dialog: MatDialog, private router: Router,private CertificateTypeService:CertificateTypeService, private listsService: ListsService) {}
@@ -97,7 +95,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
 
   onStartAddCertificate() {
     this.isAddingCertificate = true;
-    this.certificateBeingEdited = null;
+    this.certificateTypeBeingEdited = null;
   }
   onAddCertificate(newCert: CertificateType) {
   console.log('Edited cert:', newCert);
@@ -116,7 +114,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
 
   this.loadCertificates();
   this.isAddingCertificate = false;
-  this.certificateBeingEdited = null;
+  this.certificateTypeBeingEdited = null;
   this.originalCertName = null;
 }
 
@@ -126,7 +124,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.isAddingCertificate = false;
   }
 onEditCertificateType(cert: CertificateType) {
-  this.certificateBeingEdited = { ...cert }; // clone to prevent live mutation
+  this.certificateTypeBeingEdited = { ...cert }; // clone to prevent live mutation
   this.originalCertName = cert.name;
   this.isAddingCertificate = true;
   
@@ -194,24 +192,16 @@ loadMembers() {
 openDialog(member: Member) {
   this.dialog.open(CertificateListComponent, {
     data: {
-      certificateTypes: member.certificateTypes ?? [],
       member: member
     },
     width: '800px',
+    height: '800px',
     autoFocus: true
   });
 }
 
 
-  onViewCertificateDetails(cert: CertificateType) {
-  this.dialog.open(CertificateModalComponent, {
-    data: {
-      certificateTypes: [cert]
-    },
-    width: '600px',
-    autoFocus: true
-  });
-}
+
 getTotalIncomeForMember(member: Member): number {
   const dailyRate = member.dailyRate ?? 0;
   const days = parseInt(member.daysOnBoard || '0', 10);

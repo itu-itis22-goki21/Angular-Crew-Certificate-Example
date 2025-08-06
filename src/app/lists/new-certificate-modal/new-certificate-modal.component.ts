@@ -1,105 +1,97 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { CertificateType } from '../models/certificate-type.model';
-import { Certificate } from '../models/certificate.model';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { CertificateType } from '../models/certificate-type.model';
+import { Certificate } from '../models/certificate.model';
 import { CertificateTypeService } from '../certificate-type.service';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { CertificateService } from '../certificate.service';
 
 @Component({
   selector: 'app-new-certificate-modal',
   standalone: true,
   templateUrl: './new-certificate-modal.component.html',
   styleUrl: './new-certificate-modal.component.css',
-  imports: [FormsModule, MatFormFieldModule,TranslatePipe, MatInputModule,MatDividerModule, MatButtonModule, MatFormFieldModule, MatOptionModule,MatSelectModule, CommonModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+    MatDividerModule,
+    TranslatePipe,
+  ],
 })
 export class NewCertificateModalComponent {
   name = '';
   issueDate = '';
   expireDate = '';
-  selectedCertificateTypeName: string = '';
-  selectedCertificateName: string = '';
+  selectedTypeName = '';
 
-  certificateTypeOptions: CertificateType[] = [];
-  filteredCertificates: Certificate[] = [];
-  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
+  certificateTypes: CertificateType[] = [];
+  certificates= this.certificateService.CERTIFICATE_DATA;
   constructor(
     private dialogRef: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,
-    @Inject(MAT_DIALOG_DATA) public existingCert: Certificate | null
+    private certificateService: CertificateService,
+    @Inject(MAT_DIALOG_DATA) public data: { certificateToEdit: Certificate | null }
   ) {
-    this.certificateTypeOptions = this.certificateTypeService.getCertificates();
-
-    if (this.existingCert) {
-      this.name = this.existingCert.name;
-      this.issueDate = this.existingCert.issueDate ?? '';
-      this.expireDate = this.existingCert.expireDate ?? '';
-      this.selectedCertificateTypeName = this.getTypeName(this.existingCert.tId);
-      this.filteredCertificates = this.getFilteredCertificates(this.selectedCertificateTypeName);
-      this.selectedCertificateName = this.existingCert.name;
+    this.certificateTypes = this.certificateTypeService.getCertificateTypes();
+    
+    if (this.data.certificateToEdit) {
+      this.name = this.data.certificateToEdit.name;
+      this.issueDate = this.data.certificateToEdit.issueDate ?? '';
+      this.expireDate = this.data.certificateToEdit.expireDate ?? '';
+      this.selectedTypeName = this.getTypeName(this.data.certificateToEdit.tId);
+      console.log('Editing existing cert:', this.data.certificateToEdit);
     }
-  }
 
+  }
+  shouldShowAddOption(): boolean {
+    return !!this.selectedTypeName &&
+          !this.certificateTypes.some(t => t.name === this.selectedTypeName);
+  }
   getTypeName(tId: number): string {
-    const type = this.certificateTypeOptions.find(t => t.tId === tId);
-    return type?.name ?? '';
+    return this.certificateTypes.find(t => t.tId === tId)?.name ?? '';
   }
 
-  getFilteredCertificates(typeName: string): Certificate[] {
-    const type = this.certificateTypeOptions.find(t => t.name === typeName);
-    return type?.certificates ?? [];
-  }
-
-  onCertificateTypeChange() {
-    this.filteredCertificates = this.getFilteredCertificates(this.selectedCertificateTypeName);
-    this.selectedCertificateName = '';
-  }
-
-  onCancel() {
+  onCancel(): void {
     this.dialogRef.close();
   }
 
-  onCertificateSelect() {
-    if (this.selectedCertificateName === '__custom__') {
-      this.name = '';
-    } else {
-      this.name = this.selectedCertificateName;
-    }
-  }
-
-  onSubmit() {
-    let selectedType = this.certificateTypeOptions.find(
-      type => type.name === this.selectedCertificateTypeName
-    );
-   
+  onSubmit(): void {
+    let selectedType = this.certificateTypes.find(t => t.name === this.selectedTypeName);
 
     if (!selectedType) {
-      const newTId = Date.now(); 
-      
       selectedType = {
-        tId: newTId,
-        name: this.selectedCertificateTypeName,
+        tId: Date.now(),
+        name: this.selectedTypeName,
         description: '',
-        certificates: []
       };
-
-      this.certificateTypeOptions.push(selectedType);
+      this.certificateTypes.push(selectedType);
     }
-    
-    this.dialogRef.close({
-       
-      id: this.existingCert?.id ?? Date.now(),  // preserve ID if editing
+
+    const cert: Certificate = {
+      id: this.data.certificateToEdit?.id ?? Date.now(),
       name: this.name,
       issueDate: this.issueDate,
       expireDate: this.expireDate,
-      tId: selectedType.tId
-    });
+      tId: selectedType.tId,
+      type: selectedType
+    };
+    console.log(this.data.certificateToEdit);
+    if(!this.data.certificateToEdit?.id){
+      this.certificates.push(cert);
+    }
+    this.dialogRef.close(cert);
   }
 }

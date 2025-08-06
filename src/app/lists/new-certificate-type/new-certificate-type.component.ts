@@ -53,7 +53,6 @@ export class NewCertificateTypeComponent implements OnChanges{
       tId: this.certificateTypeService.getLastId()+1,
       name: this.enteredName,
       description: this.enteredDescription,
-      certificates: this.certificateToEdit?.certificates ?? []
     };
 
     console.log('SUBMITTED:', cert);

@@ -34,7 +34,7 @@
     
   </mat-tab>
   <mat-tab label="Certificates">
-    <app-certificate-modal [dataSource]="crewDetails?.certificateTypes ?? []" />
+    <app-certificate-list [member]= "crewDetails"></app-certificate-list>
   </mat-tab>
 </mat-tab-group>
 </div>

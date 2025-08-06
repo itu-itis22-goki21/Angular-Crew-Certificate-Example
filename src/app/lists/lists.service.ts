@@ -2,10 +2,11 @@ import { Member } from "./models/lists.model";
 import { CertificateType } from "./models/certificate-type.model";
 import { Injectable } from "@angular/core";
 import { CertificateTypeService } from "./certificate-type.service";
+import { CertificateService } from "./certificate.service";
 @Injectable({providedIn:'root'})
 
 export class ListsService{
-  constructor(public certificateService: CertificateTypeService){};
+  constructor(public certificateType: CertificateTypeService, public certificateService: CertificateService){};
   getMembers(): Member[] {
     return [...this.CREW_DATA]; // return a copy
   }
@@ -40,8 +41,11 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 1,
-    certificateTypes: [this.certificateService.CERTIFICATE_DATA[1], 
-                  this.certificateService.CERTIFICATE_DATA[2]],
+    certificates:[this.certificateService.CERTIFICATE_DATA[0],
+    this.certificateService.CERTIFICATE_DATA[1],
+    this.certificateService.CERTIFICATE_DATA[2],],
+
+
       
   },
   {
@@ -55,7 +59,11 @@ export class ListsService{
     currency: 'EUR',
     discount: 0,
     totalIncome: 2,
-    certificateTypes: [this.certificateService.CERTIFICATE_DATA[0]]
+    certificates:[this.certificateService.CERTIFICATE_DATA[4],
+    this.certificateService.CERTIFICATE_DATA[5],
+    this.certificateService.CERTIFICATE_DATA[6],],
+    
+
   },
   {
     id:'3',
@@ -68,9 +76,9 @@ export class ListsService{
     currency: 'EUR',
     discount: 0,
     totalIncome: 2,
-    certificateTypes: [
-      
-    ]
+    certificates:[],
+    
+
   },
   {
     id:'4',
@@ -83,7 +91,11 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 2,
-    certificateTypes: [this.certificateService.CERTIFICATE_DATA[3]]
+    certificates:[this.certificateService.CERTIFICATE_DATA[3],
+    this.certificateService.CERTIFICATE_DATA[7],
+    this.certificateService.CERTIFICATE_DATA[8],],
+    
+
   },
   {
     id:'5',
@@ -96,7 +108,8 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 2,
-    certificateTypes: [this.certificateService.CERTIFICATE_DATA[2]]
+    certificates: [this.certificateService.CERTIFICATE_DATA[9]],
+
   },
   {
     id:'6',
@@ -109,7 +122,11 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 0,
-    certificateTypes: [this.certificateService.CERTIFICATE_DATA[1]]
+    certificates:[this.certificateService.CERTIFICATE_DATA[9],
+    this.certificateService.CERTIFICATE_DATA[10],
+    this.certificateService.CERTIFICATE_DATA[11],],
+    
+
   }
 ];
 }

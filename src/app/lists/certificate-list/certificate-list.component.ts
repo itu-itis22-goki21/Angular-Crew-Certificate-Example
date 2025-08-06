@@ -5,10 +5,9 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import { CertificateService } from '../certificate.service';
 import { CertificateType } from '../models/certificate-type.model';
 import { Certificate } from '../models/certificate.model';
-import { CertificateModalComponent } from '../../modals/certificate-modal/certificate-modal.component';
 import { CertificateDialogService } from '../certificate-dialog.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ListsService } from '../lists.service';
 import { Member } from '../models/lists.model';
 import { CertificateTypeService } from '../certificate-type.service';
@@ -16,11 +15,12 @@ import {  MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import { MatMenu, MatMenuModule } from "@angular/material/menu";
 import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
 
 @Component({
   selector: 'app-certificate-list',
   standalone: true,
-  imports: [MatTableModule,MatMenuModule,TranslatePipe, MatPaginatorModule, MatButtonModule, MatSortModule, MatMenu, MatIcon],
+  imports: [MatTableModule,MatButtonModule,MatMenuModule,TranslatePipe, MatPaginatorModule, MatSortModule, MatMenu, MatIcon],
   templateUrl: './certificate-list.component.html',
   styleUrl: './certificate-list.component.css'
 })
@@ -30,133 +30,95 @@ export class CertificateListComponent implements AfterViewInit {
   @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!:MatSort;
+  @Input() member: Member | null = null;//bind data from crew card
   dataSource = new MatTableDataSource<Certificate>();
-  certificateTypes: CertificateType[] = [];
   constructor(
-    private certificateDialogService: CertificateDialogService,
-    private certificateTypeService: CertificateTypeService,
+    private dialog:MatDialog,
+    private  certificateService: CertificateService,
     private listsService: ListsService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { certificateTypes: CertificateType[], member?: Member }    
   ) {}
+  allCertificates: Certificate[]= [];
+  allCrew: Member[] = this.listsService.CREW_DATA;
+  selectedCertificates: Certificate[] = [];
+  ngOnInit() {
+    const memberOrigin = this.member ?? this.data?.member;
+    if (memberOrigin?.certificates) {
+      this.allCertificates = [...memberOrigin.certificates];
+    } else {
+      this.allCertificates = [...this.certificateService.CERTIFICATE_DATA];
+    }
+    this.dataSource.data = [...this.allCertificates];
 
-ngOnInit() {
-  if (this.data?.member) {
-    this.certificateTypes = this.data.member.certificateTypes ?? [];
-
-    // Attach owner to each certificate
-    const fullName = `${this.data.member.firstName} ${this.data.member.lastName}`;
-    const certificatesWithOwner = this.certificateTypes.flatMap(type =>
-      (type.certificates ?? []).map(cert => ({
-        ...cert,
-        owner: fullName
-      }))
-    );
-
-    this.dataSource.data = certificatesWithOwner;
-  } else {
-    this.certificateTypes = this.certificateTypeService.getCertificates();
-    this.dataSource.data = this.certificateTypes.flatMap(ct => ct.certificates ?? []);
   }
-}
-
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-  }
-
-  getAllCertificatesFromAllMembers(members: Member[]): (Certificate & { owner: string })[] {
-    return members.flatMap(member =>
-      (member.certificateTypes ?? []).flatMap(type =>
-        (type.certificates ?? []).map(cert => ({
-          ...cert,
-          owner: `${member.firstName} ${member.lastName}`
-        }))
-      )
-    );
-  }
-
-getType(certificate: Certificate): string {
-  const type = this.data?.certificateTypes?.find(t => t.tId === certificate.tId)
-    ?? this.certificateTypeService.getCertificates().find(t => t.tId === certificate.tId);
-  return type?.name ?? 'Unknown Type';
-}
-
-
-addCertificate() {
-  this.certificateDialogService.openCertificateDialog().then((newCert: Certificate | null) => {
-    if (!newCert) return;
-
-    // Make sure certificateTypes is set (if undefined)
-    if (!this.certificateTypes) {
-      this.certificateTypes = [];
-    }
-
-    // Find or create the type
-    let type = this.certificateTypes.find(t => t.tId === newCert.tId);
-
-    if (!type) {
-      type = {
-        tId: newCert.tId,
-        name: this.getType(newCert),
-        description: '',
-        certificates: []
-      };
-      this.certificateTypes.push(type);
-    }
-
-    // Push new certificate
-    type.certificates = [...(type.certificates ?? []), newCert];
-
-  this.dataSource.data = [...this.dataSource.data, newCert];
-  });
-  this.certificateTypeService.setCertificates(this.certificateTypes);
-}
-
-editCertificate(cert: Certificate) {
-  this.certificateDialogService.openCertificateDialog(cert).then((updatedCert: Certificate | null) => {
-    if (!updatedCert) return;
-    // Find the certificate type where this certificate belongs
-    const type = this.certificateTypes.find(t => t.tId === updatedCert.tId);
-    if (!type) {
-      console.warn('Certificate type not found for tId:', updatedCert.tId);
-      return;
-    }
-
-    // Find index of the original certificate
-    const certIndex = type.certificates.findIndex(c => c.id === updatedCert.id);
-    if (certIndex === -1) return;
-
-    // Replace the certificate at that index
-    type.certificates[certIndex] = updatedCert;
-
-    // Update the table without flatMap
-    const updatedData: Certificate[] = [];
-    for (const t of this.certificateTypes) {
-      if (t.certificates) {
-        for (const c of t.certificates) {
-          updatedData.push(c);
-        }
-      }
-    }
     
-    this.dataSource.data = updatedData;
-  });
-  this.certificateTypeService.setCertificates(this.certificateTypes);
-}
-
-
-deleteCertificate(cert: Certificate) {
-  // Remove from certificateTypes (optional but keeps data in sync)
-  const type = this.certificateTypes.find(t => t.tId === cert.tId);
-  if (type?.certificates) {
-    type.certificates = type.certificates.filter(c => c.id !== cert.id);
   }
 
-  // Directly filter out from the table's dataSource
-  this.dataSource.data = this.dataSource.data.filter(c => c.id !== cert.id);
-  this.certificateTypeService.setCertificates(this.certificateTypes);
-}
+
+  getType(certificate: Certificate): string{
+    return certificate.type?.name ?? 'Unkonwn';
+  }
+  addCertificate(): void {
+    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+      width: '500px',
+      data: {
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: Certificate | undefined) => {
+    if (result) {
+      // Add to local data
+      this.allCertificates.push(result);
+      this.dataSource.data = [...this.allCertificates];
+
+      if (this.data.member) {
+        if (!this.data.member.certificates) {
+          this.data.member.certificates = [];
+        }
+        this.data.member.certificates.push(result);
+      }
+
+      // Optional: console check
+      console.log('Updated member certs:', this.data.member?.certificates);
+    }
+  });
+
+  }
+
+  editCertificate(cert: Certificate): void {
+    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+      width: '500px',
+      data: {
+        certificateToEdit: cert
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: Certificate | undefined) => {
+      if (result) {
+        const index = this.allCertificates.findIndex(c => c.id === cert.id);
+        if (index !== -1) {
+          this.allCertificates[index] = result;
+          this.dataSource.data = [...this.allCertificates]; // re-render table
+        }
+
+      }
+    });
+  }
+  deleteCertificate(certificate: Certificate): void{
+    this.allCertificates = this.allCertificates.filter(c=> c.id !== certificate.id);
+    this.allCrew.forEach(member => {
+      if (member.certificates) { 
+        member.certificates = member.certificates.filter(
+          (c) => c.id !== certificate.id
+        );
+      }
+    });
+    this.dataSource.data = [...this.allCertificates];
+  }
 
 
 announceSortChange(sortState: Sort) {
