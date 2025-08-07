@@ -64,6 +64,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   selectedMember: Member | null = null;
   newCertificateType: CertificateType|null=null;
   isAddingCrew = false;
+
   certificateTypeBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
 
@@ -141,6 +142,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   onEditMember(member: Member) {
     this.memberBeingEdited = member;
     this.isAddingCrew = true;
+
   }
   
 
@@ -208,7 +210,8 @@ getDiscountedIncome(member: Member): number {
   const days = Number(member.daysOnBoard) || 0;
   const base = days * member.dailyRate;
   const discount = member.discount || 0;
-  return base - discount ;
+
+  return Math.max(0,base - discount) ;
 }
 
 updateTotalIncome(member: Member) {
@@ -216,6 +219,9 @@ updateTotalIncome(member: Member) {
     member.discount= 0;
   }
   member.totalIncome = this.getDiscountedIncome(member);
+  const income = this.getDiscountedIncome(member);
+  member.totalIncome = Math.max(0, income);
+  console.log(member.totalIncome);
   //to make this persistent overwriting new total income
   const i = this.listsService.CREW_DATA.findIndex(m=>m.id === member.id);
   this.listsService.CREW_DATA[i] = {...member};

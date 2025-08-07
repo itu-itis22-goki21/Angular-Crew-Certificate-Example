@@ -7,9 +7,7 @@
   <mat-form-field appearance="fill">
     <mat-label>{{ 'Certificate Type' | translate }}</mat-label>
     <mat-select [(ngModel)]="selectedTypeName" name="certType" required>
-      <mat-option [value]="selectedTypeName" *ngIf="shouldShowAddOption">
-        {{ 'Add' | translate }} "{{ selectedTypeName }}"
-      </mat-option>
+      
       <mat-option *ngFor="let type of certificateTypes" [value]="type.name">
         {{ type.name }}
       </mat-option>

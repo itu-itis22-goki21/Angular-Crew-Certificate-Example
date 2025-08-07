@@ -1,7 +1,7 @@
-import { Component, Output, EventEmitter, Input, SimpleChanges,OnChanges } from '@angular/core';
+import { Component, Output, EventEmitter, Input, SimpleChanges,OnChanges, ViewChild } from '@angular/core';
 
 import { Member } from '../../models/lists.model';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -40,6 +40,12 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './new-crew.component.css'
 })
 export class NewCrewComponent implements OnChanges {
+  constructor(private certificateTypeService: CertificateTypeService,
+    private certificateService: CertificateService,
+    private dialog: MatDialog
+  ) {
+    this.certificateTypeOptions = this.certificateTypeService.getCertificateTypes();
+  }
   certificateTypeOptions: CertificateType[] = [];
   selectedCertificates: Certificate[] = [];
   oldId = '';
@@ -51,13 +57,6 @@ export class NewCrewComponent implements OnChanges {
   entereddailyRate= 0;
   enteredcurrency='';
   enteredtotalIncome=0;
-  constructor(private certificateTypeService: CertificateTypeService,
-    private certificateService: CertificateService,
-    private dialog: MatDialog
-  ) {
-    this.certificateTypeOptions = this.certificateTypeService.getCertificateTypes();
-  }
-
   @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @Input() memberToEdit: Member | null = null;
   @Output() Add= new EventEmitter<Member>();
@@ -67,9 +66,11 @@ export class NewCrewComponent implements OnChanges {
   openCertificateModal(): void {
     const dialogRef = this.dialog.open(NewCertificateModalComponent, {
       width: '500px',
+      disableClose: true,
+      autoFocus: false,
       data: {
         selectedCertificates: this.selectedCertificates
-      }
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: Certificate[] | undefined) => {
@@ -79,6 +80,9 @@ export class NewCrewComponent implements OnChanges {
     });
   }
   onCancel(){
+    this.memberToEdit =null;
+
+    
     this.Cancel.emit();
   }
    ngOnChanges(changes: SimpleChanges) {
@@ -113,9 +117,7 @@ export class NewCrewComponent implements OnChanges {
 }
 
 
-removeCertificate(cert: Certificate){
-  this.certificateService.CERTIFICATE_DATA.filter((c)=>c.id !== cert.id);
-}
+
 
 
 

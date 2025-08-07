@@ -43,6 +43,7 @@ export class CertificateListComponent implements AfterViewInit {
   allCrew: Member[] = this.listsService.CREW_DATA;
   selectedCertificates: Certificate[] = [];
   ngOnInit() {
+    console.log("hello w")
     const memberOrigin = this.member ?? this.data?.member;
     if (memberOrigin?.certificates) {
       this.allCertificates = [...memberOrigin.certificates];

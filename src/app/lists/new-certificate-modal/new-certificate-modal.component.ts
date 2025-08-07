@@ -41,7 +41,7 @@ export class NewCertificateModalComponent {
   certificateTypes: CertificateType[] = [];
   certificates= this.certificateService.CERTIFICATE_DATA;
   constructor(
-    private dialogRef: MatDialogRef<NewCertificateModalComponent>,
+    private dialogRefer: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,
     private certificateService: CertificateService,
     @Inject(MAT_DIALOG_DATA) public data: { certificateToEdit: Certificate | null }
@@ -57,16 +57,13 @@ export class NewCertificateModalComponent {
     }
 
   }
-  shouldShowAddOption(): boolean {
-    return !!this.selectedTypeName &&
-          !this.certificateTypes.some(t => t.name === this.selectedTypeName);
-  }
+
   getTypeName(tId: number): string {
     return this.certificateTypes.find(t => t.tId === tId)?.name ?? '';
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRefer.close();
   }
 
   onSubmit(): void {
@@ -76,23 +73,30 @@ export class NewCertificateModalComponent {
       console.warn("You fucked up");
       return;
     }
-    else{
+    else{       
+      const existingCert = this.certificates.find(c => c.name === this.name);
+      if (existingCert) {
+        // Reuse existing certificate — don't create a new one
+        
+        this.dialogRefer.close(existingCert);
+      }else{
         const cert: Certificate = {
-        id: this.data.certificateToEdit?.id ?? Date.now(),
-        name: this.name,
-        issueDate: this.issueDate,
-        expireDate: this.expireDate,
-        tId: selectedType.tId,
-        type: selectedType
-      };
-      console.log(this.data.certificateToEdit);
-      const existingIndex = this.certificates.findIndex(c => c.id === cert.id);
-      if (existingIndex !== -1) {
-        this.certificates[existingIndex] = cert; // Update the data source
-      } else {
-        this.certificates.push(cert); // Add new
+          id: this.data.certificateToEdit?.id ?? Date.now(),
+          name: this.name,
+          issueDate: this.issueDate,
+          expireDate: this.expireDate,
+          tId: selectedType.tId,
+          type: selectedType
+        };
+        console.log(this.data.certificateToEdit);
+        const existingIndex = this.certificates.findIndex(c => c.id === cert.id);
+        if (existingIndex !== -1) {
+          this.certificates[existingIndex] = cert; // Update the data source
+        } else {
+          this.certificates.push(cert); // Add new
+        }
+        this.dialogRefer.close(cert);
       }
-      this.dialogRef.close(cert);
     }
     
 

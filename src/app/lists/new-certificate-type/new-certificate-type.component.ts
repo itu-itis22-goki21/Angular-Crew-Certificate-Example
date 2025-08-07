@@ -41,15 +41,30 @@ export class NewCertificateTypeComponent implements OnChanges{
   onCancel(){
     this.Cancel.emit();
   }
+  //runs any input changes
   ngOnChanges(changes: SimpleChanges) {
       if (changes['certificateToEdit'] && this.certificateToEdit) {
         const m = this.certificateToEdit;
         this.enteredName = m.name;
         this.enteredDescription = m.description;
+        
       }
     }
-  onSubmit() {
-    const cert: CertificateType = {
+    onSubmit() {
+      
+      const nameArr: CertificateType|any = this.certificateService.CERTIFICATE_DATA.find(m=> m.type.name === this.certificateToEdit?.name)
+      
+      console.log(nameArr.type.name);
+      this.certificateService.CERTIFICATE_DATA.forEach(cert => {
+          if (cert.type.name === nameArr.type.name) {
+              cert.type.name = this.enteredName;
+              
+            }
+            // this part remains unfinished
+            this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA];
+            console.log(this.certificateService.CERTIFICATE_DATA);
+          });
+      const cert: CertificateType = {
       tId: this.certificateTypeService.getLastId()+1,
       name: this.enteredName,
       description: this.enteredDescription,

@@ -7,17 +7,22 @@ A web application helps crew, certificate and certificate types management coded
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Clone the repository
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+git clone https://github.com/itu-itis22-goki21/Angular-Crew-Certificate-Example.git
+Then navigate to 
+cd Angular-Crew-Certificate-Example
 
-## Build
+## Make sure you have node.js
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+node -v   or
+ng version
+
+## If not installed
+
+npm install -g @angular/cli
 
 ## Install dependencies
 

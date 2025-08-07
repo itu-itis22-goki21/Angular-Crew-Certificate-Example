@@ -1,10 +1,11 @@
-@if(isAddingCrew){
-  <app-new-crew 
+
+  <app-new-crew *ngIf = "isAddingCrew" 
     [memberToEdit]="memberBeingEdited" 
     (Cancel)="onCancelAddCrew()" 
     (Add)="onAddCrew($event)"
-  />
-}
+  /> 
+  <!-- this leads a cruical error which is when we adding a certificate to
+    a crew it opens up a new modal and submits new crew modal -->
 
 <div class="crew-table-wrapper">
 </div>

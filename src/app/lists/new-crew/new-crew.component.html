@@ -12,6 +12,7 @@
         name="firstName"
         required
         [(ngModel)]="enteredfirstName"
+        
       />
     </p>
 
@@ -88,15 +89,6 @@
       </button>
     </p>
 
-    <!-- List selected certificates -->
-    <ul>
-      <li *ngFor="let cert of selectedCertificates">
-        {{ cert.name }}
-        <button mat-icon-button (click)="removeCertificate(cert)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </li>
-    </ul>
 
     <p class="actions">
       <button type="button" (click)="onCancel()">
