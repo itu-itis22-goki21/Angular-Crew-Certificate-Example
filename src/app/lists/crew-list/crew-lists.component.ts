@@ -81,14 +81,17 @@ export class ListsComponent implements AfterViewInit, OnInit {
   //these remains from old codes
   //
   ngOnInit(): void {
-    const path = this.route.snapshot.routeConfig?.path;
-    this.pageType = path?.includes('certificateTypes') ? 'certificateTypes' : 'crew';
-    
-    if (this.pageType === 'crew') {
-      this.dataSource.data = this.listsService.getLoadedMembers();
-    } else {
-      this.loadCertificates(); //these remains from old codes
-    }
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {//this tied the lifetime of crew list
+        this.reloadCrewList();//It reloads the crew list any time the route navigation finishes (even if it's the same /crew route).
+      });
+
+    // Initial load
+    this.reloadCrewList();
+  }
+  reloadCrewList() {
+    this.dataSource.data = this.listsService.getLoadedMembers();
   }
 
   loadCertificates() {
@@ -123,31 +126,12 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.CertificateTypeService.CERTIFICATE_DATA.push(newCert);
   }
 
-  this.loadCertificates();
-  this.isAddingCertificate = false;
-  this.certificateTypeBeingEdited = null;
-  this.originalCertName = null;
+
 }
 
 
 
-  onCancelAddCertificate() {
-    this.isAddingCertificate = false;
-  }
-onEditCertificateType(cert: CertificateType) {
-  this.certificateTypeBeingEdited = { ...cert }; // clone to prevent live mutation
-  this.originalCertName = cert.name;
-  this.isAddingCertificate = true;
-  
-}
 
-  onDeleteCertificateType(cert: CertificateType) {
-    const confirmed = confirm(`Are you sure you want to delete certificate type "${cert.name}"?`);
-    if (confirmed) {
-      this.CertificateTypeService.CERTIFICATE_DATA = this.CertificateTypeService.CERTIFICATE_DATA.filter(c => c.name !== cert.name);
-      this.loadCertificates();
-    }
-}
 
 
 

@@ -14,6 +14,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Member } from '../models/lists.model';
+import { Certificate } from '../models/certificate.model';
 
 
 @Component({
@@ -48,10 +49,12 @@ export class HeaderComponent {
     console.log(this.searchControl);
     if (event.key === 'Enter') {
       const element = this.checkService(this.searchControl);
+    
       this.listsService.loadAllMembers(element);
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/crew']);
       });
+    
     }
   }
 
@@ -61,7 +64,8 @@ export class HeaderComponent {
     const element =  this.listData.filter(e =>
       e.firstName.toLowerCase().includes(filteredValue) ||
       e.lastName.toLowerCase().includes(filteredValue) ||
-      e.nationality.toLowerCase().includes(filteredValue)
+      e.nationality.toLowerCase().includes(filteredValue)||
+      e.title.toLowerCase().includes(filteredValue)
     );
     if(element.length>0){
       console.log("matched elements :", element);
@@ -69,7 +73,7 @@ export class HeaderComponent {
     }
     const certMatch = this.certificateData.filter(e=>e.name.toLowerCase().includes(value.toLowerCase()))
     if(certMatch){
-
+      
     }
     
     return null;
