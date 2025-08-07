@@ -1,3 +1,8 @@
+# Crew Management System
+
+A web application helps crew, certificate and certificate types management coded with Angular. It supports multi lang and dynamic filtering. It uses the features of Angular Material components
+
+
 # Essentials
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
@@ -14,13 +19,13 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Install dependencies
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm install` to install the project
 
-## Running end-to-end tests
+## Running the development server
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `npm start` then navigate to `http://localhost:4200/`
 
 ## Further help
 
