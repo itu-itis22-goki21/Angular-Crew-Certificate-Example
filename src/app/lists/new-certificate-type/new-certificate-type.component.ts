@@ -1,14 +1,14 @@
 import { Component, EventEmitter,Input,OnChanges,Output, SimpleChanges } from '@angular/core';
-import { CertificateType } from '../models/certificate-type.model';
-import { CertificateService } from '../certificate.service';
-import { Certificate } from '../models/certificate.model';
+import { CertificateType } from '../../models/certificate-type.model';
+import { CertificateService } from '../../services/certificate.service';
+import { Certificate } from '../../models/certificate.model';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { CertificateTypeService } from '../certificate-type.service';
+import { CertificateTypeService } from '../../services/certificate-type.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 

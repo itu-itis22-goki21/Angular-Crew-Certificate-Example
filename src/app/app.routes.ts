@@ -1,6 +1,6 @@
 import {  Routes } from '@angular/router';
 import { ListsComponent } from './lists/crew-list/crew-lists.component';
-import { CrewCardComponent } from './lists/crew-card/crew-card.component';
+import { CrewCardComponent } from './cards/crew-card/crew-card.component';
 import { CertificateListComponent } from './lists/certificate-list/certificate-list.component';
 import { CertificateTypeListComponent } from './lists/certificate-type-list/certificate-type-list.component';
 

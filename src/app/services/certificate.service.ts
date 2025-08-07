@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Certificate } from "./models/certificate.model";
-import { CertificateTypeService } from "./certificate-type.service";
+import { Certificate } from "../models/certificate.model";
+import { CertificateTypeService } from "../services/certificate-type.service";
 
 
 @Injectable({providedIn:'root'})

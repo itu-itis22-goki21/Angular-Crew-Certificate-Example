@@ -1,11 +1,25 @@
 <div class="header-container">
 <header class="langSelector">
+    <mat-form-field appearance="outline" class="magic-search">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+            matInput
+            
+            [(ngModel)]="searchControl"
+            placeholder="{{ 'Search' | translate }}"
+            (keydown)="onKeyDown($event)"
+           
+        />
+
+    </mat-form-field>
+
     <h1>{{'Crew Management System' |translate }}</h1>
     <select [value]="selectedLang" (change)="onChange($event)">
         <option value="en">English</option>
         <option value="tr">Türkçe</option>
         <option value="pt">Português</option>
     </select>
+    
 </header>
 
 </div>

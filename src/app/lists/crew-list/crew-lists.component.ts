@@ -9,22 +9,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute,Router, NavigationEnd  } from '@angular/router';
 
 
-import { Member } from '../models/lists.model';
+import { Member } from '../../models/lists.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { NewCrewComponent } from "../new-crew/new-crew.component";
-import { ListsService } from '../lists.service';
-import { CertificateTypeService } from '../certificate-type.service';
-import { Certificate } from '../models/certificate.model';
-import { CertificateType } from '../models/certificate-type.model';
+import { ListsService } from '../../services/lists.service';
+import { CertificateTypeService } from '../../services/certificate-type.service';
+import { Certificate } from '../../models/certificate.model';
+import { CertificateType } from '../../models/certificate-type.model';
 import { NewCertificateTypeComponent } from "../new-certificate-type/new-certificate-type.component";
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CertificateListComponent } from '../certificate-list/certificate-list.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MatInput } from '@angular/material/input';
+
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -69,14 +71,23 @@ export class ListsComponent implements AfterViewInit, OnInit {
 
   dataSource = new MatTableDataSource<Member>();
   certificateDataSource = new MatTableDataSource<CertificateType>();
+  
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private CertificateTypeService:CertificateTypeService,
+    public listsService: ListsService) {}
+  //
+  //these remains from old codes
+  //
   ngOnInit(): void {
     const path = this.route.snapshot.routeConfig?.path;
     this.pageType = path?.includes('certificateTypes') ? 'certificateTypes' : 'crew';
-  
+    
     if (this.pageType === 'crew') {
-      this.loadMembers();
+      this.dataSource.data = this.listsService.getLoadedMembers();
     } else {
-      this.loadCertificates(); 
+      this.loadCertificates(); //these remains from old codes
     }
   }
 
@@ -84,7 +95,6 @@ export class ListsComponent implements AfterViewInit, OnInit {
     const certificates = this.CertificateTypeService.getCertificateTypes(); // mock or actual
     this.certificateDataSource.data = certificates;
   }
-  constructor(private route: ActivatedRoute,private dialog: MatDialog, private router: Router,private CertificateTypeService:CertificateTypeService, private listsService: ListsService) {}
   pageType: 'crew' | 'certificateTypes' = 'crew';
   
 
@@ -141,9 +151,7 @@ onEditCertificateType(cert: CertificateType) {
 
 
 
-  goCardPage(member: Member) {
-    this.router.navigate(['/crew-card', member.id]);
-  }
+
 
 
   onEditMember(member: Member) {
@@ -151,16 +159,6 @@ onEditCertificateType(cert: CertificateType) {
     this.isAddingCrew = true;
   }
   
-
-loadMembers() {
-  const members = this.listsService.getMembers().map(member => ({
-    ...member,
-    totalIncome: this.listsService.calculateTotalIncome(member),
-  }));
-
-  this.dataSource.data = members;
-}
-
 
    onCancelAddCrew() {
     this.isAddingCrew = false;
@@ -170,9 +168,11 @@ loadMembers() {
     this.isAddingCrew = true;
   }
   onAddCrew(crewData: Member) {
+
     this.listsService.addOrUpdateMember(crewData);
+
     crewData.totalIncome = this.listsService.calculateTotalIncome(crewData);
-    this.loadMembers();
+    this.dataSource.data = this.listsService.getLoadedMembers()
     this.isAddingCrew = false;
     this.memberBeingEdited = null;
   }
@@ -181,7 +181,7 @@ loadMembers() {
     const confirmed = confirm(`Are you sure you want to delete ${member.firstName} ${member.lastName}?`);
     if (confirmed) {
       this.listsService.deleteMember(member.id);
-      this.loadMembers();
+      this.dataSource.data = this.listsService.getLoadedMembers()
     }
   }
 
@@ -190,16 +190,16 @@ loadMembers() {
       console.log('Editing:', member);
   }
 
-openDialog(member: Member) {
-  this.dialog.open(CertificateListComponent, {
-    data: {
-      member: member
-    },
-    width: '800px',
-    height: '800px',
-    autoFocus: true
-  });
-}
+    openDialog(member: Member) {
+      this.dialog.open(CertificateListComponent, {
+        data: {
+          member: member
+        },
+        width: '800px',
+        height: '800px',
+        autoFocus: true
+      });
+    }
 
 
 

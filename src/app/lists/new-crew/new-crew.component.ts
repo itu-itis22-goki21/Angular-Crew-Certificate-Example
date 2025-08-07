@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input, SimpleChanges,OnChanges } from '@angular/core';
 
-import { Member } from '../models/lists.model';
+import { Member } from '../../models/lists.model';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
@@ -8,16 +8,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonModule } from '@angular/material/button';
 
-import { Certificate } from '../models/certificate.model';
-import { CertificateTypeService } from '../certificate-type.service';
-import { CertificateType } from '../models/certificate-type.model';
+import { Certificate } from '../../models/certificate.model';
+import { CertificateTypeService } from '../../services/certificate-type.service';
+import { CertificateType } from '../../models/certificate-type.model';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MatDialog } from '@angular/material/dialog';
-import { CertificateService } from '../certificate.service';
+import { CertificateService } from '../../services/certificate.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -42,7 +42,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class NewCrewComponent implements OnChanges {
   certificateTypeOptions: CertificateType[] = [];
   selectedCertificates: Certificate[] = [];
-
+  oldId = '';
   enteredfirstName= '';
   enteredlastName= '';
   enterednationality= '';
@@ -83,7 +83,9 @@ export class NewCrewComponent implements OnChanges {
   }
    ngOnChanges(changes: SimpleChanges) {
     if (changes['memberToEdit'] && this.memberToEdit) {
+      
       const m = this.memberToEdit;
+      this.oldId=m.id;
       this.enteredfirstName = m.firstName;
       this.enteredlastName = m.lastName;
       this.enterednationality = m.nationality;
@@ -92,14 +94,11 @@ export class NewCrewComponent implements OnChanges {
       this.entereddailyRate = m.dailyRate;
       this.enteredcurrency = m.currency;
       this.enteredtotalIncome = m.totalIncome;
-      
     }
   }
   onSubmit() {
-  
-
   this.Add.emit({
-    id: Date.now().toString(),
+    id: this.oldId || Date.now().toString(),
     firstName: this.enteredfirstName,
     lastName: this.enteredlastName,
     nationality: this.enterednationality,

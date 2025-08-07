@@ -25,3 +25,29 @@ h1{
   justify-content: space-between;
   align-items: center;
 }
+.google-search {
+  width: 300px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3);
+  padding: 2px 12px;
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+.magic-search.mat-form-field {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.magic-search .mat-form-field-wrapper {
+  padding: 0 !important;
+}
+
+.magic-search .mat-form-field-flex {
+  border-radius: 24px;
+}
+
+.magic-search input {
+  padding-left: 8px;
+}

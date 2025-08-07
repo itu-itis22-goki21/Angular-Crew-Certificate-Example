@@ -26,7 +26,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #actionMenu="matMenu">
-            <button mat-menu-item (click)="goCardPage(member)">
+            <button mat-menu-item (click)="listsService.goCardPage(member)">
               <mat-icon>person</mat-icon>
               <span>{{ 'Crew Card' | translate }}</span>
             </button>
