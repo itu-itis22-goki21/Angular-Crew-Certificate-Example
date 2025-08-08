@@ -8,14 +8,21 @@
             [(ngModel)]="searchControl"
             placeholder="{{ 'Search' | translate }}"
             (keydown)="onKeyDown($event)"
-           
+
         />
 
     </mat-form-field>
-        <button mat-raised-button color="primary" (click)="search()">
-      {{ 'Search' | translate }}
-    </button>
-
+        <button mat-flat-button="filled" color="primary" (click)="search()">
+            <mat-icon>search</mat-icon>
+            {{ 'Search' | translate }}
+        </button>
+        <div *ngIf="isSearched">
+            <button  mat-flat-button color="primary" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                {{ 'Go Back' | translate }}
+            </button>
+        </div>
+        
     <h1>{{'Crew Management System' |translate }}</h1>
     <select [value]="selectedLang" (change)="onChange($event)">
         <option value="en">English</option>

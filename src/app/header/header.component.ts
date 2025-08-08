@@ -28,7 +28,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class HeaderComponent {
   selectedLang: 'tr' | 'en' | 'pt' = 'en';
   @Output() changedLang = new EventEmitter<'en' | 'tr' | 'pt'>();
-  @Input() searchControl:string = '';
+  searchControl:string = '';
+  isSearched:boolean = false;
   
   constructor(private translate: TranslateService,
               public listsService: ListsService,
@@ -51,10 +52,16 @@ export class HeaderComponent {
 
     if (element) {
       this.listsService.loadAllMembers(element);
+      this.isSearched = true;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/crew']);
       });
     }
+  }
+  goBack() {
+    this.searchControl = '';
+    this.search();
+    this.isSearched= false;
   }
 
   onKeyDown(event: KeyboardEvent) {
