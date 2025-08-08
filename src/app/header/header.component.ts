@@ -15,12 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Member } from '../models/lists.model';
 import { Certificate } from '../models/certificate.model';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, TranslateModule,MatInputModule, MatFormFieldModule, FormsModule, MatIcon,MatAutocompleteModule],
+  imports: [CommonModule, TranslateModule,MatInputModule,MatButtonModule, MatFormFieldModule, FormsModule, MatIcon,MatAutocompleteModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -44,17 +45,21 @@ export class HeaderComponent {
     this.translate.use(lang); // change language in translate service
     this.changedLang.emit(lang);
   }
-  onKeyDown(event: KeyboardEvent) {
-    
+  search() {
     console.log(this.searchControl);
-    if (event.key === 'Enter') {
-      const element = this.checkService(this.searchControl);
-    
+    const element = this.checkService(this.searchControl);
+
+    if (element) {
       this.listsService.loadAllMembers(element);
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/crew']);
       });
-    
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.search(); // Trigger search on Enter key press
     }
   }
 

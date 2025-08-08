@@ -12,6 +12,9 @@
         />
 
     </mat-form-field>
+        <button mat-raised-button color="primary" (click)="search()">
+      {{ 'Search' | translate }}
+    </button>
 
     <h1>{{'Crew Management System' |translate }}</h1>
     <select [value]="selectedLang" (change)="onChange($event)">

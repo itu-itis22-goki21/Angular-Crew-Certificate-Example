@@ -202,7 +202,7 @@ getTotalIncomeByCurrency(currency: string): number {
       const days = Number(member.daysOnBoard) || 0;
       const baseIncome = days * (member.dailyRate || 0);
       const discount = member.discount || 0;
-      const netIncome = baseIncome - discount;
+      const netIncome = Math.max(baseIncome - discount,0);
       return sum + netIncome;
     }, 0);
 }
