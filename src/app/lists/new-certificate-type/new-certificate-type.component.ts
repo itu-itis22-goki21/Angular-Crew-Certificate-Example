@@ -49,29 +49,29 @@ export class NewCertificateTypeComponent implements OnChanges{
         this.enteredDescription = m.description;
         
       }
-    }
-    onSubmit() {
-      
-      const nameArr: CertificateType|any = this.certificateService.CERTIFICATE_DATA.find(m=> m.type.name === this.certificateToEdit?.name)
-      
-      console.log(nameArr.type.name);
-      this.certificateService.CERTIFICATE_DATA.forEach(cert => {
-          if (cert.type.name === nameArr.type.name) {
-              cert.type.name = this.enteredName;
-              
-            }
-            // this part remains unfinished
-            this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA];
-            console.log(this.certificateService.CERTIFICATE_DATA);
-          });
-      const cert: CertificateType = {
-      tId: this.certificateTypeService.getLastId()+1,
-      name: this.enteredName,
-      description: this.enteredDescription,
-    };
-
-    console.log('SUBMITTED:', cert);
-    this.Add.emit(cert);
   }
+onSubmit() {
+  const isEdit = !!this.certificateToEdit;
+  const certType: CertificateType = {
+    tId: isEdit ? this.certificateToEdit!.tId : this.certificateTypeService.getLastId() + 1,
+    name: this.enteredName,
+    description: this.enteredDescription
+  };
+
+  // Update related certificates if editing
+  if (isEdit) {
+    const oldName = this.certificateToEdit!.name;
+    this.certificateService.CERTIFICATE_DATA.forEach(cert => {
+      if (cert.type.name === oldName) {
+        cert.type.name = this.enteredName;
+      }
+    });
+  }
+
+  // Just emit no push 
+  this.Add.emit(certType);
+}
+
+
 }
 

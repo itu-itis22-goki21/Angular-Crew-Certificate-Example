@@ -11,6 +11,7 @@ export class CertificateTypeService{
         if(element){
             this.filteredCertTypes = element
         }
+        console.log(this.CERTIFICATE_DATA);
         return element ? element : [...this.CERTIFICATE_DATA];
     }
     getLastId():number{

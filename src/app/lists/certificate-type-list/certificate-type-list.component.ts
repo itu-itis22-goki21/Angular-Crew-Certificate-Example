@@ -57,21 +57,18 @@ export class CertificateTypeListComponent implements OnInit {
     this.certificateTypeBeingEdited = null;
     this.originalCertName = null;
   }
-  onAddCertificate(newCert: CertificateType): void {
-    const existingIndex = this.certificateTypeService.CERTIFICATE_DATA.findIndex(
-      c => c.name === this.originalCertName
-    );
+  onAddCertificate(newCert: CertificateType) {
+    const existingIndex = this.certificateTypeService.CERTIFICATE_DATA
+      .findIndex(c => c.tId === newCert.tId);
 
     if (existingIndex !== -1) {
-      // Update existing
       this.certificateTypeService.CERTIFICATE_DATA[existingIndex] = newCert;
     } else {
-      // Add new
       this.certificateTypeService.CERTIFICATE_DATA.push(newCert);
     }
 
-    this.loadCertificates(); // Refresh table
-    this.onCancelAddCertificate(); // Reset form
+    this.loadCertificates();
+    this.onCancelAddCertificate();
   }
   onEditCertificateType(cert: CertificateType): void {
     this.certificateTypeBeingEdited = { ...cert }; // avoid direct mutation

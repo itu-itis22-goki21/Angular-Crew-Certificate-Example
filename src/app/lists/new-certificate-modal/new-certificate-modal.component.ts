@@ -59,6 +59,7 @@ export class NewCertificateModalComponent {
   }
 
   getTypeName(tId: number): string {
+    console.log(this.certificateTypes)
     return this.certificateTypes.find(t => t.tId === tId)?.name ?? '';
   }
 
