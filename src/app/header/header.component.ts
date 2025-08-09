@@ -56,7 +56,7 @@ search() {
   switch (res.kind) {
     case 'members':
       this.listsService.loadAllMembers(res.data);
-      this.goBackFrom = 'crew';
+      this.goBackFrom = 'Crew';
       this.isSearched = true;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/crew'])
@@ -64,7 +64,7 @@ search() {
       break;
     case 'types':
       this.certificateTypeService.getCertificateTypes(res.data);
-      this.goBackFrom ='certificateTypes';
+      this.goBackFrom ='Certificate Types';
       this.isSearched = true;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/certificateTypes'])
@@ -91,10 +91,10 @@ search() {
     this.listsService.filteredCrew = null;
     this.certificateTypeService.filteredCertTypes = null;
     this.certificateService.filteredCertificates = null;
-    if(this.goBackFrom==='crew'){
+    if(this.goBackFrom==='Crew'){
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(['/crew']));
-    }else if( this.goBackFrom ==='certificateTypes'){
+    }else if( this.goBackFrom ==='Certificate Types'){
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate(['/certificateTypes']));
     }else{

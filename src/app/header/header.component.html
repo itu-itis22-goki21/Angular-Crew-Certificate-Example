@@ -19,7 +19,8 @@
         <div *ngIf="isSearched">
             <button  mat-flat-button color="primary" (click)="goBack()">
                 <mat-icon>arrow_back</mat-icon>
-                {{ 'Go Back' | translate }}
+                {{ 'Go Back to'  | translate }}
+                {{goBackFrom}}
             </button>
         </div>
         
