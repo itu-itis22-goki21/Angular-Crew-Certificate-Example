@@ -8,8 +8,9 @@ import { ActivatedRoute,Router } from '@angular/router';
 
 export class ListsService{
   constructor(public certificateType: CertificateTypeService, private router: Router, public certificateService: CertificateService){};
-  private filteredCrew: Member[] | null = null;
+  public filteredCrew: Member[] | null = null;
   getMembers(): Member[] {
+    
     return [...this.CREW_DATA]; // return a copy
   }
     calculateTotalIncome(member: Member): number {
@@ -34,6 +35,7 @@ export class ListsService{
       this.CREW_DATA.push(member);
     }
   }
+  
 
   loadMember(id: string | null) {
     const crewDetails = this.CREW_DATA.find(m => m.id === id) || null;
@@ -48,6 +50,7 @@ export class ListsService{
 
   loadAllMembers(element: Member[]|null) {
     if(element === null){
+      
       return this.getMembers().map(member => ({
         ...member,
         totalIncome: this.calculateTotalIncome(member),

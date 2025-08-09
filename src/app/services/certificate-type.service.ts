@@ -6,13 +6,17 @@ import { Injectable } from "@angular/core";
 @Injectable ({providedIn:'root'})
 export class CertificateTypeService{
     constructor(){}
-    getCertificateTypes(): CertificateType[] {
-    return [...this.CERTIFICATE_DATA]; // return a copy
+    filteredCertTypes: CertificateType[]|null = null
+    getCertificateTypes(element?: CertificateType[]): CertificateType[] {
+        if(element){
+            this.filteredCertTypes = element
+        }
+        return element ? element : [...this.CERTIFICATE_DATA];
     }
     getLastId():number{
         return this.CERTIFICATE_DATA.length > 0 ? Math.max(...this.CERTIFICATE_DATA.map(t => t.tId)) : 0;
     }
-    
+   
  
 
 

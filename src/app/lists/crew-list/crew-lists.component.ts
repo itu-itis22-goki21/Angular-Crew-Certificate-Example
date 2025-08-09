@@ -92,6 +92,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.reloadCrewList();
   }
   reloadCrewList() {
+    console.log("reloaded");
     this.dataSource.data = this.listsService.getLoadedMembers();
   }
 

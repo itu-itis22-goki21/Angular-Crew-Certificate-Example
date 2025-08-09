@@ -38,7 +38,11 @@ export class CertificateTypeListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!:MatSort;
   ngOnInit() {
-    this.loadCertificates();
+    if(this.certificateTypeService.filteredCertTypes){
+      this.certificateDataSource.data = this.certificateTypeService.filteredCertTypes;
+    }else{
+      this.certificateDataSource.data =this.certificateTypeService.getCertificateTypes();
+    }
   }
   ngAfterViewInit(): void {
     this.certificateDataSource.sort = this.sort;

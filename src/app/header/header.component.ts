@@ -16,6 +16,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Member } from '../models/lists.model';
 import { Certificate } from '../models/certificate.model';
 import { MatButtonModule } from '@angular/material/button';
+import { SearchService } from '../services/search.service';
 
 
 @Component({
@@ -30,12 +31,14 @@ export class HeaderComponent {
   @Output() changedLang = new EventEmitter<'en' | 'tr' | 'pt'>();
   searchControl:string = '';
   isSearched:boolean = false;
+
   
   constructor(private translate: TranslateService,
               public listsService: ListsService,
               public certificateService: CertificateService,
               public certificateTypeService: CertificateTypeService,
-              private router: Router
+              private router: Router,
+              public searchService: SearchService
   ) {}
   listData = this.listsService.CREW_DATA;
   certificateData = this.certificateService.CERTIFICATE_DATA;
@@ -46,26 +49,46 @@ export class HeaderComponent {
     this.translate.use(lang); // change language in translate service
     this.changedLang.emit(lang);
   }
-  search() {
-    console.log(this.searchControl);
-    const element = this.checkService(this.searchControl);
+search() {
+  const res = this.searchService.search(this.searchControl);
 
-    if (element) {
-      this.listsService.loadAllMembers(element);
+  switch (res.kind) {
+    case 'members':
+      this.listsService.loadAllMembers(res.data);
       this.isSearched = true;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['/crew']);
-      });
-    }
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/crew'])
+      );
+      break;
+    case 'types':
+      this.certificateTypeService.getCertificateTypes(res.data);
+      this.isSearched = true;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/certificateTypes'])
+      );
+      break;
+    case 'none':
+    default:
+      console.log("go back runned");
+      this.listsService.loadAllMembers(null);
+      console.log(this.listsService.loadAllMembers(null));
+      break;
   }
+}
   goBack() {
     this.searchControl = '';
     this.search();
     this.isSearched= false;
+    this.listsService.filteredCrew = null;
+    this.certificateTypeService.filteredCertTypes = null;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/crew'])
+      );
   }
 
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
+      console.log(this.searchControl);
       this.search(); // Trigger search on Enter key press
     }
   }
