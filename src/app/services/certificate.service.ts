@@ -5,6 +5,13 @@ import { CertificateTypeService } from "../services/certificate-type.service";
 
 @Injectable({providedIn:'root'})
 export class CertificateService{
+  filteredCertificates: Certificate[]|null = null;
+  getCertificates(element?: Certificate[]):Certificate[]{
+    if(element){
+            this.filteredCertificates = element
+        }
+        return element ? element : [...this.CERTIFICATE_DATA];
+  }
   constructor(public certificateTypeService: CertificateTypeService){}
 
     public CERTIFICATE_DATA: Certificate[] = [

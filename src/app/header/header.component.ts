@@ -31,13 +31,14 @@ export class HeaderComponent {
   @Output() changedLang = new EventEmitter<'en' | 'tr' | 'pt'>();
   searchControl:string = '';
   isSearched:boolean = false;
-
+  goBackFrom:string='';
   
   constructor(private translate: TranslateService,
               public listsService: ListsService,
               public certificateService: CertificateService,
               public certificateTypeService: CertificateTypeService,
               private router: Router,
+              private routeNow: ActivatedRoute,
               public searchService: SearchService
   ) {}
   listData = this.listsService.CREW_DATA;
@@ -55,6 +56,7 @@ search() {
   switch (res.kind) {
     case 'members':
       this.listsService.loadAllMembers(res.data);
+      this.goBackFrom = 'crew';
       this.isSearched = true;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/crew'])
@@ -62,16 +64,23 @@ search() {
       break;
     case 'types':
       this.certificateTypeService.getCertificateTypes(res.data);
+      this.goBackFrom ='certificateTypes';
       this.isSearched = true;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
         this.router.navigate(['/certificateTypes'])
       );
       break;
+    case 'certificates':
+      this.certificateService.getCertificates(res.data);
+      this.goBackFrom ='certificates';
+      this.isSearched = true;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+        this.router.navigate(['/certificates'])
+      );
+      break;
     case 'none':
     default:
-      console.log("go back runned");
-      this.listsService.loadAllMembers(null);
-      console.log(this.listsService.loadAllMembers(null));
+
       break;
   }
 }
@@ -81,9 +90,19 @@ search() {
     this.isSearched= false;
     this.listsService.filteredCrew = null;
     this.certificateTypeService.filteredCertTypes = null;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-        this.router.navigate(['/crew'])
-      );
+    this.certificateService.filteredCertificates = null;
+    if(this.goBackFrom==='crew'){
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/crew']));
+    }else if( this.goBackFrom ==='certificateTypes'){
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/certificateTypes']));
+    }else{
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/certificates']));
+    }
+    
+  
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -93,25 +112,5 @@ search() {
     }
   }
 
-  checkService(value: string): Member[]|null {
-    const filteredValue = value.toLowerCase();
 
-    const element =  this.listData.filter(e =>
-      e.firstName.toLowerCase().includes(filteredValue) ||
-      e.lastName.toLowerCase().includes(filteredValue) ||
-      e.nationality.toLowerCase().includes(filteredValue)||
-      e.title.toLowerCase().includes(filteredValue)
-    );
-    if(element.length>0){
-      console.log("matched elements :", element);
-      return element;
-    }
-    const certMatch = this.certificateData.filter(e=>e.name.toLowerCase().includes(value.toLowerCase()))
-    if(certMatch){
-      
-    }
-    
-    return null;
-    
-  }
 }

@@ -48,7 +48,12 @@ export class CertificateListComponent implements AfterViewInit {
     if (memberOrigin?.certificates) {
       this.allCertificates = [...memberOrigin.certificates];
     } else {
-      this.allCertificates = [...this.certificateService.CERTIFICATE_DATA];
+      if(this.certificateService.filteredCertificates){
+        this.allCertificates =this.certificateService.filteredCertificates;
+      }
+      else{
+        this.allCertificates = this.certificateService.getCertificates();
+      }
     }
     this.dataSource.data = [...this.allCertificates];
 
