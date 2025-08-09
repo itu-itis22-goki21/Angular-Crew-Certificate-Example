@@ -68,7 +68,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
   certificateTypeBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
 
-
+  isAddingCertificate = false;
 
   dataSource = new MatTableDataSource<Member>();
   certificateDataSource = new MatTableDataSource<CertificateType>();
@@ -107,7 +107,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-  isAddingCertificate = false;
+  
 
   onStartAddCertificate() {
     this.isAddingCertificate = true;
@@ -149,6 +149,7 @@ export class ListsComponent implements AfterViewInit, OnInit {
 
    onCancelAddCrew() {
     this.isAddingCrew = false;
+    this.memberBeingEdited = null;
   }
   onStartAddCrew(){
     
@@ -177,16 +178,16 @@ export class ListsComponent implements AfterViewInit, OnInit {
       console.log('Editing:', member);
   }
 
-    openDialog(member: Member) {
-      this.dialog.open(CertificateListComponent, {
-        data: {
-          member: member
-        },
-        width: '800px',
-        height: '800px',
-        autoFocus: true
-      });
-    }
+  openDialog(member: Member) {
+    this.dialog.open(CertificateListComponent, {
+      data: {
+        member: member
+      },
+      width: '800px',
+      height: '800px',
+      autoFocus: true
+    });
+  }
 
 
 
