@@ -39,7 +39,8 @@ export class NewCertificateModalComponent {
   selectedTypeName = '';
 
   certificateTypes: CertificateType[] = [];
-  certificates= this.certificateService.CERTIFICATE_DATA;
+  certificates = this.certificateService.CERTIFICATE_DATA;
+
   constructor(
     private dialogRefer: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,
@@ -53,13 +54,10 @@ export class NewCertificateModalComponent {
       this.issueDate = this.data.certificateToEdit.issueDate ?? '';
       this.expireDate = this.data.certificateToEdit.expireDate ?? '';
       this.selectedTypeName = this.getTypeName(this.data.certificateToEdit.tId);
-      console.log('Editing existing cert:', this.data.certificateToEdit);
     }
-
   }
 
   getTypeName(tId: number): string {
-    console.log(this.certificateTypes)
     return this.certificateTypes.find(t => t.tId === tId)?.name ?? '';
   }
 
@@ -68,39 +66,45 @@ export class NewCertificateModalComponent {
   }
 
   onSubmit(): void {
-    let selectedType = this.certificateTypes.find(t => t.name === this.selectedTypeName);
-    console.log(this.selectedTypeName);
+    const selectedType = this.certificateTypes.find(t => t.name === this.selectedTypeName);
     if (!selectedType) {
-      console.warn("You fucked up");
+      console.warn("No certificate type found");
       return;
     }
-    else{       
-      const existingCert = this.certificates.find(c => c.name === this.name);
-      if (existingCert) {
-        // Reuse existing certificate — don't create a new one
-        
-        this.dialogRefer.close(existingCert);
-      }else{
-        const cert: Certificate = {
-          id: this.data.certificateToEdit?.id ?? Date.now(),
-          name: this.name,
-          issueDate: this.issueDate,
-          expireDate: this.expireDate,
-          tId: selectedType.tId,
-          type: selectedType
-        };
-        console.log(this.data.certificateToEdit);
-        const existingIndex = this.certificates.findIndex(c => c.id === cert.id);
-        if (existingIndex !== -1) {
-          this.certificates[existingIndex] = cert; // Update the data source
-        } else {
-          this.certificates.push(cert); // Add new
-        }
-        this.dialogRefer.close(cert);
-      }
-    }
     
+    let cert: Certificate;
+    if (this.data.certificateToEdit) {
+      // Editing an existing certificate
+      cert = {
+        ...this.data.certificateToEdit,
+        name: this.name,
+        issueDate: this.issueDate,
+        expireDate: this.expireDate,
+        tId: selectedType.tId,
+        type: selectedType,
+      };
 
-    
+      // Find the certificate by id and update it
+      const index = this.certificates.findIndex(c => c.id === cert.id);
+      if (index !== -1) {
+        this.certificates[index] = cert;
+      }
+
+    } else {
+      // Adding a new certificate
+      cert = {
+        id: Date.now(),
+        name: this.name,
+        issueDate: this.issueDate,
+        expireDate: this.expireDate,
+        tId: selectedType.tId,
+        type: selectedType,
+      };
+      
+      this.certificates.push(cert);
+    }
+
+    // Close the dialog uodate or add etc.
+    this.dialogRefer.close(cert);
   }
 }

@@ -112,7 +112,7 @@ export class ListsService{
   {
     id:'3',
     firstName: 'Gumball',
-    lastName: 'Richardson',
+    lastName: 'Watersons',
     nationality: 'British',
     title: 'Traveller',
     daysOnBoard: '20',
@@ -127,7 +127,7 @@ export class ListsService{
   {
     id:'4',
     firstName: 'Darwin',
-    lastName: 'Richardson',
+    lastName: 'Watersons',
     nationality: 'British',
     title: 'Machinist',
     daysOnBoard: '20',

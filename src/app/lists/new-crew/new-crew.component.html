@@ -4,99 +4,107 @@
   <h2>{{ 'Add Crew' | translate }}</h2>
 
   <form (ngSubmit)="onSubmit()" #crewForm="ngForm">
-    <p>
-      <label for="firstName">{{ 'First Name' | translate }}</label>
+
+    <!-- First Name -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'First Name' | translate }}</mat-label>
       <input
+        matInput
         type="text"
         id="firstName"
         name="firstName"
         required
         [(ngModel)]="enteredfirstName"
-        
       />
-    </p>
+    </mat-form-field>
 
-    <p>
-      <label for="lastName">{{ 'Last Name' | translate }}</label>
+    <!-- Last Name -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Last Name' | translate }}</mat-label>
       <input
+        matInput
         type="text"
         id="lastName"
         name="lastName"
         required
         [(ngModel)]="enteredlastName"
       />
-    </p>
+    </mat-form-field>
 
-    <p>
-      <label for="nationality">{{ 'Nationality' | translate }}</label>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>{{ 'Nationality' | translate }}</mat-label>
-        <mat-select [(ngModel)]="enterednationality" name="nationality" id="nationality">
-          <mat-option value="Turkish">{{ 'Turkish' | translate }}</mat-option>
-          <mat-option value="British">{{ 'British' | translate }}</mat-option>
-          <mat-option value="Portuguese">{{ 'Portuguese' | translate }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </p>
+    <!-- Nationality -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Nationality' | translate }}</mat-label>
+      <mat-select [(ngModel)]="enterednationality" name="nationality" id="nationality">
+        <mat-option value="Turkish">{{ 'Turkish' | translate }}</mat-option>
+        <mat-option value="British">{{ 'British' | translate }}</mat-option>
+        <mat-option value="Portuguese">{{ 'Portuguese' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <p>
-      <label for="title">{{ 'Title' | translate }}</label>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>{{ 'Title' | translate }}</mat-label>
-        <mat-select [(ngModel)]="enteredtitle" name="title" id="title">
-          <mat-option value="Captain">{{ 'Captain' | translate }}</mat-option>
-          <mat-option value="Traveller">{{ 'Traveller' | translate }}</mat-option>
-          <mat-option value="Machinist">{{ 'Machinist' | translate }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </p>
+    <!-- Title -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Title' | translate }}</mat-label>
+      <mat-select [(ngModel)]="enteredtitle" name="title" id="title">
+        <mat-option value="Captain">{{ 'Captain' | translate }}</mat-option>
+        <mat-option value="Traveller">{{ 'Traveller' | translate }}</mat-option>
+        <mat-option value="Machinist">{{ 'Machinist' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <p>
-      <label for="daysOnBoard">{{ 'Days On Board' | translate }}</label>
+    <!-- Days On Board -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Days On Board' | translate }}</mat-label>
       <input
-        type="text"
+        matInput
+        type="number"
         id="daysOnBoard"
         name="daysOnBoard"
         [(ngModel)]="entereddaysOnBoard"
       />
-    </p>
+    </mat-form-field>
 
-    <p>
-      <label for="dailyRate">{{ 'Daily Rate' | translate }}</label>
+    <!-- Daily Rate -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Daily Rate' | translate }}</mat-label>
       <input
+        matInput
         type="number"
         id="dailyRate"
         name="dailyRate"
         [(ngModel)]="entereddailyRate"
       />
-    </p>
+    </mat-form-field>
 
-    <p>
-      <label for="currency">{{ 'Currency' | translate }}</label>
-      <mat-form-field appearance="fill" style="width: 100%;">
-        <mat-label>{{ 'Currency' | translate }}</mat-label>
-        <mat-select [(ngModel)]="enteredcurrency" name="currency" id="currency">
-          <mat-option value="USD">USD</mat-option>
-          <mat-option value="EUR">EUR</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </p>
+    <!-- Currency -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{ 'Currency' | translate }}</mat-label>
+      <mat-select [(ngModel)]="enteredcurrency" name="currency" id="currency">
+        <mat-option value="USD">USD</mat-option>
+        <mat-option value="EUR">EUR</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <!-- Open modal to select or add certificates -->
-    <p>
-      <button *ngIf="!memberToEdit" mat-raised-button color="primary" (click)="openCertificateModal()">
+    <!-- Manage Certificates -->
+    <div style="margin-top: 1rem;">
+      <button
+        *ngIf="!memberToEdit"
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="openCertificateModal()">
         {{ 'Manage Certificates' | translate }}
       </button>
-    </p>
+    </div>
 
-
-    <p class="actions">
-      <button type="button" (click)="onCancel()">
+    <!-- Actions -->
+    <div class="actions" style="margin-top: 1rem;">
+      <button mat-button type="button" (click)="onCancel()">
         {{ 'Cancel' | translate }}
       </button>
-      <button type="submit">
+      <button mat-flat-button color="primary" type="submit">
         {{ 'Create' | translate }}
       </button>
-    </p>
+    </div>
+
   </form>
 </dialog>

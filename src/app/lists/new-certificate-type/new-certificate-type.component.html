@@ -4,27 +4,29 @@
   <h2>{{ 'Add Certificate Type' | translate }}</h2>
 
   <form (ngSubmit)="onSubmit()" #certificateForm="ngForm">
-    <p>
-      <label for="name">{{ 'Name' | translate }}</label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label for="name">{{ 'Name' | translate }}</mat-label>
       <input
+        matInput
         type="text"
         id="name"
         name="name"
         required
         [(ngModel)]="enteredName"
       />
-    </p>
+    </mat-form-field>
 
-    <p>
-      <label for="description">{{ 'Description' | translate }}</label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label for="description">{{ 'Description' | translate }}</mat-label>
       <input
+        matInput
         type="text"
         id="description"
         name="description"
         required
         [(ngModel)]="enteredDescription"
       />
-    </p>
+    </mat-form-field>
 
     <p class="actions">
       <button type="button" (click)="onCancel()">

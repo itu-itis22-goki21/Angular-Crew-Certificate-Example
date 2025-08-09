@@ -19,6 +19,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { CertificateService } from '../../services/certificate.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-new-crew',
@@ -34,7 +35,8 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     MatDividerModule,
     TranslateModule,
-    
+    MatInputModule,
+
 ],
   templateUrl: './new-crew.component.html',
   styleUrl: './new-crew.component.css'

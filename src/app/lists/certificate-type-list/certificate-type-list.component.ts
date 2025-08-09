@@ -11,6 +11,7 @@ import { CertificateTypeService } from '../../services/certificate-type.service'
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslateModule } from '@ngx-translate/core';
+import { CertificateService } from '../../services/certificate.service';
 
 @Component({
   selector: 'app-certificate-type-list',
@@ -29,7 +30,9 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './certificate-type-list.component.css'
 })
 export class CertificateTypeListComponent implements OnInit {
-  constructor(private certificateTypeService: CertificateTypeService){}
+  constructor(private certificateTypeService: CertificateTypeService,
+              private certificateService: CertificateService
+  ){}
   certificateTypeBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
   isAddingCertificate = false;
@@ -81,6 +84,7 @@ export class CertificateTypeListComponent implements OnInit {
       this.certificateTypeService.CERTIFICATE_DATA = this.certificateTypeService.CERTIFICATE_DATA.filter(
         c => c.name !== cert.name
       );
+      this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA.filter(m=>m.type.name !== cert.name)];
       this.loadCertificates(); // Refresh table
     }
   }
