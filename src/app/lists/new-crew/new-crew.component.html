@@ -83,19 +83,10 @@
         <mat-option value="EUR">EUR</mat-option>
       </mat-select>
     </mat-form-field>
-
+    
     <!-- Manage Certificates -->
-    <div style="margin-top: 1rem;">
-      <button
-        *ngIf="!memberToEdit"
-        mat-raised-button
-        color="primary"
-        type="button"
-        (click)="openCertificateModal()">
-        {{ 'Manage Certificates' | translate }}
-      </button>
-    </div>
 
+    
     <!-- Actions -->
     <div class="actions" style="margin-top: 1rem;">
       <button mat-button type="button" (click)="onCancel()">

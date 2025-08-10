@@ -84,6 +84,7 @@ export class CertificateTypeListComponent implements OnInit {
       this.certificateTypeService.CERTIFICATE_DATA = this.certificateTypeService.CERTIFICATE_DATA.filter(
         c => c.name !== cert.name
       );
+      // here spread ... is redundant but some situations that wanted to refresh table it may useful
       this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA.filter(m=>m.type.name !== cert.name)];
       this.loadCertificates(); // Refresh table
     }

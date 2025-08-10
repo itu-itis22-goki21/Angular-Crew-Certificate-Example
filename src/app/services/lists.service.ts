@@ -23,7 +23,7 @@ export class ListsService{
     this.router.navigate(['/crew-card', member.id]);
   }
   addOrUpdateMember(member: Member) {
-    console.log(member);
+    console.log("critical point add or update");
     const index = this.CREW_DATA.findIndex(m => m.id === member.id);
     if (index !== -1) {
       this.CREW_DATA[index] = {
@@ -70,6 +70,7 @@ export class ListsService{
   }
   
   deleteMember(id: string) {
+    
     this.CREW_DATA = this.CREW_DATA.filter(m => m.id !== id);
   }
 

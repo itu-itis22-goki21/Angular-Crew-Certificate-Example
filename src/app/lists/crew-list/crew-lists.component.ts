@@ -131,15 +131,6 @@ export class ListsComponent implements AfterViewInit, OnInit {
 
 }
 
-
-
-
-
-
-
-
-
-
   onEditMember(member: Member) {
     this.memberBeingEdited = member;
     this.isAddingCrew = true;

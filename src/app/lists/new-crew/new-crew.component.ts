@@ -89,7 +89,7 @@ export class NewCrewComponent implements OnChanges {
   }
    ngOnChanges(changes: SimpleChanges) {
     if (changes['memberToEdit'] && this.memberToEdit) {
-      
+      console.log("critical point add or update");
       const m = this.memberToEdit;
       this.oldId=m.id;
       this.enteredfirstName = m.firstName;
