@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { TranslateModule } from '@ngx-translate/core';
 import { CertificateService } from '../../services/certificate.service';
+import { ListsService } from '../../services/lists.service';
 
 @Component({
   selector: 'app-certificate-type-list',
@@ -31,7 +32,8 @@ import { CertificateService } from '../../services/certificate.service';
 })
 export class CertificateTypeListComponent implements OnInit {
   constructor(private certificateTypeService: CertificateTypeService,
-              private certificateService: CertificateService
+              private certificateService: CertificateService,
+              private listService: ListsService
   ){}
   certificateTypeBeingEdited: CertificateType | null = null;
   originalCertName: string | null = null;
@@ -86,6 +88,11 @@ export class CertificateTypeListComponent implements OnInit {
       );
       // here spread ... is redundant but some situations that wanted to refresh table it may useful
       this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA.filter(m=>m.type.name !== cert.name)];
+      
+      this.listService.CREW_DATA = this.listService.CREW_DATA.map(member => {
+        const filteredCertificates = member.certificates?.filter(c => c.type.name !== cert.name)?? null;
+        return { ...member, certificates: filteredCertificates };
+      });
       this.loadCertificates(); // Refresh table
     }
   }
