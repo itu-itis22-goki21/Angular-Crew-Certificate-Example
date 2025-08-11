@@ -1,2 +1,3 @@
-<app-header />
-<app-sidenav />
+<app-header [authenticated]="authenticated"/>
+<app-login *ngIf="!authenticated" (loginStatus)="onLoginStatusChange($event)"></app-login>
+<app-sidenav *ngIf = "authenticated"/>

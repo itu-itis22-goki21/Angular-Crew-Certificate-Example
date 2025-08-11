@@ -1,0 +1,36 @@
+<body>
+  <div class="login-container">
+    <h1 class="title">Login Works!</h1>
+    <div class="example-container">
+        <mat-form-field>
+            <mat-label>Enter your email</mat-label>
+            <input
+            matInput
+            placeholder="pat@example.com"
+            [formControl]="email"
+            (blur)="updateErrorMessage()"
+            required
+            />
+            @if (email.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide() ? 'password' : 'text'" />
+            <button
+            matIconButton
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+            >
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+        </mat-form-field>
+      
+    </div>
+
+    <button mat-raised-button (click)="onLogin()">Login</button>
+  </div>
+</body>

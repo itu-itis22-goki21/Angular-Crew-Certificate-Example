@@ -29,6 +29,7 @@ import { SearchService } from '../services/search.service';
 export class HeaderComponent {
   selectedLang: 'tr' | 'en' | 'pt' = 'en';
   @Output() changedLang = new EventEmitter<'en' | 'tr' | 'pt'>();
+  @Input() authenticated: boolean = false; 
   searchControl:string = '';
   isSearched:boolean = false;
   goBackFrom:string='';

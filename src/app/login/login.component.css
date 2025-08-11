@@ -1,0 +1,57 @@
+/* Ensure the body and html fill the entire viewport */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Center the login container */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;  /* Max width for the login form */
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow to form */
+}
+
+/* Style the title */
+.title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Flexbox for the form container */
+.example-container {
+  display: flex;
+  flex-direction: column;  /* Stack the fields vertically */
+  width: 100%;
+  margin-bottom: 20px; /* Space between form and button */
+}
+
+mat-form-field {
+  width: 100%;  /* Make the form fields take the full width of the container */
+  margin-bottom: 16px; /* Space between form fields */
+}
+
+/* Style the login button */
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  border: none;
+}
+
+
