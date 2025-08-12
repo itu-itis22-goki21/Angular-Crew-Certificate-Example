@@ -1,4 +1,3 @@
-import { Certificate } from "./certificate.model";
 
 export interface CertificateType{
   tId: number;

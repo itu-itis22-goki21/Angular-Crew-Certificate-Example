@@ -46,6 +46,8 @@ export class NewCertificateModalComponent {
     private dialogRefer: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,
     private certificateService: CertificateService,
+    //certificate to edit comes from certificate list
+    //member comes from 
     @Inject(MAT_DIALOG_DATA) public data: { certificateToEdit: Certificate | null, member: Member|null }
   ) {
     this.certificateTypes = this.certificateTypeService.getCertificateTypes();
@@ -83,7 +85,7 @@ export class NewCertificateModalComponent {
         issueDate: this.issueDate,
         expireDate: this.expireDate,
         tId: selectedType.tId,
-        type: selectedType,
+        
       };
 
       // Find the certificate by id and update it
@@ -91,23 +93,23 @@ export class NewCertificateModalComponent {
       if (index !== -1) {
         this.certificates[index] = cert;
       }
-
+      this.dialogRefer.close(cert);
     } else {
       console.log("cert to new");
-      // Adding a new certificate
-      cert = {
-        id: Date.now(),
-        name: this.name,
-        issueDate: this.issueDate,
-        expireDate: this.expireDate,
-        tId: selectedType.tId,
-        type: selectedType,
-      };
+      // Adding a new certificate to a member
       
-      this.certificateService.CERTIFICATE_DATA.push(cert);
+        cert = {
+          id: Date.now(),
+          name: this.name,
+          issueDate: this.issueDate,
+          expireDate: this.expireDate,
+          tId: selectedType.tId,
+          memberId: this.data.member?.id?? Date.now().toString(),
+        };
+        this.certificateService.CERTIFICATE_DATA.push(cert);
+        this.dialogRefer.close(cert);
     }
 
     // Close the dialog uodate or add etc.
-    this.dialogRefer.close(cert);
   }
 }

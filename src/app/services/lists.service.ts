@@ -26,10 +26,7 @@ export class ListsService{
     console.log("critical point add or update");
     const index = this.CREW_DATA.findIndex(m => m.id === member.id);
     if (index !== -1) {
-      this.CREW_DATA[index] = {
-        ...member,
-        certificates: this.CREW_DATA[index].certificates
-      };
+      this.CREW_DATA[index] = {...member,};
 
     } else {
       this.CREW_DATA.push(member);
@@ -86,9 +83,7 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 1,
-    certificates:[this.certificateService.CERTIFICATE_DATA[0],
-    this.certificateService.CERTIFICATE_DATA[1],
-    this.certificateService.CERTIFICATE_DATA[2],],
+
 
 
       
@@ -104,9 +99,7 @@ export class ListsService{
     currency: 'EUR',
     discount: 0,
     totalIncome: 2,
-    certificates:[this.certificateService.CERTIFICATE_DATA[4],
-    this.certificateService.CERTIFICATE_DATA[5],
-    this.certificateService.CERTIFICATE_DATA[6],],
+
     
 
   },
@@ -121,7 +114,6 @@ export class ListsService{
     currency: 'EUR',
     discount: 0,
     totalIncome: 2,
-    certificates:[],
     
 
   },
@@ -136,9 +128,7 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 2,
-    certificates:[this.certificateService.CERTIFICATE_DATA[3],
-    this.certificateService.CERTIFICATE_DATA[7],
-    this.certificateService.CERTIFICATE_DATA[8],],
+
     
 
   },
@@ -153,7 +143,7 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 2,
-    certificates: [this.certificateService.CERTIFICATE_DATA[9]],
+
 
   },
   {
@@ -167,9 +157,7 @@ export class ListsService{
     currency: 'USD',
     discount: 0,
     totalIncome: 0,
-    certificates:[this.certificateService.CERTIFICATE_DATA[9],
-    this.certificateService.CERTIFICATE_DATA[10],
-    this.certificateService.CERTIFICATE_DATA[11],],
+
     
 
   }

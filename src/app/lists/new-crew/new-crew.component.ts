@@ -45,12 +45,12 @@ export class NewCrewComponent implements OnChanges {
   constructor(private certificateTypeService: CertificateTypeService,
     private certificateService: CertificateService,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    
   ) {
     this.certificateTypeOptions = this.certificateTypeService.getCertificateTypes();
   }
   certificateTypeOptions: CertificateType[] = [];
-  selectedCertificates: Certificate[] = [];
+  selectedCertificates: Certificate[] = [];// this hold certificate ids
   oldId = '';
   enteredfirstName= '';
   enteredlastName= '';
@@ -60,13 +60,14 @@ export class NewCrewComponent implements OnChanges {
   entereddailyRate= 0;
   enteredcurrency='';
   enteredtotalIncome=0;
+  randId = Date.now().toString();
   @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @Input() memberToEdit: Member | null = null;
   @Output() Add= new EventEmitter<Member>();
   @Output() Cancel = new EventEmitter<void>();
   
   removeCertificate(cert: Certificate){
-    this.selectedCertificates = this.selectedCertificates.filter(c=> c.name !== cert.name);
+    this.selectedCertificates = this.selectedCertificates.filter(c=> c.id !== cert.id);
   }
 
 openCertificateModal(): void {
@@ -77,25 +78,16 @@ openCertificateModal(): void {
     autoFocus: false,
     data: {
       member: {
-        id: this.oldId,
-        firstName: this.enteredfirstName,
-        lastName: this.enteredlastName,
-        nationality: this.enterednationality,
-        title: this.enteredtitle,
-        daysOnBoard: this.entereddaysOnBoard,
-        dailyRate: this.entereddailyRate,
-        currency: this.enteredcurrency,
-        totalIncome: this.enteredtotalIncome,
-        certificates: this.selectedCertificates
+        id: this.randId,
       }
     },
   });
 
   dialogRef.afterClosed().subscribe((cert: Certificate | undefined) => {
     if (cert) {
-      this.selectedCertificates.push(cert);
+      this.selectedCertificates.push(cert);//
       console.log('Updated selectedCertificates:', this.selectedCertificates);  // Debug log
-      this.cdr.detectChanges();
+      
     }
   });
 }
@@ -122,7 +114,7 @@ openCertificateModal(): void {
 onSubmit() {
   console.log('Submitting data with selected certificates:', this.selectedCertificates);  // Debugging log
   this.Add.emit({
-    id: this.oldId || Date.now().toString(),
+    id: this.oldId || this.randId,
     firstName: this.enteredfirstName,
     lastName: this.enteredlastName,
     nationality: this.enterednationality,
@@ -131,7 +123,6 @@ onSubmit() {
     dailyRate: this.entereddailyRate,
     currency: this.enteredcurrency,
     totalIncome: this.enteredtotalIncome,
-    certificates: this.selectedCertificates,  // Emit selected certificates
   });
 }
 

@@ -3,7 +3,7 @@
     <h1 class="title">Login Works!</h1>
     <div class="example-container">
         <mat-form-field>
-            <mat-label>Enter your email</mat-label>
+            <mat-label>{{'Enter your email'|translate}}</mat-label>
             <input
             matInput
             placeholder="pat@example.com"
@@ -16,8 +16,8 @@
             }
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Enter your password</mat-label>
-            <input matInput [type]="hide() ? 'password' : 'text'" />
+            <mat-label>{{'Enter your password'|translate}}</mat-label>
+            <input matInput [type]="hide() ? 'password' : 'text'" [formControl]="password"/>
             <button
             matIconButton
             matSuffix
@@ -31,6 +31,6 @@
       
     </div>
 
-    <button mat-raised-button (click)="onLogin()">Login</button>
+    <button mat-raised-button (click)="onLogin()">{{'Login'|translate}}</button>
   </div>
 </body>

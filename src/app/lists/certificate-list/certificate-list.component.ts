@@ -17,6 +17,7 @@ import { MatIcon } from "@angular/material/icon";
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { NewCertificateModalComponent } from '../new-certificate-modal/new-certificate-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-certificate-list',
@@ -28,36 +29,39 @@ import { TranslateModule } from '@ngx-translate/core';
 
 export class CertificateListComponent implements AfterViewInit {
   private _liveAnnouncer = inject(LiveAnnouncer);
-  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!:MatSort;
+  @Input() selectedLang: 'en' | 'tr' | 'pt' = 'en'; 
   @Input() member: Member | null = null;//bind data from crew card
   dataSource = new MatTableDataSource<Certificate>();
   constructor(
+    private certificateTypeService:CertificateTypeService,
     private dialog:MatDialog,
     private  certificateService: CertificateService,
     private listsService: ListsService,
+    //this data member comes from crew list
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { certificateTypes: CertificateType[], member?: Member }    
   ) {}
   allCertificates: Certificate[]= [];
   allCrew: Member[] = this.listsService.CREW_DATA;
   selectedCertificates: Certificate[] = [];
   ngOnInit() {
+    //member comes from crew list and member comes from crew card
     const memberOrigin = this.member ?? this.data?.member;
 
-    console.log("member origin",memberOrigin);
-    if (memberOrigin?.certificates && Array.isArray.length>0) {
-      console.log("cert list new added cert", memberOrigin.certificates);
-      this.allCertificates = [...memberOrigin.certificates];
-    } else {
-      if(this.certificateService.filteredCertificates){
-        this.allCertificates =this.certificateService.filteredCertificates;
-      }
-      else{
-        this.allCertificates = this.certificateService.getCertificates();
-      }
+    //console.log("member origin",memberOrigin);
+    if(memberOrigin){
+      this.allCertificates = this.certificateService.CERTIFICATE_DATA.filter(c=> c.memberId === memberOrigin.id);
+      this.dataSource.data = this.allCertificates;
     }
-    this.dataSource.data = [...this.allCertificates];
+    //this one for magic search
+    else if(this.certificateService.filteredCertificates){
+      this.dataSource.data = this.certificateService.filteredCertificates;
+    }
+    else{
+      this.allCertificates = this.certificateService.CERTIFICATE_DATA;
+      this.dataSource.data = this.allCertificates;
+    }
 
   }
 
@@ -69,7 +73,7 @@ export class CertificateListComponent implements AfterViewInit {
 
 
   getType(certificate: Certificate): string{
-    return certificate.type?.name ?? 'Unkonwn';
+    return this.certificateTypeService.CERTIFICATE_DATA.find(c=>c.tId === certificate.tId)?.name ?? 'unknown';
   }
   addCertificate(): void {
     
@@ -79,21 +83,24 @@ export class CertificateListComponent implements AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: Certificate | undefined) => {
+    dialogRef.afterClosed().subscribe((result: Certificate ) => {
     if (result) {
-      // Add to local data
-      this.allCertificates.push(result);
-      this.dataSource.data = [...this.allCertificates];
-
-      if (this.data.member) {
-        if (!this.data.member.certificates) {
-          this.data.member.certificates = [];
-        }
-        this.data.member.certificates.push(result);
+      console.log(result);
+      if (this.data && this.data.member) {
+        result.memberId = this.data.member.id; 
+      }
+      // Refresh local certificates from the service to include the new one
+      const memberOrigin = this.member ?? this.data?.member;
+      if (memberOrigin) {
+        this.allCertificates = this.certificateService.CERTIFICATE_DATA.filter(c => c.memberId === memberOrigin.id);
+      } else {
+        this.allCertificates = this.certificateService.CERTIFICATE_DATA;
       }
 
+      // Update data source for the table
+      this.dataSource.data = [...this.allCertificates];
       // Optional: console check
-      console.log('Updated member certs:', this.data.member?.certificates);
+      console.log('Updated member certs:', result.name, result.memberId,  this.data.member?.id);
     }
   });
 
@@ -109,15 +116,18 @@ export class CertificateListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: Certificate ) => {
       if (result) {
+        //check here again later
         const index = this.allCertificates.findIndex(c => c.id === cert.id);
         if (index !== -1) {
           this.allCertificates[index] = result;
         }
+        //check here again later
         const globalIndex = this.certificateService.CERTIFICATE_DATA.findIndex(c => c.id === cert.id);
         if (globalIndex !== -1) {
           this.certificateService.CERTIFICATE_DATA[globalIndex] = result;
         }
-        this.allCrew.forEach(member => {
+        //check here again later
+        /*this.allCrew.forEach(member => {
         if (member.certificates) {
           const certIndex = member.certificates.findIndex(c => c.id === cert.id);
           if (certIndex !== -1) {
@@ -125,6 +135,7 @@ export class CertificateListComponent implements AfterViewInit {
           }
         }
       });
+      */
       this.dataSource.data = [...this.allCertificates];
       }
       
@@ -137,13 +148,14 @@ export class CertificateListComponent implements AfterViewInit {
       c => c.id !== certificate.id//in order to remove permanently
     );
     //remove certificate from the member's certificates perm 
-    this.allCrew.forEach(member => {
+    /*this.allCrew.forEach(member => {
       if (member.certificates) { 
         member.certificates = member.certificates.filter(
           (c) => c.id !== certificate.id
         );
       }
     });
+    */
     this.dataSource.data = [...this.allCertificates];
   }
 

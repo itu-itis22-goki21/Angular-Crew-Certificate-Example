@@ -84,15 +84,15 @@ export class CertificateTypeListComponent implements OnInit {
     const confirmed = confirm(`Are you sure you want to delete certificate type "${cert.name}"?`);
     if (confirmed) {
       this.certificateTypeService.CERTIFICATE_DATA = this.certificateTypeService.CERTIFICATE_DATA.filter(
-        c => c.name !== cert.name
+        c => c.tId !== cert.tId
       );
       // here spread ... is redundant but some situations that wanted to refresh table it may useful
-      this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA.filter(m=>m.type.name !== cert.name)];
+      this.certificateService.CERTIFICATE_DATA = [...this.certificateService.CERTIFICATE_DATA.filter(m=>m.tId !== cert.tId)];
       
-      this.listService.CREW_DATA = this.listService.CREW_DATA.map(member => {
-        const filteredCertificates = member.certificates?.filter(c => c.type.name !== cert.name)?? null;
-        return { ...member, certificates: filteredCertificates };
-      });
+    //this.listService.CREW_DATA = this.listService.CREW_DATA.map(member => {
+     //   const filteredCertificates = member.certificates?.filter(c => c.type.name !== cert.name)?? null;
+     //   return { ...member, certificates: filteredCertificates };
+     // });     here is redundant
       this.loadCertificates(); // Refresh table
     }
   }

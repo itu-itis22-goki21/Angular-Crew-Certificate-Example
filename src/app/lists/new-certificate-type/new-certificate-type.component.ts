@@ -61,14 +61,14 @@ onSubmit() {
   };
 
   // Update related certificates if editing
-  if (isEdit) {
-    const oldName = this.certificateToEdit!.name;
-    this.certificateService.CERTIFICATE_DATA.forEach(cert => {
-      if (cert.type.name === oldName) {
-        cert.type.name = this.enteredName;
-      }
-    });
-  }
+  // if (isEdit) {
+  //   const oldName = this.certificateToEdit!.name;
+  //   this.certificateService.CERTIFICATE_DATA.forEach(cert => {
+  //     if (cert.tId === this.certificateToEdit?.tId) {
+  //       cert.name = this.enteredName;
+  //     }
+  //   });
+  // }
 
   // Just emit no push 
   this.Add.emit(certType);

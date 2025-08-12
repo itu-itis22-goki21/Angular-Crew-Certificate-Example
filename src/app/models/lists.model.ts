@@ -12,6 +12,6 @@ export interface Member{
   currency:string;
   discount?: number;
   totalIncome:number;
-  certificates: Certificate[]|null;
+
 
 }

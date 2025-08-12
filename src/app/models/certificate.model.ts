@@ -6,5 +6,5 @@ export interface Certificate {
   issueDate?:string;
   expireDate?:string;
   tId:number;
-  type:CertificateType;
+  memberId: string;
 }

@@ -99,7 +99,7 @@
     <p *ngIf="selectedCertificates && selectedCertificates.length">
       <ng-container *ngFor="let cert of selectedCertificates">
         <div>
-          <strong>{{ cert?.type?.name }}:</strong> {{ cert?.name }}
+          <strong>{{ cert.name }}</strong>: 
           <button mat-icon-button style="color: red;" (click)="removeCertificate(cert)">
             <mat-icon>delete</mat-icon>
           </button>
