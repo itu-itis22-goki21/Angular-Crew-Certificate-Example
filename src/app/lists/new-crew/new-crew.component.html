@@ -86,7 +86,27 @@
     
     <!-- Manage Certificates -->
 
-    
+    <div style="margin-top: 1rem;">
+      <button
+        *ngIf="!memberToEdit"
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="openCertificateModal()">
+        {{ 'Manage Certificates' | translate }}
+      </button>
+    </div>
+    <p *ngIf="selectedCertificates && selectedCertificates.length">
+      <ng-container *ngFor="let cert of selectedCertificates">
+        <div>
+          <strong>{{ cert?.type?.name }}:</strong> {{ cert?.name }}
+          <button mat-icon-button style="color: red;" (click)="removeCertificate(cert)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </p>
+
     <!-- Actions -->
     <div class="actions" style="margin-top: 1rem;">
       <button mat-button type="button" (click)="onCancel()">

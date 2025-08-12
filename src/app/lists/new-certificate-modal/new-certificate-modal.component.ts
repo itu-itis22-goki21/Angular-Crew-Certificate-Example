@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { CertificateService } from '../../services/certificate.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { Member } from '../../models/lists.model';
 
 @Component({
   selector: 'app-new-certificate-modal',
@@ -45,7 +46,7 @@ export class NewCertificateModalComponent {
     private dialogRefer: MatDialogRef<NewCertificateModalComponent>,
     private certificateTypeService: CertificateTypeService,
     private certificateService: CertificateService,
-    @Inject(MAT_DIALOG_DATA) public data: { certificateToEdit: Certificate | null }
+    @Inject(MAT_DIALOG_DATA) public data: { certificateToEdit: Certificate | null, member: Member|null }
   ) {
     this.certificateTypes = this.certificateTypeService.getCertificateTypes();
     
@@ -74,6 +75,7 @@ export class NewCertificateModalComponent {
     
     let cert: Certificate;
     if (this.data.certificateToEdit) {
+      console.log("cert to edit");
       // Editing an existing certificate
       cert = {
         ...this.data.certificateToEdit,
@@ -91,6 +93,7 @@ export class NewCertificateModalComponent {
       }
 
     } else {
+      console.log("cert to new");
       // Adding a new certificate
       cert = {
         id: Date.now(),
@@ -101,7 +104,7 @@ export class NewCertificateModalComponent {
         type: selectedType,
       };
       
-      this.certificates.push(cert);
+      this.certificateService.CERTIFICATE_DATA.push(cert);
     }
 
     // Close the dialog uodate or add etc.
