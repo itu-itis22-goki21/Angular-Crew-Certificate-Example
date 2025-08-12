@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, SimpleChanges,OnChanges, ViewChild } from '@angular/core';
+import { Component, Output, EventEmitter, Input, SimpleChanges,OnChanges, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 import { Member } from '../../models/lists.model';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -44,7 +44,8 @@ import { MatInputModule } from '@angular/material/input';
 export class NewCrewComponent implements OnChanges {
   constructor(private certificateTypeService: CertificateTypeService,
     private certificateService: CertificateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {
     this.certificateTypeOptions = this.certificateTypeService.getCertificateTypes();
   }
@@ -64,27 +65,43 @@ export class NewCrewComponent implements OnChanges {
   @Output() Add= new EventEmitter<Member>();
   @Output() Cancel = new EventEmitter<void>();
   
-
-  openCertificateModal(): void {
-    const dialogRef = this.dialog.open(NewCertificateModalComponent, {
-      width: '500px',
-      disableClose: true,
-      autoFocus: false,
-      data: {
-        selectedCertificates: this.selectedCertificates
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: Certificate[] | undefined) => {
-      if (result) {
-        this.selectedCertificates = result;
-      }
-    });
+  removeCertificate(cert: Certificate){
+    this.selectedCertificates = this.selectedCertificates.filter(c=> c.name !== cert.name);
   }
+
+openCertificateModal(): void {
+  console.log("add new cert here");
+  const dialogRef = this.dialog.open(NewCertificateModalComponent, {
+    width: '500px',
+    disableClose: true,
+    autoFocus: false,
+    data: {
+      member: {
+        id: this.oldId,
+        firstName: this.enteredfirstName,
+        lastName: this.enteredlastName,
+        nationality: this.enterednationality,
+        title: this.enteredtitle,
+        daysOnBoard: this.entereddaysOnBoard,
+        dailyRate: this.entereddailyRate,
+        currency: this.enteredcurrency,
+        totalIncome: this.enteredtotalIncome,
+        certificates: this.selectedCertificates
+      }
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((cert: Certificate | undefined) => {
+    if (cert) {
+      this.selectedCertificates.push(cert);
+      console.log('Updated selectedCertificates:', this.selectedCertificates);  // Debug log
+      this.cdr.detectChanges();
+    }
+  });
+}
+
   onCancel(){
     this.memberToEdit =null;
-
-    
     this.Cancel.emit();
   }
    ngOnChanges(changes: SimpleChanges) {
@@ -102,7 +119,8 @@ export class NewCrewComponent implements OnChanges {
       this.enteredtotalIncome = m.totalIncome;
     }
   }
-  onSubmit() {
+onSubmit() {
+  console.log('Submitting data with selected certificates:', this.selectedCertificates);  // Debugging log
   this.Add.emit({
     id: this.oldId || Date.now().toString(),
     firstName: this.enteredfirstName,
@@ -113,10 +131,10 @@ export class NewCrewComponent implements OnChanges {
     dailyRate: this.entereddailyRate,
     currency: this.enteredcurrency,
     totalIncome: this.enteredtotalIncome,
-    certificates: this.selectedCertificates,
-
+    certificates: this.selectedCertificates,  // Emit selected certificates
   });
 }
+
 
 
 

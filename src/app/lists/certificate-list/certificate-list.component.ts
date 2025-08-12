@@ -43,9 +43,11 @@ export class CertificateListComponent implements AfterViewInit {
   allCrew: Member[] = this.listsService.CREW_DATA;
   selectedCertificates: Certificate[] = [];
   ngOnInit() {
-    console.log("hello w")
     const memberOrigin = this.member ?? this.data?.member;
-    if (memberOrigin?.certificates) {
+
+    console.log("member origin",memberOrigin);
+    if (memberOrigin?.certificates && Array.isArray.length>0) {
+      console.log("cert list new added cert", memberOrigin.certificates);
       this.allCertificates = [...memberOrigin.certificates];
     } else {
       if(this.certificateService.filteredCertificates){
@@ -70,9 +72,10 @@ export class CertificateListComponent implements AfterViewInit {
     return certificate.type?.name ?? 'Unkonwn';
   }
   addCertificate(): void {
+    
     const dialogRef = this.dialog.open(NewCertificateModalComponent, {
       width: '500px',
-      data: {
+      data: {//this line's purpose is edit cert if isnt used no edit
       }
     });
 

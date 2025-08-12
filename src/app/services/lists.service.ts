@@ -13,13 +13,13 @@ export class ListsService{
     
     return [...this.CREW_DATA]; // return a copy
   }
-    calculateTotalIncome(member: Member): number {
+  calculateTotalIncome(member: Member): number {
     const days = Number(member.daysOnBoard) || 0;
     const rate = member.dailyRate || 0;
     const discount = member.discount || 0;
     return days * rate - discount;
   }
-    goCardPage(member: Member) {
+  goCardPage(member: Member) {
     this.router.navigate(['/crew-card', member.id]);
   }
   addOrUpdateMember(member: Member) {
@@ -28,7 +28,7 @@ export class ListsService{
     if (index !== -1) {
       this.CREW_DATA[index] = {
         ...member,
-        certificates: this.CREW_DATA[index].certificates//bu şaka mı
+        certificates: this.CREW_DATA[index].certificates
       };
 
     } else {
