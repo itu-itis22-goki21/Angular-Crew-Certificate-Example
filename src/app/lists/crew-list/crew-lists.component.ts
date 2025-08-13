@@ -24,7 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CertificateListComponent } from '../certificate-list/certificate-list.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-import { MatInput } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 
 import { filter } from 'rxjs/operators';
 
@@ -49,7 +49,7 @@ import { filter } from 'rxjs/operators';
     FormsModule,
     MatFormFieldModule,
     
-    MatInput
+    MatInputModule
 ]
 })
 export class ListsComponent implements AfterViewInit, OnInit {
@@ -202,8 +202,12 @@ getTotalIncomeByCurrency(currency: string): number {
 getDiscountedIncome(member: Member): number {
   const days = Number(member.daysOnBoard) || 0;
   const base = days * member.dailyRate;
-  const discount = member.discount || 0;
-
+  let discount = member.discount || 0;
+  if(discount> base){
+    window.alert("Discount cannot be more than income!");
+    discount = base;
+    member.discount = base;
+  }
   return Math.max(0,base - discount) ;
 }
 

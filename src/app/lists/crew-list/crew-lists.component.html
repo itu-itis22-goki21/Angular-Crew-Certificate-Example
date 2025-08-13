@@ -103,13 +103,14 @@
             type="number"
             matInput
             min="0"
+            [max]="((member.daysOnBoard) || 0) * (member.dailyRate || 0)"
             [(ngModel)]="member.discount"
             (ngModelChange)="updateTotalIncome(member)"
             [placeholder]="'Enter' | translate"
           />
         </td>
       </ng-container>
-
+      
       <ng-container matColumnDef="totalIncome">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ 'Total Income' | translate }}
