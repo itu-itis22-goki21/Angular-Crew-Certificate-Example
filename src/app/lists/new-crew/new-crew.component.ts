@@ -123,7 +123,9 @@ onSubmit() {
     dailyRate: this.entereddailyRate,
     currency: this.enteredcurrency,
     totalIncome: this.enteredtotalIncome,
+    
   });
+  this.certificateService.CERTIFICATE_DATA.push(...this.selectedCertificates)
 }
 
 

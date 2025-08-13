@@ -106,7 +106,9 @@ export class NewCertificateModalComponent {
           tId: selectedType.tId,
           memberId: this.data.member?.id?? Date.now().toString(),
         };
-        this.certificateService.CERTIFICATE_DATA.push(cert);
+        if(!this.data.member){
+          this.certificateService.CERTIFICATE_DATA.push(cert);
+        }
         this.dialogRefer.close(cert);
     }
 
